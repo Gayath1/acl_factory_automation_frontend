@@ -24,7 +24,7 @@ const sidebar_items = [
     },
     {
         "display_name": "Departments",
-        "route": "/orders",
+        "route": "/Department",
         "icon": "bx bx-building"
     },
     {

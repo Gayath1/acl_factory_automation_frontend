@@ -9,6 +9,7 @@ import Loginexecutive from "../Pages/Loginexecutive";
 import Loginoperator from '../Pages/Loginoperator';
 import Usercreate from "../Pages/Usercreate";
 import Admin from "../Pages/Admin";
+import Department from '../Pages/Department';
 
 
 const Routes = () => {
@@ -23,6 +24,7 @@ const Routes = () => {
                 <Route path="/Dashboard" component={Dashboard} />
                 <Route path="/Usercreate" component={Usercreate} />
                 <Route path="/Admin" component={Admin} />
+                <Route path="/Department" component={Department} />
 
             </Switch>
 
