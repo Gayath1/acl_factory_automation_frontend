@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Login.css";
 
 
-const Loginadmin = () => {
+const Loginexecutive = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -40,4 +40,4 @@ const Loginadmin = () => {
     )
 }
 
-export default Loginadmin
+export default Loginexecutive

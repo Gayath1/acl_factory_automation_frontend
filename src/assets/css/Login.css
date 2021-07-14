@@ -30,7 +30,7 @@ html{
     font-size: 2rem;
 }
 
-.row{
+.rowlogin{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,7 +39,7 @@ html{
 
 }
 
-.row input{
+.rowlogin input{
     width: 80%;
     box-sizing: border-box;
     border: none;
@@ -59,31 +59,31 @@ input:focus {
     border:none;
     border-style: none;
 }
-.row input:focus{
+.rowlogin input:focus{
     box-shadow: inset 0px -3px 0px 0px rgb(98, 180, 255);
     outline:none;
     border:none;
     border-style: none;
 }
 
-.row input::-webkit-input-placeholder{
+.rowlogin input::-webkit-input-placeholder{
     opacity: 1;
     transition: opacity 0.25s ease-out;
 }
 
-.row input:hover::-webkit-input-placeholder,
-.row input:focus::-webkit-input-placeholder{
+.rowlogin input:hover::-webkit-input-placeholder,
+.rowlogin input:focus::-webkit-input-placeholder{
     opacity: 0;
 }
 
-.row label{
+.rowlogin label{
     align-self: start;
     padding-left: 4.5rem;
     padding-bottom: 0.5rem;
     color: rgba(187,187,187,0.9);
 }
 
-.row button{
+.rowlogin button{
     border-radius: 25px;
     width: 80%;
     height: 40px;
@@ -102,7 +102,7 @@ input:focus {
     transition: opacity 0.25s ease-out;
 }
 
-.row button:hover{
+.rowlogin button:hover{
     opacity: 0.8;
 }
 

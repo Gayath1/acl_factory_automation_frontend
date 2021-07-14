@@ -46,6 +46,7 @@ const user_menu = [
     },
     {
         "icon": "bx bx-log-out-circle bx-rotate-180",
+        "route": "/Home",
         "content": "Logout"
     }
 ]
@@ -74,7 +75,7 @@ const renderUserToggle = (user) => (
 )
 
 const renderUserMenu =(item, index) => (
-    <Link to='/' key={index}>
+    <Link to={item.route} key={index}>
         <div className="notification-item">
             <i className={item.icon}></i>
             <span>{item.content}</span>

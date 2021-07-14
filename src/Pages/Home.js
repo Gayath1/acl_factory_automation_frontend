@@ -21,12 +21,16 @@ const Home = () => {
                         Login for Admins
                     </button>
                         </Link>
+                        <Link to="/Loginexecutive">
                     <button className="form-input-btnhome"  type='submit'>
                         Login for Management
                     </button>
+                        </Link>
+                        <Link to="/Loginoperator">
                     <button className="form-input-btnhome"  type='submit'>
                         Login for Operators
                     </button>
+                        </Link>
                     </div>
                 </div>
 
