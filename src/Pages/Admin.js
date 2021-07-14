@@ -107,7 +107,7 @@ const Usercreate = () => {
                                         <input type="mobile" placeholder="Enter your mobile No" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
-                                        <label>Power</label>
+                                        <label>Permission</label>
                                         <select id="department" name="department">
                                             <option value=""  selected></option>
                                             <option value="SuperAdmin">Super Admin</option>
