@@ -5,8 +5,35 @@ import TopNav from "../components/topnav/TopNav";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import {makeStyles} from "@material-ui/core/styles";
+
+function createData(name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
+
+const useStyles = makeStyles({
+    table: {
+        minWidth: 700,
+    },
+});
 
 const Usercreate = () => {
+    const classes = useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [type, setType] = React.useState('Admin')
@@ -54,18 +81,11 @@ const Usercreate = () => {
             <div className="layout__content">
                 <TopNav/>
                 <div className="layout__content-main">
-                    <h2 className="page-header">Users</h2>
+                    <h2 className="page-header">Admin</h2>
                     <div className="row">
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-                                    <div className="rowuser">
-                                        <RadioGroup  aria-label="type" name="type" value={type} onChange={handleChange} row>
-                                            <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
-                                            <FormControlLabel value="Executive" control={<Radio />} label="Executive" />
-                                            <FormControlLabel value="Operator" control={<Radio />} label="Operator" />
-                                        </RadioGroup>
-                                    </div>
                                     <div className="rowuser">
                                         <label>First Name</label>
                                         <input type="text" autoFocus placeholder="Enter your FirstName" value={email}  onChange={(e) => setEmail(e.target.value)} />
@@ -86,14 +106,14 @@ const Usercreate = () => {
                                         <label>Mobile</label>
                                         <input type="mobile" placeholder="Enter your mobile No" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                     </div>
-                                    {type === 'Operator' ?
-                                        <div className="rowuser">
-                                            <label>Department</label>
-                                            <input type="text" placeholder="Enter your department" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                                        </div>
-                                        :
-                                        null
-                                    }
+                                    <div className="rowuser">
+                                        <label>Power</label>
+                                        <select id="department" name="department">
+                                            <option value=""  selected></option>
+                                            <option value="SuperAdmin">Super Admin</option>
+                                            <option value="Admin">Admin</option>
+                                        </select>
+                                    </div>
 
                                     <div id="button" className="rowuser">
                                         <button  disabled={!validateForm()} onClick={handleSubmit}>Register</button>
@@ -114,6 +134,40 @@ const Usercreate = () => {
                                     </div>
                                     {/*</div>*/}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card full-height">
+                                <TableContainer component={Paper}>
+                                    <Table className={classes.table} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Firstname</TableCell>
+                                                <TableCell align="center">Admin type</TableCell>
+                                                <TableCell align="center">Email</TableCell>
+                                                <TableCell align="center">Epf no</TableCell>
+                                                <TableCell align="center">Mobile</TableCell>
+                                                <TableCell align="center"></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {rows.map((row) => (
+                                                <TableRow key={row.name}>
+                                                    <TableCell component="th" scope="row">
+                                                        {row.name}
+                                                    </TableCell>
+                                                    <TableCell align="center">{row.calories}</TableCell>
+                                                    <TableCell align="center">{row.fat}</TableCell>
+                                                    <TableCell align="center">{row.carbs}</TableCell>
+                                                    <TableCell align="center">{row.protein}</TableCell>
+                                                    <TableCell align="center"><button className="usertblbutton"  disabled={!validateForm()} onClick={handleSubmit}>Delete</button></TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </div>
                         </div>
                     </div>

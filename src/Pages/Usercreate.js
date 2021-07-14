@@ -33,6 +33,7 @@ const useStyles = makeStyles({
     },
 });
 
+
 const Usercreate = () => {
     const classes = useStyles();
     const [email, setEmail] = useState("");
@@ -124,7 +125,13 @@ const Usercreate = () => {
                                 {type === 'Operator' ?
                                     <div className="rowuser">
                                         <label>Department</label>
-                                        <input type="text" placeholder="enter your department" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <select id="department" name="department">
+                                            <option value=""  selected>please select department</option>
+                                            <option value="Plastic">Plastic</option>
+                                            <option value="Wire">Wire</option>
+                                            <option value="Electric">Electric</option>
+                                            <option value="IT">IT</option>
+                                        </select>
                                     </div>
                                     :
                                     null
@@ -159,11 +166,11 @@ const Usercreate = () => {
                                     <Table className={classes.table} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell>Dessert (100g serving)</TableCell>
-                                                <TableCell align="center">Calories</TableCell>
-                                                <TableCell align="center">Fat&nbsp;(g)</TableCell>
-                                                <TableCell align="center">Carbs&nbsp;(g)</TableCell>
-                                                <TableCell align="center">Protein&nbsp;(g)</TableCell>
+                                                <TableCell>First name</TableCell>
+                                                <TableCell align="center">Email</TableCell>
+                                                <TableCell align="center">Epf no</TableCell>
+                                                <TableCell align="center">Mobile</TableCell>
+                                                <TableCell align="center">Type</TableCell>
                                                 <TableCell align="center"></TableCell>
                                             </TableRow>
                                         </TableHead>

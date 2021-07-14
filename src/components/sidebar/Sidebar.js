@@ -23,29 +23,24 @@ const sidebar_items = [
         "icon": "bx bx-user-pin"
     },
     {
-        "display_name": "Orders",
+        "display_name": "Departments",
         "route": "/orders",
-        "icon": "bx bx-cart"
+        "icon": "bx bx-building"
     },
     {
-        "display_name": "Analytics",
+        "display_name": "Factories",
         "route": "/analytics",
-        "icon": "bx bx-bar-chart-alt"
+        "icon": "bx bxs-factory"
     },
     {
-        "display_name": "categories",
+        "display_name": "Devices",
         "route": "/categories",
-        "icon": "bx bx-list-ol"
+        "icon": "bx bx-devices"
     },
     {
-        "display_name": "discount",
+        "display_name": "Product Line",
         "route": "/discount",
-        "icon": "bx bx-gift"
-    },
-    {
-        "display_name": "inventory",
-        "route": "/inventory",
-        "icon": "bx bx-store-alt"
+        "icon": "bx bx-barcode"
     },
     {
         "display_name": "settings",
