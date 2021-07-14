@@ -94,9 +94,9 @@ const Usercreate = () => {
                             <div>
                                 <div className="rowuserradio">
                                 <RadioGroup  aria-label="type" name="type" value={type} onChange={handleChange} row>
-                                    <FormControlLabel value="Management" control={<Radio />} label="Management" />
-                                    <FormControlLabel value="Executive" control={<Radio />} label="Executive" />
-                                    <FormControlLabel value="Operator" control={<Radio />} label="Operator" />
+                                    <FormControlLabel value="Management" control={<Radio color="primary" />} label="Management" />
+                                    <FormControlLabel value="Executive" control={<Radio color="primary" />} label="Executive" />
+                                    <FormControlLabel value="Operator" control={<Radio color="primary" />} label="Operator" />
                                 </RadioGroup>
                                 </div>
                                 <div className="rowuser">

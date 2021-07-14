@@ -42,22 +42,22 @@ const statusCards = [
     {
         "icon": "bx bx-shopping-bag",
         "count": "1,995",
-        "title": "Total sales"
+        "title": "Daily Availability"
     },
     {
         "icon": "bx bx-cart",
         "count": "2,001",
-        "title": "Daily visits"
+        "title": "OEE"
     },
     {
         "icon": "bx bx-dollar-circle",
         "count": "$2,632",
-        "title": "Total income"
+        "title": "OEEP"
     },
     {
         "icon": "bx bx-receipt",
         "count": "1,711",
-        "title": "Total orders"
+        "title": "Total Productivity"
     }
 ]
 
@@ -220,7 +220,7 @@ const Dashboard = () => {
                             <div className="col-4">
                                 <div className="card">
                                     <div className="card__header">
-                                        <h3>top customers</h3>
+                                        <h3>DownTimes</h3>
                                     </div>
                                     <div className="card__body">
                                         <Table
@@ -239,7 +239,7 @@ const Dashboard = () => {
                             <div className="col-8">
                                 <div className="card">
                                     <div className="card__header">
-                                        <h3>latest orders</h3>
+                                        <h3>Machine Downtime reasons</h3>
                                     </div>
                                     <div className="card__body">
                                         <Table
