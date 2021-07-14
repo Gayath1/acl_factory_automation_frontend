@@ -13,14 +13,14 @@ const sidebar_items = [
         "icon": "bx bx-category-alt"
     },
     {
+        "display_name": "Admin",
+        "route": "/Admin",
+        "icon": "bx bx-user"
+    },
+    {
         "display_name": "Users",
         "route": "/Usercreate",
         "icon": "bx bx-user-pin"
-    },
-    {
-        "display_name": "Products",
-        "route": "/products",
-        "icon": "bx bx-package"
     },
     {
         "display_name": "Orders",

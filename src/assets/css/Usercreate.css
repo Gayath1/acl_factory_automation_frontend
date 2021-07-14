@@ -6,6 +6,21 @@
     max-width: 80%;
 
 }
+.rowuserradio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    max-width: 80%;
+
+}
+
+.rowuserradio label{
+    align-self: start;
+    padding-left: 3rem;
+    padding-bottom: 0.5rem;
+    color: rgba(136, 136, 136, 0.9);
+}
 
 .rowuser input{
     width: 80%;
@@ -17,6 +32,7 @@
     box-shadow: inset 0px -3px 0px 0px rgba(187,187,187,0.2);
     transition: box-shadow 0.2s ease-in;
 }
+
 input:focus {
     outline:none;
     border:none;
@@ -87,4 +103,30 @@ input:focus {
     width: 100%;
     border-radius: 10px 10px 10px 10px;
 
+}
+.usertblbutton{
+    border-radius: 5px;
+    width: 60%;
+    height: 30px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: rgb(6, 81, 140);
+    background: linear-gradient(
+            to right,
+            var(--main-color-red),
+            var(--second-color-red)
+    );
+    color: var(--txt-white);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+}
+
+.usertblbutton:hover{
+    opacity: 0.8;
+}
+
+a:hover {
+    color: var(--main-color);
 }

@@ -224,6 +224,7 @@ const Dashboard = () => {
                                     </div>
                                     <div className="card__body">
                                         <Table
+                                            limit="5"
                                             headData={topCustomers.head}
                                             renderHead={(item, index) => renderCusomerHead(item, index)}
                                             bodyData={topCustomers.body}
@@ -242,6 +243,7 @@ const Dashboard = () => {
                                     </div>
                                     <div className="card__body">
                                         <Table
+                                            limit="5"
                                             headData={latestOrders.header}
                                             renderHead={(item, index) => renderOrderHead(item, index)}
                                             bodyData={latestOrders.body}
