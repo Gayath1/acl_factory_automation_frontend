@@ -13,8 +13,8 @@ const sidebar_items = [
         "icon": "bx bx-category-alt"
     },
     {
-        "display_name": "Customers",
-        "route": "/customers",
+        "display_name": "Users",
+        "route": "/Usercreate",
         "icon": "bx bx-user-pin"
     },
     {
