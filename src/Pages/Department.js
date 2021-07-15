@@ -85,9 +85,9 @@ const Department = () => {
     return (
         <>
             <Sidebar/>
-            <div className="layout__content">
+            <div id="main" className="layout__content">
                 <TopNav/>
-                <div className="layout__content-main">
+                <div  className="layout__content-main">
                     <h2 className="page-header">Department</h2>
                     <Grid container spacing={3}>
                         <Grid item xs={6}>

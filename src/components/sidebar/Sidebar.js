@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -66,13 +66,19 @@ const SidebarItem = props => {
 }
 
 const Sidebar = props => {
-
+    const [inactive, setInactive] = useState(false);
     const activeItem = sidebar_items.findIndex(item => item.route === window.location.pathname)
 
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "80px";
+        document.getElementById("main").style.paddingLeft = "120px";
+    }
+
     return (
-        <div className='sidebar'>
+        <div id="mySidebar" className='sidebar'>
             <div className="sidebar__logo">
                 {/*<img src={logo} alt="company logo" />*/}
+                <button  onClick={closeNav}>Delete</button>
             </div>
             {
                 sidebar_items.map((item, index) => (

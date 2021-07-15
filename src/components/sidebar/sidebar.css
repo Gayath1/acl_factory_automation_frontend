@@ -1,9 +1,12 @@
 .sidebar {
-    min-width: var(--sidebar-width);
-    height: 100vh;
+    min-width:80px;
+    width: var(--sidebar-width);
+    height: 100%;
     position: fixed;
     left: 0;
     top: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
     background-color: var(--main-bg);
     box-shadow: var(--box-shadow);
 }
