@@ -25,6 +25,12 @@
 .sidebar__item {
     padding: 0 20px;
 }
+.sidebar__itemmenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 .sidebar__item-inner {
     padding: 15px 25px;
@@ -32,6 +38,8 @@
     align-items: center;
     font-weight: 600;
     transition: color 0.3s ease 0s;
+    border: none;
+    background: none;
 }
 
 .sidebar__item-inner > i {
@@ -55,4 +63,10 @@
             var(--second-color)
     );
     color: var(--txt-white);
+}
+
+
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar__item {font-size: 18px;}
 }

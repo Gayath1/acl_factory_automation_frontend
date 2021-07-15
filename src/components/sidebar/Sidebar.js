@@ -66,28 +66,48 @@ const SidebarItem = props => {
 }
 
 const Sidebar = props => {
-    const [inactive, setInactive] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const activeItem = sidebar_items.findIndex(item => item.route === window.location.pathname)
 
     function closeNav() {
+        setIsCollapsed(true)
         document.getElementById("mySidebar").style.width = "80px";
-        document.getElementById("main").style.paddingLeft = "120px";
+        document.getElementById("main").style.paddingLeft = "80px";
+    }
+
+    function openNav() {
+        setIsCollapsed(false)
+        document.getElementById("mySidebar").style.width = "300px";
+        document.getElementById("main").style.paddingLeft = "300px";
     }
 
     return (
         <div id="mySidebar" className='sidebar'>
+            {isCollapsed === true ? <div className="sidebar__itemmenu">
+                <button className="sidebar__item-inner"  onClick={openNav}><i className='bx bx-menu'></i></button>
+            </div>:
+                <div className="sidebar__itemmenu">
+                    <button className="sidebar__item-inner"  onClick={closeNav}><i className='bx bx-menu'></i></button>
+                </div>
+            }
+
             <div className="sidebar__logo">
                 {/*<img src={logo} alt="company logo" />*/}
-                <button  onClick={closeNav}>Delete</button>
             </div>
             {
                 sidebar_items.map((item, index) => (
                     <Link to={item.route} key={index}>
-                        <SidebarItem
-                            title={item.display_name}
-                            icon={item.icon}
-                            active={index === activeItem}
-                        />
+                        {isCollapsed === true ?
+                            <SidebarItem
+                                icon={item.icon}
+                                active={index === activeItem}
+                            />:
+                            <SidebarItem
+                                title={item.display_name}
+                                icon={item.icon}
+                                active={index === activeItem}
+                            />
+                        }
                     </Link>
                 ))
             }
