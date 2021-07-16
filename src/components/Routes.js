@@ -14,6 +14,8 @@ import Factory from "../Pages/Factories";
 import Device from "../Pages/Device";
 import ProductLine from "../Pages/ProductLine";
 import Settings from "../Pages/Settings";
+import Fault from "../Pages/FaultReason";
+import ProductInfo from "../Pages/ProductInfo";
 
 const Routes = () => {
     return (
@@ -32,6 +34,8 @@ const Routes = () => {
                 <Route path="/Device" component={Device} />
                 <Route path="/ProductLine" component={ProductLine} />
                 <Route path="/Settings" component={Settings} />
+                <Route path="/Fault" component={Fault} />
+                <Route path="/ProductInfo" component={ProductInfo} />
 
             </Switch>
 

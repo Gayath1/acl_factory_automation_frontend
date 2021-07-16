@@ -1,23 +1,52 @@
 import React, {useEffect,useState} from 'react';
 import "../assets/css/Login.css";
-
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const Loginadmin = () => {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [loading, setLoading] = useState("");
+    const [err, setErr] = useState("");
+    const history = useHistory();
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        setLoading(true);
+        try{
+            const body = ({email, password});
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/login", body);
+
+
+            localStorage.setItem("Token", loginResponse.data.data.token);
+            localStorage.setItem("org", loginResponse.data.user.organizations[0].id);
+            setLoading(false)
+            history.push("/Dashboard");
+
+
+        } catch(err) {
+            setLoading(false)
+            // err.response.data.message && setErr(err.response.data.message)
+        }
+    };
+
 
     return (
         <div id="loginform">
             <h2 id="headerTitle">Login</h2>
             <div>
+                {err ? (
+                    <Alert severity="error">
+                        <AlertTitle>Error</AlertTitle>
+                        {err}
+                    </Alert>
+                ) : null}
                 <div className="rowlogin">
                     <label>Username</label>
                     <input type="text" autoFocus placeholder="Enter your username" value={email}  onChange={(e) => setEmail(e.target.value)} />
@@ -29,7 +58,7 @@ const Loginadmin = () => {
 
 
                 <div id="button" className="rowlogin">
-                    <button  disabled={!validateForm()} onClick={handleSubmit}>Log in</button>
+                    <button  disabled={!validateForm()} onClick={submit}>Log in</button>
                 </div>
             </div>
             <div id="alternativeLogin">

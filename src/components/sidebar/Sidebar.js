@@ -43,6 +43,16 @@ const sidebar_items = [
         "icon": "bx bx-barcode"
     },
     {
+        "display_name": "Product Info",
+        "route": "/ProductInfo",
+        "icon": "bx bx-info-square"
+    },
+    {
+        "display_name": "Fault Manage",
+        "route": "/Fault",
+        "icon": "bx bx-error-alt"
+    },
+    {
         "display_name": "settings",
         "route": "/Settings",
         "icon": "bx bx-cog"
