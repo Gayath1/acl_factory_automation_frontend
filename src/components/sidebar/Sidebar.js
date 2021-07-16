@@ -29,7 +29,7 @@ const sidebar_items = [
     },
     {
         "display_name": "Factories",
-        "route": "/analytics",
+        "route": "/Factory",
         "icon": "bx bxs-factory"
     },
     {
