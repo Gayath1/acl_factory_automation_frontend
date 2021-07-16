@@ -8,6 +8,7 @@
     overflow-x: hidden;
     transition: 0.5s;
     background-color: var(--main-bg);
+    z-index: 20;
     box-shadow: var(--box-shadow);
 }
 

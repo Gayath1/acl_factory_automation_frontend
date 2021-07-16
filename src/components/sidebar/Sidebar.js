@@ -78,8 +78,13 @@ const Sidebar = props => {
     function openNav() {
         setIsCollapsed(false)
         document.getElementById("mySidebar").style.width = "300px";
-        document.getElementById("main").style.paddingLeft = "300px";
+        // document.getElementById("main").style.paddingLeft = "300px";
+        {window.matchMedia("(max-width: 800px)").matches?
+            (document.getElementById("main").style.paddingLeft = "80px"):
+            document.getElementById("main").style.paddingLeft = "300px";
+        }
     }
+
 
     return (
         <div id="mySidebar" className='sidebar'>
