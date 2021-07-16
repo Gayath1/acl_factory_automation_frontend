@@ -3,15 +3,14 @@
     flex-direction: column;
     align-items: center;
     padding-top: 1rem;
-    max-width: 80%;
-
+    justify-content: center;
 }
 .rowuserradio{
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 1rem;
-    max-width: 80%;
+    justify-content: center;
 
 }
 
@@ -142,4 +141,70 @@ input:focus {
 
 a:hover {
     color: var(--main-color);
+}
+
+@media screen and (max-width: 900px) {
+    .rowuser input{
+        width: 60%;
+        box-sizing: border-box;
+        border: none;
+        font-size: 1.3rem;
+        padding-left: 1.5rem;
+        padding-bottom: 0.5rem;
+        box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+        transition: box-shadow 0.2s ease-in;
+    }
+    .rowuser label{
+        align-self: start;
+        padding-left: 5rem;
+        padding-bottom: 0.5rem;
+        color: rgba(187,187,187,0.9);
+    }
+    .rowuser select{
+        width: 60%;
+        box-sizing: border-box;
+        border: none;
+        font-size: 1.3rem;
+        padding-left: 1.5rem;
+        padding-bottom: 1rem;
+        box-shadow: inset 0px -3px 0px 0px rgba(187,187,187,0.2);
+        transition: box-shadow 0.2s ease-in;
+    }
+    .usertblbutton{
+        border-radius: 5px;
+        width: 90%;
+        height: 30px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 0px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .rowuser input{
+        width: 50%;
+        box-sizing: border-box;
+        border: none;
+        font-size: 0.8rem;
+        padding-left: 1rem;
+        padding-bottom: 0.5rem;
+        box-shadow: inset 0px -3px 0px 0px rgba(187, 187, 187, 0.2);
+        transition: box-shadow 0.2s ease-in;
+    }
+    .rowuser label{
+        align-self: start;
+        padding-left: 4.5rem;
+        padding-bottom: 0.5rem;
+        color: rgba(187,187,187,0.9);
+    }
+    .rowuser select{
+        width: 50%;
+        box-sizing: border-box;
+        border: none;
+        font-size: 0.8rem;
+        padding-left: 1rem;
+        padding-bottom: 1rem;
+        box-shadow: inset 0px -3px 0px 0px rgba(187,187,187,0.2);
+        transition: box-shadow 0.2s ease-in;
+    }
+
 }

@@ -4,7 +4,14 @@
     margin: 0 -15px;
 }
 
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
 [class*="col-"] {
+    float: left;
     padding: 0 15px;
 }
 
@@ -157,5 +164,40 @@
 
     .col-sm-12 {
         width: 100%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .col-6 {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+    .col-4 {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+    .col-8 {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .col-6 {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+    .col-4 {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+    .col-8 {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
     }
 }

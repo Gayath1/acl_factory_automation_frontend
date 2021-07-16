@@ -92,11 +92,12 @@ const Department = () => {
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
                             <div className="card full-height">
+                                xs=6
                             </div>
                         </Grid>
                             <Grid item xs={6}>
                             <div className="card full-height">
-
+                                xs=6
                             </div>
                             </Grid>
                         </Grid>
