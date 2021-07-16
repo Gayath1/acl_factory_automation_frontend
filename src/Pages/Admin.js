@@ -85,23 +85,23 @@ const Usercreate = () => {
                                 <div>
                                     <div className="rowuser">
                                         <label>First Name</label>
-                                        <input type="text" autoFocus placeholder="Enter your FirstName" value={email}  onChange={(e) => setEmail(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="enter your firstname" value={email}  onChange={(e) => setEmail(e.target.value)} />
                                     </div>
                                     <div className="rowuser">
                                         <label>Last Name</label>
-                                        <input type="text" placeholder="Enter your LastName" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <input type="text" placeholder="enter your lastname" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Email</label>
-                                        <input type="email" id="email" pattern=".+@globex\.com"  placeholder="Enter your Email" value={email}  onChange={(e) => setEmail(e.target.value)} required/>
+                                        <input type="email" id="email" pattern=".+@globex\.com"  placeholder="enter your email" value={email}  onChange={(e) => setEmail(e.target.value)} required/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Epf No</label>
-                                        <input type="number" placeholder="Enter your Epf No" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <input type="number" placeholder="enter your epf no" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Mobile</label>
-                                        <input type="mobile" placeholder="Enter your mobile No" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <input type="mobile" placeholder="enter your mobile no" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Permission</label>

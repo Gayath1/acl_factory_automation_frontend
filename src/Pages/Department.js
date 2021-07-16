@@ -2,9 +2,6 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,7 +9,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -87,22 +83,29 @@ const Department = () => {
             <Sidebar/>
             <div id="main" className="layout__content">
                 <TopNav/>
-                <div  className="layout__content-main">
+                <div className="layout__content-main">
                     <h2 className="page-header">Department</h2>
-                    <Grid container spacing={3}>
-                        <Grid item xs={6}>
+                    <div className="row">
+                        <div className="col-6">
                             <div className="card full-height">
-                                xs=6
+                                <div>
+
+                                    <div className="rowuser">
+                                        <label>Department Name</label>
+                                        <input type="text" autoFocus placeholder="department name"  />
+                                    </div>
+                                    <div id="button" className="rowuser">
+                                        <button   onClick={handleSubmit}>submit</button>
+                                    </div>
+
+
+
+                                </div>
                             </div>
-                        </Grid>
-                            <Grid item xs={6}>
-                            <div className="card full-height">
-                                xs=6
-                            </div>
-                            </Grid>
-                        </Grid>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
                             <div className="card full-height">
                                 <TableContainer component={Paper}>
                                     <Table className={classes.table} aria-label="simple table">
@@ -126,15 +129,15 @@ const Department = () => {
                                                     <TableCell align="center">{row.fat}</TableCell>
                                                     <TableCell align="center">{row.carbs}</TableCell>
                                                     <TableCell align="center">{row.protein}</TableCell>
-                                                    <TableCell align="center"><button className="usertblbutton"  disabled={!validateForm()} onClick={handleSubmit}>Delete</button></TableCell>
+                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
                             </div>
-                        </Grid>
-                    </Grid>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
