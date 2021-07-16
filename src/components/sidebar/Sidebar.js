@@ -39,12 +39,12 @@ const sidebar_items = [
     },
     {
         "display_name": "Product Line",
-        "route": "/discount",
+        "route": "/ProductLine",
         "icon": "bx bx-barcode"
     },
     {
         "display_name": "settings",
-        "route": "/settings",
+        "route": "/Settings",
         "icon": "bx bx-cog"
     }
 ]

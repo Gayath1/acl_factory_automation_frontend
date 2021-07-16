@@ -12,6 +12,8 @@ import Admin from "../Pages/Admin";
 import Department from '../Pages/Department';
 import Factory from "../Pages/Factories";
 import Device from "../Pages/Device";
+import ProductLine from "../Pages/ProductLine";
+import Settings from "../Pages/Settings";
 
 const Routes = () => {
     return (
@@ -28,6 +30,8 @@ const Routes = () => {
                 <Route path="/Department" component={Department} />
                 <Route path="/Factory" component={Factory} />
                 <Route path="/Device" component={Device} />
+                <Route path="/ProductLine" component={ProductLine} />
+                <Route path="/Settings" component={Settings} />
 
             </Switch>
 
