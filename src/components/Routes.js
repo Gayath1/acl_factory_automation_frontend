@@ -11,7 +11,7 @@ import Usercreate from "../Pages/Usercreate";
 import Admin from "../Pages/Admin";
 import Department from '../Pages/Department';
 import Factory from "../Pages/Factories";
-
+import Device from "../Pages/Device";
 
 const Routes = () => {
     return (
@@ -27,6 +27,7 @@ const Routes = () => {
                 <Route path="/Admin" component={Admin} />
                 <Route path="/Department" component={Department} />
                 <Route path="/Factory" component={Factory} />
+                <Route path="/Device" component={Device} />
 
             </Switch>
 

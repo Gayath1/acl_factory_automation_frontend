@@ -34,7 +34,7 @@ const sidebar_items = [
     },
     {
         "display_name": "Devices",
-        "route": "/categories",
+        "route": "/Device",
         "icon": "bx bx-devices"
     },
     {
