@@ -23,12 +23,12 @@ const Home = () => {
                         </Link>
                         <Link to="/Loginexecutive">
                     <button className="form-input-btnhome"  type='submit'>
-                        Login for Management
+                        Login for Executives
                     </button>
                         </Link>
-                        <Link to="/Loginoperator">
+                        <Link to="/Loginmanagement">
                     <button className="form-input-btnhome"  type='submit'>
-                        Login for Operators
+                        Login for Management
                     </button>
                         </Link>
                     </div>

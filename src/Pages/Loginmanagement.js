@@ -1,11 +1,11 @@
-import React, {useEffect,useState} from 'react';
+import React, {useState} from 'react';
 import "../assets/css/Login.css";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 
 
-const Loginexecutive = () => {
+const Loginmanagement = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState("");
@@ -21,7 +21,7 @@ const Loginexecutive = () => {
         setLoading(true);
         try{
             const body = ({email, password});
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/login", body);
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/login", body);
 
 
             localStorage.setItem("Token", loginResponse.data.data.token);
@@ -34,7 +34,6 @@ const Loginexecutive = () => {
             err.response.data.message && setErr(err.response.data.message)
         }
     };
-
 
     return (
         <div id="loginform">
@@ -68,4 +67,4 @@ const Loginexecutive = () => {
     )
 }
 
-export default Loginexecutive
+export default Loginmanagement

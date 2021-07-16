@@ -6,7 +6,7 @@ import Dashboard from '../Pages/Dashboard'
 import Loginadmin from "../Pages/Loginadmin";
 import Home from "../Pages/Home";
 import Loginexecutive from "../Pages/Loginexecutive";
-import Loginoperator from '../Pages/Loginoperator';
+import Loginmanagement from '../Pages/Loginmanagement';
 import Usercreate from "../Pages/Usercreate";
 import Admin from "../Pages/Admin";
 import Department from '../Pages/Department';
@@ -22,7 +22,7 @@ const Routes = () => {
 
             <Switch>
 
-                <Route path="/Loginoperator" component={Loginoperator} />
+                <Route path="/Loginmanagement" component={Loginmanagement} />
                 <Route path="/Loginexecutive" component={Loginexecutive} />
                 <Route path="/Loginadmin" component={Loginadmin}/>
                 <Route path="/Home" component={Home}/>
