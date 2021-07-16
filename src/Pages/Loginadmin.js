@@ -16,7 +16,7 @@ const Loginadmin = () => {
     }
 
     const submit = async (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         setErr("");
         setLoading(true);
         try{
@@ -25,14 +25,13 @@ const Loginadmin = () => {
 
 
             localStorage.setItem("Token", loginResponse.data.data.token);
-            localStorage.setItem("org", loginResponse.data.user.organizations[0].id);
             setLoading(false)
             history.push("/Dashboard");
 
 
         } catch(err) {
             setLoading(false)
-            // err.response.data.message && setErr(err.response.data.message)
+            err.response.data.message && setErr(err.response.data.message)
         }
     };
 
@@ -49,7 +48,7 @@ const Loginadmin = () => {
                 ) : null}
                 <div className="rowlogin">
                     <label>Username</label>
-                    <input type="text" autoFocus placeholder="Enter your username" value={email}  onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" id="email" autoFocus placeholder="Enter your username" value={email}  onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="rowlogin">
                     <label>Password</label>
