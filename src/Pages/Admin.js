@@ -2,18 +2,12 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
-import {
-    CDataTable,
-} from '@coreui/react'
 import Table from "../components/table/Table";
 import Badge from "../components/badge/Badge";
+import axios from 'axios';
+import {Alert, AlertTitle} from "@material-ui/lab";
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 const fields = [
         "DT_RowId",
         "color",
@@ -109,12 +103,16 @@ const Usercreate = () => {
 
     const classes = useStyles();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [firstName, setfirstName] = useState("");
+    const [lastName, setlastName] = useState("");
+    const [mobile,setMobile] = useState("");
+    const [epfNo,setEpfNo] = useState("");
+    const [permission,setPermission] = useState("")
     const [type, setType] = React.useState('Admin')
     const [image,setImage]= ('');
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
-
+    const [err, setErr] = useState("");
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
@@ -131,7 +129,7 @@ const Usercreate = () => {
     }, [selectedFile])
 
     function validateForm() {
-        return email.length > 0 && password.length > 0;
+        return email.length > 0 ;
     }
     const handleChange = (event) => {
         setType(event.target.value);
@@ -141,6 +139,35 @@ const Usercreate = () => {
         event.preventDefault();
     }
 
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
+            const  formData = new FormData()
+            formData.append('image',selectedFile)
+            formData.append("email", email);
+            formData.append("firstName", firstName);
+            formData.append("lastName", lastName);
+            formData.append("mobile", mobile);
+            formData.append("epfNo", epfNo);
+            formData.append("permission", permission);
+            // const body = {email, firstName,lastName,mobile,epfNo,permission};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/users",formData
+                ,{
+                    //body: formData,
+                    headers:{
+                        'Accept': 'multipart/form-data',
+                        // "Authorization":`Bearer ${token}`
+                    },
+                    //credentials: 'include',
+                });
+            window.location.reload();
+
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
+
+    };
     const onSelectFile = e => {
         if (!e.target.files || e.target.files.length === 0) {
             setSelectedFile(undefined)
@@ -161,13 +188,19 @@ const Usercreate = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
+                                    {err ? (
+                                        <Alert severity="error">
+                                            <AlertTitle>Error</AlertTitle>
+                                            {err}
+                                        </Alert>
+                                    ) : null}
                                     <div className="rowuser">
                                         <label>First Name</label>
-                                        <input type="text" autoFocus placeholder="enter your firstname" value={email}  onChange={(e) => setEmail(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="enter your firstname" value={firstName}  onChange={(e) => setfirstName(e.target.value)} />
                                     </div>
                                     <div className="rowuser">
                                         <label>Last Name</label>
-                                        <input type="text" placeholder="enter your lastname" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <input type="text" placeholder="enter your lastname" value={lastName} onChange={(e) => setlastName(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Email</label>
@@ -175,15 +208,15 @@ const Usercreate = () => {
                                     </div>
                                     <div className="rowuser">
                                         <label>Epf No</label>
-                                        <input type="number" placeholder="enter your epf no" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <input type="number" placeholder="enter your epf no" value={epfNo} onChange={(e) => setEpfNo(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Mobile</label>
-                                        <input type="mobile" placeholder="enter your mobile no" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                        <input type="mobile" placeholder="enter your mobile no" value={mobile} onChange={(e) => setMobile(e.target.value)}/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Permission</label>
-                                        <select id="department" name="department">
+                                        <select id="department" name="department" value={permission} onChange={(e) => setPermission(e.target.value)}>
                                             <option value=""  selected></option>
                                             <option value="SuperAdmin">Super Admin</option>
                                             <option value="Admin">Admin</option>
@@ -191,7 +224,7 @@ const Usercreate = () => {
                                     </div>
 
                                     <div id="button" className="rowuser">
-                                        <button  disabled={!validateForm()} onClick={handleSubmit}>Register</button>
+                                        <button  disabled={!validateForm()} onClick={submit}>Register</button>
                                     </div>
                                 </div>
                             </div>
