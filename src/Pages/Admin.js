@@ -4,23 +4,84 @@ import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
 import {makeStyles} from "@material-ui/core/styles";
+import {
+    CDataTable,
+} from '@coreui/react'
+import Table from "../components/table/Table";
+import Badge from "../components/badge/Badge";
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
+const fields = [
+        "DT_RowId",
+        "color",
+        "value",
+        "Status"
+]
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    {
+        DT_RowId: "1",
+        color: "red",
+        value: "#f00"
+    },
+    {
+        DT_RowId: "2",
+        color: "green",
+        value: "#0f0"
+    },
+    {
+        DT_RowId: "3",
+        color: "blue",
+        value: "#00f"
+    },
+    {
+        DT_RowId: "4",
+        color: "cyan",
+        value: "#0ff"
+    },
+    {
+        DT_RowId: "1",
+        color: "red",
+        value: "#f00"
+    },
+    {
+        DT_RowId: "2",
+        color: "green",
+        value: "#0f0"
+    },
+    {
+        DT_RowId: "3",
+        color: "blue",
+        value: "#00f"
+    },
+    {
+        DT_RowId: "4",
+        color: "cyan",
+        value: "#0ff"
+    },
+    {
+        DT_RowId: "1",
+        color: "red",
+        value: "#f00"
+    },
+    {
+        DT_RowId: "2",
+        color: "green",
+        value: "#0f0"
+    },
+    {
+        DT_RowId: "3",
+        color: "blue",
+        value: "#00f"
+    },
+    {
+        DT_RowId: "4",
+        color: "cyan",
+        value: "#0ff"
+    }
 ];
 
 const useStyles = makeStyles({
@@ -29,7 +90,23 @@ const useStyles = makeStyles({
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.DT_RowId}</td>
+        <td>{item.color}</td>
+        <td>{item.value}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
+
 const Usercreate = () => {
+
     const classes = useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,6 +114,7 @@ const Usercreate = () => {
     const [image,setImage]= ('');
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
+
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
@@ -137,34 +215,13 @@ const Usercreate = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Firstname</TableCell>
-                                                <TableCell align="center">Admin type</TableCell>
-                                                <TableCell align="center">Email</TableCell>
-                                                <TableCell align="center">Epf no</TableCell>
-                                                <TableCell align="center">Mobile</TableCell>
-                                                <TableCell align="center"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.calories}</TableCell>
-                                                    <TableCell align="center">{row.fat}</TableCell>
-                                                    <TableCell align="center">{row.carbs}</TableCell>
-                                                    <TableCell align="center">{row.protein}</TableCell>
-                                                    <TableCell align="center"><button className="usertblbutton"  disabled={!validateForm()} onClick={handleSubmit}>Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={rows}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>

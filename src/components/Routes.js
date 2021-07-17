@@ -1,7 +1,8 @@
-import React from 'react'
+import React,{useState} from 'react'
 
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
+import UserContext from './../userContext';
 import Dashboard from '../Pages/Dashboard'
 import Loginadmin from "../Pages/Loginadmin";
 import Home from "../Pages/Home";
@@ -18,8 +19,13 @@ import Fault from "../Pages/FaultReason";
 import ProductInfo from "../Pages/ProductInfo";
 
 const Routes = () => {
+    const [ userData, setUserData] = useState({
+        token:"",
+        user: "",
+        role: "",
+    });
     return (
-
+        <UserContext.Provider value={{ userData, setUserData }}>
             <Switch>
 
                 <Route path="/Loginmanagement" component={Loginmanagement} />
@@ -38,7 +44,7 @@ const Routes = () => {
                 <Route path="/ProductInfo" component={ProductInfo} />
 
             </Switch>
-
+        </UserContext.Provider>
 
 
 

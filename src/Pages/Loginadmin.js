@@ -1,11 +1,13 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext,useState} from 'react';
 import "../assets/css/Login.css";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import UserContext from '../userContext';
 
 const Loginadmin = () => {
 
+    const { setUserData } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState("");
@@ -22,7 +24,12 @@ const Loginadmin = () => {
         try{
             const body = ({email, password});
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/login", body);
+            setUserData({
+                token: loginResponse.data.data.token,
+                user: loginResponse.data.data.user.id,
+                role : loginResponse.data.data.userpermissions.permissions.name,
 
+            });
 
             localStorage.setItem("Token", loginResponse.data.data.token);
             setLoading(false)
