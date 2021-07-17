@@ -7,12 +7,7 @@ import Table from "../components/table/Table";
 import Badge from "../components/badge/Badge";
 import axios from 'axios';
 import {Alert, AlertTitle} from "@material-ui/lab";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
+import {HashLoader} from "react-spinners";
 
 const fields = [
         "firstName",
@@ -60,7 +55,16 @@ const useStyles = makeStyles({
 const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
 )
-
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.firstName}</td>
+        <td>{item.email}</td>
+        <td>{item.epfNo}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 
 const Usercreate = () => {
@@ -77,8 +81,10 @@ const Usercreate = () => {
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
     const [err, setErr] = useState("");
-    const [listData, setListData] = useState([] );
+    const [listData, setListData] = useState({ lists: [] });
+    let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
+
     const headers = {
         headers: {
 
@@ -86,16 +92,7 @@ const Usercreate = () => {
         }
     };
 
-    const renderOrderBody = (item, index) => (
-        <tr key={index}>
-            <td>{item.firstName}</td>
-            <td>{item.email}</td>
-            <td>{item.epfNo}</td>
-            <td>
-                <button className="usertblbutton" >Delete</button>
-            </td>
-        </tr>
-    )
+
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
         if (!selectedFile) {
@@ -116,21 +113,14 @@ const Usercreate = () => {
             const result = await axios(
                 `https://acl-automation.herokuapp.com/api/v1/admin/1/getall`,headers
             );
-            setListData(result.data.data.organizationUser[0].users)
-
+            setListData({lists:result.data.data.organizationUser[0].users})
+            setLoading(false);
         };
         fetchData();
     }, [])
 
     function validateForm() {
         return email.length > 0 ;
-    }
-    const handleChange = (event) => {
-        setType(event.target.value);
-    };
-
-    function handleSubmit(event) {
-        event.preventDefault();
     }
 
     const submit = async (e) => {
@@ -171,7 +161,13 @@ const Usercreate = () => {
         // I've kept this example simple by using the first image instead of multiple
         setSelectedFile(e.target.files[0])
     }
-    console.log(listData)
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -247,7 +243,7 @@ const Usercreate = () => {
                                     limit="5"
                                     headData={fields}
                                     renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={rows}
+                                    bodyData={listData.lists}
                                     renderBody={(item, index) => renderOrderBody(item, index)}
                                 />
                             </div>

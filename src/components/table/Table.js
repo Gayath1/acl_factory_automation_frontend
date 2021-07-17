@@ -6,7 +6,7 @@ const Table = props => {
 
     const initDataShow = props.limit && props.bodyData ? props.bodyData.slice(0, Number(props.limit)) : props.bodyData
 
-    const [dataShow, setDataShow] = useState(initDataShow)
+    const [dataShow, setDataShow] = useState(initDataShow);
 
     let pages = 1
 
