@@ -7,74 +7,47 @@ import Table from "../components/table/Table";
 import Badge from "../components/badge/Badge";
 import axios from 'axios';
 import {Alert, AlertTitle} from "@material-ui/lab";
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
 
 const fields = [
-        "DT_RowId",
-        "color",
-        "value",
+        "firstName",
+        "email",
+        "epfNo",
         "Status"
 ]
 
+
 const rows = [
     {
-        DT_RowId: "1",
-        color: "red",
-        value: "#f00"
+        "id": 1,
+        "firstName": "mujeeb",
+        "lastName": "singham",
+        "email": "chandulagayan@gmail.com",
+        "verificationtoken": "1234",
+        "epfNo": null,
+        "phoneNo": "0776465645",
+        "image": null,
+        "statusId": 1,
+        "password": "$2y$10$zrrjILLqTKyxYiR3jrOdvuaE.tEG3U148gVPoe7zYQLpitytXpyU2 ",
+        "createdAt": "2021-07-16T10:38:11.002Z",
+        "updatedAt": "2021-07-16T10:38:11.002Z",
     },
     {
-        DT_RowId: "2",
-        color: "green",
-        value: "#0f0"
-    },
-    {
-        DT_RowId: "3",
-        color: "blue",
-        value: "#00f"
-    },
-    {
-        DT_RowId: "4",
-        color: "cyan",
-        value: "#0ff"
-    },
-    {
-        DT_RowId: "1",
-        color: "red",
-        value: "#f00"
-    },
-    {
-        DT_RowId: "2",
-        color: "green",
-        value: "#0f0"
-    },
-    {
-        DT_RowId: "3",
-        color: "blue",
-        value: "#00f"
-    },
-    {
-        DT_RowId: "4",
-        color: "cyan",
-        value: "#0ff"
-    },
-    {
-        DT_RowId: "1",
-        color: "red",
-        value: "#f00"
-    },
-    {
-        DT_RowId: "2",
-        color: "green",
-        value: "#0f0"
-    },
-    {
-        DT_RowId: "3",
-        color: "blue",
-        value: "#00f"
-    },
-    {
-        DT_RowId: "4",
-        color: "cyan",
-        value: "#0ff"
+        "id": 9,
+        "firstName": "Gayath",
+        "lastName": "Chandula",
+        "email": "chandulagayan1@gmail.com",
+        "verificationtoken": "g96wx6",
+        "epfNo": "47586598",
+        "phoneNo": null,
+        "image": "uploads/dashboard.JPG-1626512057383.jpeg",
+        "statusId": 50,
+        "password": "$2b$10$vqy4Pln0C.V88NOCdpOOFOKZYHbVGWv.yV/7XLn7cpYxLQnV2PzPi",
     }
 ];
 
@@ -88,16 +61,7 @@ const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
 )
 
-const renderOrderBody = (item, index) => (
-    <tr key={index}>
-        <td>{item.DT_RowId}</td>
-        <td>{item.color}</td>
-        <td>{item.value}</td>
-        <td>
-            <button className="usertblbutton" >Delete</button>
-        </td>
-    </tr>
-)
+
 
 const Usercreate = () => {
 
@@ -113,7 +77,25 @@ const Usercreate = () => {
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
     const [err, setErr] = useState("");
+    const [listData, setListData] = useState([] );
+    const token = localStorage.getItem("Token")
+    const headers = {
+        headers: {
 
+            "Authorization":`Bearer ${token}`
+        }
+    };
+
+    const renderOrderBody = (item, index) => (
+        <tr key={index}>
+            <td>{item.firstName}</td>
+            <td>{item.email}</td>
+            <td>{item.epfNo}</td>
+            <td>
+                <button className="usertblbutton" >Delete</button>
+            </td>
+        </tr>
+    )
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
         if (!selectedFile) {
@@ -126,7 +108,19 @@ const Usercreate = () => {
 
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
+
     }, [selectedFile])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/admin/1/getall`,headers
+            );
+            setListData(result.data.data.organizationUser[0].users)
+
+        };
+        fetchData();
+    }, [])
 
     function validateForm() {
         return email.length > 0 ;
@@ -152,12 +146,12 @@ const Usercreate = () => {
             formData.append("epfNo", epfNo);
             formData.append("permission", permission);
             // const body = {email, firstName,lastName,mobile,epfNo,permission};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/users",formData
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/1/create",formData
                 ,{
                     //body: formData,
                     headers:{
                         'Accept': 'multipart/form-data',
-                        // "Authorization":`Bearer ${token}`
+                         "Authorization":`Bearer ${token}`
                     },
                     //credentials: 'include',
                 });
@@ -177,6 +171,7 @@ const Usercreate = () => {
         // I've kept this example simple by using the first image instead of multiple
         setSelectedFile(e.target.files[0])
     }
+    console.log(listData)
     return (
         <>
             <Sidebar/>
@@ -218,8 +213,8 @@ const Usercreate = () => {
                                         <label>Permission</label>
                                         <select id="department" name="department" value={permission} onChange={(e) => setPermission(e.target.value)}>
                                             <option value=""  selected></option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Admin">Admin</option>
+                                            <option value="1">Admin</option>
+                                            <option value="50">Associate-Admin</option>
                                         </select>
                                     </div>
 
