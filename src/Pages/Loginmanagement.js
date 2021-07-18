@@ -3,6 +3,7 @@ import "../assets/css/Login.css";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
+import {HashLoader} from "react-spinners";
 
 
 const Loginmanagement = () => {
@@ -34,7 +35,13 @@ const Loginmanagement = () => {
             err.response.data.message && setErr(err.response.data.message)
         }
     };
-
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <div id="loginform">
             <h2 id="headerTitle">Login</h2>

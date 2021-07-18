@@ -4,13 +4,14 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import UserContext from '../userContext';
+import {HashLoader} from "react-spinners";
 
 const Loginadmin = () => {
 
     const { setUserData } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState("");
+    let [loading, setLoading] = useState('');
     const [err, setErr] = useState("");
     const history = useHistory();
     function validateForm() {
@@ -42,6 +43,13 @@ const Loginadmin = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
 
     return (
         <div id="loginform">

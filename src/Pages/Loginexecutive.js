@@ -3,13 +3,14 @@ import "../assets/css/Login.css";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
+import {HashLoader} from "react-spinners";
 
 
 const Loginexecutive = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState("");
-    const [err, setErr] = useState("");
+    const [err, setErr] = useState();
     const history = useHistory();
     function validateForm() {
         return email.length > 0 && password.length > 0;
@@ -34,7 +35,13 @@ const Loginexecutive = () => {
             err.response.data.message && setErr(err.response.data.message)
         }
     };
-
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
 
     return (
         <div id="loginform">
