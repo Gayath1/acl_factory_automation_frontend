@@ -46,6 +46,7 @@ const user_menu = [
     },
     {
         "icon": "bx bx-log-out-circle bx-rotate-180",
+        "onClick":clearLocalStorage,
         "route": "/Home",
         "content": "Logout"
     }
@@ -54,6 +55,10 @@ const user_menu = [
 const curr_user = {
     display_name: 'Tuat Tran',
     // image: user_image
+}
+
+function clearLocalStorage(){
+    localStorage.clear();
 }
 
 const renderNotificationItem = (item, index) => (
@@ -76,7 +81,7 @@ const renderUserToggle = (user) => (
 
 const renderUserMenu =(item, index) => (
     <Link to={item.route} key={index}>
-        <div className="notification-item">
+        <div className="notification-item" onClick={item.onClick}>
             <i className={item.icon}></i>
             <span>{item.content}</span>
         </div>
@@ -84,6 +89,7 @@ const renderUserMenu =(item, index) => (
 )
 
 const Topnav = () => {
+
     return (
         <div className='topnav'>
             <div className="topnav__search">
