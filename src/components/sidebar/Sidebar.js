@@ -3,7 +3,7 @@ import React,{useState} from 'react'
 import { Link } from 'react-router-dom'
 
 import './sidebar.css'
-
+import logo from '../../assets/INNOVIGENT.png';
 
 
 const sidebar_items = [
@@ -107,7 +107,7 @@ const Sidebar = props => {
             }
 
             <div className="sidebar__logo">
-                {/*<img src={logo} alt="company logo" />*/}
+                <img src={logo} alt="company logo" />
             </div>
             {
                 sidebar_items.map((item, index) => (
