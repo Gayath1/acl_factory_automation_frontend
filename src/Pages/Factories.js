@@ -2,30 +2,21 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import {Alert, AlertTitle} from "@material-ui/lab";
 import axios from "axios";
+import {HashLoader} from "react-spinners";
+import moment from "moment";
 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+const fields = [
+    "Factory Name",
+    "Created At",
+    "Action"
+]
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
 
 const useStyles = makeStyles({
     table: {
@@ -33,6 +24,18 @@ const useStyles = makeStyles({
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.factoryName}</td>
+        <td>{moment(item.createdAt).format("MMM Do YY")}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 const Factory = () => {
     const classes = useStyles();
@@ -48,6 +51,17 @@ const Factory = () => {
             "Authorization":`Bearer ${token}`
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/factories/1/getall`,headers
+            );
+            setListData({lists:result.data.data.FactoryDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
 
     function validateForm() {
         return factoryName.length > 0 ;
@@ -68,6 +82,13 @@ const Factory = () => {
 
     };
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -102,7 +123,13 @@ const Factory = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData.lists}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>
