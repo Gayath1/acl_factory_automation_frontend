@@ -13,6 +13,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from "axios";
+import {Alert, AlertTitle} from "@material-ui/lab";
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -36,12 +38,26 @@ const useStyles = makeStyles({
 
 const Usercreate = () => {
     const classes = useStyles();
+    const [firstName,setfirstName] = useState("");
+    const [lastName,setlastName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [mobile, setmobile] = useState("");
+    const [epfNo,setepfNo] = useState("");
+    const [shiftId,setshiftId] = useState("");
+    const [departmentId,setdepartmentId] = useState("");
     const [type, setType] = React.useState('Management')
     const [image,setImage]= ('');
+    const [err, setErr] = useState("");
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
+    const token = localStorage.getItem("Token")
+
+    const headers = {
+        headers: {
+
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
@@ -58,7 +74,7 @@ const Usercreate = () => {
     }, [selectedFile])
 
     function validateForm() {
-        return email.length > 0 && password.length > 0;
+        return email.length > 0;
     }
     const handleChange = (event) => {
         setType(event.target.value);
@@ -67,9 +83,6 @@ const Usercreate = () => {
         setImage(event.target.files[0]);
     };
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
 
     const onSelectFile = e => {
         if (!e.target.files || e.target.files.length === 0) {
@@ -80,6 +93,99 @@ const Usercreate = () => {
         // I've kept this example simple by using the first image instead of multiple
         setSelectedFile(e.target.files[0])
     }
+
+
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        if(type === 'Operator'){
+            try{
+                const  formData = new FormData()
+                formData.append('image',selectedFile)
+                formData.append("email", email);
+                formData.append("firstName", firstName);
+                formData.append("lastName", lastName);
+                formData.append("mobile", mobile);
+                formData.append("epfNo", epfNo);
+                formData.append("shiftId", shiftId);
+                formData.append("departmentId", departmentId);
+                // const body = {email, firstName,lastName,mobile,epfNo,permission};
+
+                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/operator/1/create",formData
+                    ,{
+                        //body: formData,
+                        headers:{
+                            'Accept': 'multipart/form-data',
+                            "Authorization":`Bearer ${token}`
+                        },
+                        //credentials: 'include',
+                    });
+
+                window.location.reload();
+
+            } catch(err) {
+                err.response.data.message && setErr(err.response.data.message)
+            }
+        }else if(type === 'Executive'){
+            try{
+                const  formData = new FormData()
+                formData.append('image',selectedFile)
+                formData.append("email", email);
+                formData.append("firstName", firstName);
+                formData.append("lastName", lastName);
+                formData.append("mobile", mobile);
+                formData.append("epfNo", epfNo);
+                formData.append("shiftId", shiftId);
+                formData.append("departmentId", departmentId);
+                // const body = {email, firstName,lastName,mobile,epfNo,permission};
+
+                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/create",formData
+                    ,{
+                        //body: formData,
+                        headers:{
+                            'Accept': 'multipart/form-data',
+                            "Authorization":`Bearer ${token}`
+                        },
+                        //credentials: 'include',
+                    });
+
+                window.location.reload();
+
+            } catch(err) {
+                err.response.data.message && setErr(err.response.data.message)
+            }
+        }else if(type === 'Management'){
+            try{
+                const  formData = new FormData()
+                formData.append('image',selectedFile)
+                formData.append("email", email);
+                formData.append("firstName", firstName);
+                formData.append("lastName", lastName);
+                formData.append("mobile", mobile);
+                formData.append("epfNo", epfNo);
+                formData.append("shiftId", shiftId);
+                formData.append("departmentId", departmentId);
+                // const body = {email, firstName,lastName,mobile,epfNo,permission};
+
+                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/1/create",formData
+                    ,{
+                        //body: formData,
+                        headers:{
+                            'Accept': 'multipart/form-data',
+                            "Authorization":`Bearer ${token}`
+                        },
+                        //credentials: 'include',
+                    });
+
+                window.location.reload();
+
+            } catch(err) {
+                err.response.data.message && setErr(err.response.data.message)
+            }
+        }
+
+
+    };
 
     return (
         <>
@@ -92,6 +198,12 @@ const Usercreate = () => {
                     <div className="col-6">
                         <div className="card full-height">
                             <div>
+                                {err ? (
+                                    <Alert severity="error">
+                                        <AlertTitle>Error</AlertTitle>
+                                        {err}
+                                    </Alert>
+                                ) : null}
                                 <div className="rowuserradio">
                                 <RadioGroup  aria-label="type" name="type" value={type} onChange={handleChange} row>
                                     <FormControlLabel value="Management" control={<Radio color="primary" />} label="Management" />
@@ -101,11 +213,11 @@ const Usercreate = () => {
                                 </div>
                                 <div className="rowuser">
                                     <label>First Name</label>
-                                    <input type="text" autoFocus placeholder="enter your firstname" value={email}  onChange={(e) => setEmail(e.target.value)} />
+                                    <input type="text" autoFocus placeholder="enter your firstname" value={firstName}  onChange={(e) => setfirstName(e.target.value)} />
                                 </div>
                                 <div className="rowuser">
                                     <label>Last Name</label>
-                                    <input type="text" placeholder="enter your lastname" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                    <input type="text" placeholder="enter your lastname" value={lastName} onChange={(e) => setlastName(e.target.value)}/>
                                 </div>
                                 {type === 'Operator' ?
                                     null
@@ -117,30 +229,60 @@ const Usercreate = () => {
                                 }
                                 <div className="rowuser">
                                     <label>Epf No</label>
-                                    <input type="number" placeholder="enter your epf no" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                    <input type="number" placeholder="enter your epf no" value={epfNo} onChange={(e) => setepfNo(e.target.value)}/>
                                 </div>
                                 <div className="rowuser">
                                     <label>Mobile</label>
-                                    <input type="mobile" placeholder="enter your mobile no" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                    <input type="mobile" placeholder="enter your mobile no" value={mobile} onChange={(e) => setmobile(e.target.value)}/>
                                 </div>
                                 {type === 'Operator' ?
                                     <div className="rowuser">
-                                        <label>Department</label>
-                                        <select id="department" name="department">
-                                            <option value=""  selected>please select department</option>
-                                            <option value="Plastic">Plastic</option>
-                                            <option value="Wire">Wire</option>
-                                            <option value="Electric">Electric</option>
-                                            <option value="IT">IT</option>
+                                        <label>Shift</label>
+                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} >
+                                            <option value=""  selected>please select Shift</option>
+                                            <option value="1">Shift A</option>
+                                            <option value="2">Shift B</option>
+                                            <option value="3">Shift C</option>
                                         </select>
                                     </div>
                                     :
                                     null
                                 }
-
-                                <div id="button" className="rowuser">
-                                    <button  disabled={!validateForm()} onClick={handleSubmit}>Register</button>
-                                </div>
+                                {type === 'Executive' ?
+                                    <div className="rowuser">
+                                        <label>Shift</label>
+                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} >
+                                            <option value=""  selected>please select Shift</option>
+                                            <option value="1">Shift A</option>
+                                            <option value="2">Shift B</option>
+                                            <option value="3">Shift C</option>
+                                        </select>
+                                    </div>
+                                    :
+                                    null
+                                }
+                                {type === 'Executive' ?
+                                    <div className="rowuser">
+                                        <label>Department</label>
+                                        <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} >
+                                            <option value=""  selected>please select Department</option>
+                                            <option value="1">Shift A</option>
+                                            <option value="2">Shift B</option>
+                                            <option value="3">Shift C</option>
+                                        </select>
+                                    </div>
+                                    :
+                                    null
+                                }
+                                {type === 'Operator' ?
+                                    <div id="button" className="rowuser">
+                                        <button  onClick={submit}>Register</button>
+                                    </div>
+                                    :
+                                    <div id="button" className="rowuser">
+                                        <button  disabled={!validateForm()} onClick={submit}>Register</button>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -185,7 +327,7 @@ const Usercreate = () => {
                                                     <TableCell align="center">{row.fat}</TableCell>
                                                     <TableCell align="center">{row.carbs}</TableCell>
                                                     <TableCell align="center">{row.protein}</TableCell>
-                                                    <TableCell align="center"><button className="usertblbutton"  disabled={!validateForm()} onClick={handleSubmit}>Delete</button></TableCell>
+                                                    <TableCell align="center"><button className="usertblbutton"  disabled={!validateForm()}>Delete</button></TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
