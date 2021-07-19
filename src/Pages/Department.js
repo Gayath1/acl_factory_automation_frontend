@@ -6,14 +6,14 @@ import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
-
+import {HashLoader} from "react-spinners";
+import moment from 'moment';
 
 
 const fields = [
-    "firstName",
-    "email",
-    "epfNo",
-    "Status"
+    "Department Name",
+    "Created At",
+    "Action"
 ]
 
 const rows = [
@@ -57,9 +57,8 @@ const renderOrderHead = (item, index) => (
 )
 const renderOrderBody = (item, index) => (
     <tr key={index}>
-        <td>{item.firstName}</td>
-        <td>{item.email}</td>
-        <td>{item.epfNo}</td>
+        <td>{item.departmentName}</td>
+        <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
             <button className="usertblbutton" >Delete</button>
         </td>
@@ -70,6 +69,8 @@ const Department = () => {
     const classes = useStyles();
     const [departmentName, setdepartmentName] = useState("");
     const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
     const headers = {
@@ -78,6 +79,17 @@ const Department = () => {
             "Authorization":`Bearer ${token}`
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/department/1/getall`,headers
+            );
+            setListData({lists:result.data.data.DepartmentDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
 
     function validateForm() {
         return departmentName.length > 0;
@@ -98,6 +110,13 @@ const Department = () => {
 
     };
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -136,7 +155,7 @@ const Department = () => {
                                         limit="5"
                                         headData={fields}
                                         renderHead={(item, index) => renderOrderHead(item, index)}
-                                        bodyData={rows}
+                                        bodyData={listData.lists}
                                         renderBody={(item, index) => renderOrderBody(item, index)}
                                     />
                             </div>
