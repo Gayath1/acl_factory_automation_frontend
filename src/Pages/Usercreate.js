@@ -15,6 +15,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import avatar from "../assets/default.png";
 
 const fields = [
     "firstName",
@@ -235,7 +236,11 @@ const Usercreate = () => {
         }else if(type === 'Executive'){
             try{
                 const  formData = new FormData()
-                formData.append('image',selectedFile)
+                {selectedFile ?
+                    formData.append('image',selectedFile)
+                    :
+                    formData.append('image',avatar)
+                }
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -263,7 +268,11 @@ const Usercreate = () => {
         }else if(type === 'Management'){
             try{
                 const  formData = new FormData()
-                formData.append('image',selectedFile)
+                {selectedFile === null ?
+                    formData.append('image',avatar)
+                    :
+                    formData.append('image',selectedFile)
+                }
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);

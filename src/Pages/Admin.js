@@ -4,10 +4,10 @@ import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import {makeStyles} from "@material-ui/core/styles";
 import Table from "../components/table/Table";
-import Badge from "../components/badge/Badge";
 import axios from 'axios';
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
+import avatar from '../assets/default.png';
 
 const fields = [
         "firstName",
@@ -76,8 +76,6 @@ const Usercreate = () => {
     const [mobile,setMobile] = useState("");
     const [epfNo,setEpfNo] = useState("");
     const [permission,setPermission] = useState("")
-    const [type, setType] = React.useState('Admin')
-    const [image,setImage]= ('');
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
     const [err, setErr] = useState("");
@@ -128,7 +126,11 @@ const Usercreate = () => {
         setErr("");
         try{
             const  formData = new FormData()
-            formData.append('image',selectedFile)
+            {selectedFile ?
+                formData.append('image',selectedFile)
+                :
+                formData.append('image',avatar)
+            }
             formData.append("email", email);
             formData.append("firstName", firstName);
             formData.append("lastName", lastName);
