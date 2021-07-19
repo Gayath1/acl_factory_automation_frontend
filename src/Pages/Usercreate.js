@@ -10,7 +10,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
-
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 const fields = [
     "firstName",
@@ -86,6 +90,34 @@ const renderOrderBody1 = (item, index) => (
         </td>
     </tr>
 )
+
+
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 const Usercreate = () => {
     const classes = useStyles();
     const [firstName,setfirstName] = useState("");
@@ -103,6 +135,7 @@ const Usercreate = () => {
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
     const [listData2, setListData2] = useState({ lists: [] });
+    const [value, setValue] = React.useState(0);
     let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
@@ -113,6 +146,9 @@ const Usercreate = () => {
         }
     };
 
+    const handletab = (event, newValue) => {
+        setValue(newValue);
+    };
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
@@ -383,47 +419,45 @@ const Usercreate = () => {
                         <div className="col-12">
                             <div className="card full-height">
                                 <div className="card__header">
-                                    <h3>Managers</h3>
+                                    <AppBar position="static" style={{background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)` ,borderRadius:"8px"}}>
+                                        <Tabs TabIndicatorProps={{
+                                            style: {
+                                                backgroundColor: "#ffffff"
+                                            }
+                                        }} value={value} onChange={handletab}  >
+                                            <Tab label="Managers" {...a11yProps(0)} />
+                                            <Tab label="Executives" {...a11yProps(1)} />
+                                            <Tab label="Operators" {...a11yProps(2)} />
+                                        </Tabs>
+                                    </AppBar>
                                 </div>
-                                <Table
-                                    limit="5"
-                                    headData={fields}
-                                    renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={listData.lists}
-                                    renderBody={(item, index) => renderOrderBody(item, index)}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card full-height">
-                                <div className="card__header">
-                                    <h3>Executives</h3>
-                                </div>
-                                <Table
-                                    limit="5"
-                                    headData={fields}
-                                    renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={listData1.lists}
-                                    renderBody={(item, index) => renderOrderBody(item, index)}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card full-height">
-                                <div className="card__header">
-                                    <h3>Operators</h3>
-                                </div>
-                                <Table
-                                    limit="5"
-                                    headData={fields1}
-                                    renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={listData2.lists}
-                                    renderBody={(item, index) => renderOrderBody1(item, index)}
-                                />
+                                <TabPanel value={value} index={0}>
+                                    <Table
+                                        limit="5"
+                                        headData={fields}
+                                        renderHead={(item, index) => renderOrderHead(item, index)}
+                                        bodyData={listData.lists}
+                                        renderBody={(item, index) => renderOrderBody(item, index)}
+                                    />
+                                </TabPanel>
+                                <TabPanel value={value} index={1}>
+                                    <Table
+                                        limit="5"
+                                        headData={fields}
+                                        renderHead={(item, index) => renderOrderHead(item, index)}
+                                        bodyData={listData1.lists}
+                                        renderBody={(item, index) => renderOrderBody(item, index)}
+                                    />
+                                </TabPanel>
+                                <TabPanel value={value} index={2}>
+                                    <Table
+                                        limit="5"
+                                        headData={fields1}
+                                        renderHead={(item, index) => renderOrderHead(item, index)}
+                                        bodyData={listData2.lists}
+                                        renderBody={(item, index) => renderOrderBody1(item, index)}
+                                    />
+                                </TabPanel>
                             </div>
                         </div>
                     </div>
