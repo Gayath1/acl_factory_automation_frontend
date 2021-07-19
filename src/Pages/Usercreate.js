@@ -5,28 +5,47 @@ import TopNav from "../components/topnav/TopNav";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+const fields = [
+    "firstName",
+    "email",
+    "epfNo",
+    "Status"
+]
+
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    {
+        "id": 1,
+        "firstName": "mujeeb",
+        "lastName": "singham",
+        "email": "chandulagayan@gmail.com",
+        "verificationtoken": "1234",
+        "epfNo": null,
+        "phoneNo": "0776465645",
+        "image": null,
+        "statusId": 1,
+        "password": "$2y$10$zrrjILLqTKyxYiR3jrOdvuaE.tEG3U148gVPoe7zYQLpitytXpyU2 ",
+        "createdAt": "2021-07-16T10:38:11.002Z",
+        "updatedAt": "2021-07-16T10:38:11.002Z",
+    },
+    {
+        "id": 9,
+        "firstName": "Gayath",
+        "lastName": "Chandula",
+        "email": "chandulagayan1@gmail.com",
+        "verificationtoken": "g96wx6",
+        "epfNo": "47586598",
+        "phoneNo": null,
+        "image": "uploads/dashboard.JPG-1626512057383.jpeg",
+        "statusId": 50,
+        "password": "$2b$10$vqy4Pln0C.V88NOCdpOOFOKZYHbVGWv.yV/7XLn7cpYxLQnV2PzPi",
+    }
 ];
 
 const useStyles = makeStyles({
@@ -34,6 +53,19 @@ const useStyles = makeStyles({
         minWidth: 700,
     },
 });
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.firstName}</td>
+        <td>{item.email}</td>
+        <td>{item.epfNo}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 
 const Usercreate = () => {
@@ -305,34 +337,13 @@ const Usercreate = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>First name</TableCell>
-                                                <TableCell align="center">Email</TableCell>
-                                                <TableCell align="center">Epf no</TableCell>
-                                                <TableCell align="center">Mobile</TableCell>
-                                                <TableCell align="center">Type</TableCell>
-                                                <TableCell align="center"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.calories}</TableCell>
-                                                    <TableCell align="center">{row.fat}</TableCell>
-                                                    <TableCell align="center">{row.carbs}</TableCell>
-                                                    <TableCell align="center">{row.protein}</TableCell>
-                                                    <TableCell align="center"><button className="usertblbutton"  disabled={!validateForm()}>Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={rows}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>
