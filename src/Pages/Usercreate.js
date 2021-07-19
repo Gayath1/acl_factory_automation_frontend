@@ -9,16 +9,24 @@ import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
+import {HashLoader} from "react-spinners";
 
 
 const fields = [
     "firstName",
+    "lastName",
     "email",
     "epfNo",
-    "Status"
+    "Action"
 ]
 
 
+const fields1 = [
+    "firstName",
+    "lastName",
+    "epfNo",
+    "Action"
+]
 const rows = [
     {
         "id": 1,
@@ -59,6 +67,7 @@ const renderOrderHead = (item, index) => (
 const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.firstName}</td>
+        <td>{item.lastName}</td>
         <td>{item.email}</td>
         <td>{item.epfNo}</td>
         <td>
@@ -67,7 +76,16 @@ const renderOrderBody = (item, index) => (
     </tr>
 )
 
-
+const renderOrderBody1 = (item, index) => (
+    <tr key={index}>
+        <td>{item.firstName}</td>
+        <td>{item.lastName}</td>
+        <td>{item.epfNo}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 const Usercreate = () => {
     const classes = useStyles();
     const [firstName,setfirstName] = useState("");
@@ -82,6 +100,10 @@ const Usercreate = () => {
     const [err, setErr] = useState("");
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
+    const [listData, setListData] = useState({ lists: [] });
+    const [listData1, setListData1] = useState({ lists: [] });
+    const [listData2, setListData2] = useState({ lists: [] });
+    let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
     const headers = {
@@ -90,6 +112,26 @@ const Usercreate = () => {
             "Authorization":`Bearer ${token}`
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/Management/1/getall`,headers
+            );
+            setListData({lists:result.data.data.management})
+            const result1 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/Executives/1/getall`,headers
+            );
+            setListData1({lists:result1.data.data.executives})
+            const result2 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/operator/1/getall`,headers
+            );
+            setListData2({lists:result2.data.data.OperatorsDetails})
+            setLoading(false);
+        };
+
+        fetchData();
+    }, [])
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
@@ -111,10 +153,6 @@ const Usercreate = () => {
     const handleChange = (event) => {
         setType(event.target.value);
     };
-    const imagehandleChange = (event) => {
-        setImage(event.target.files[0]);
-    };
-
 
     const onSelectFile = e => {
         if (!e.target.files || e.target.files.length === 0) {
@@ -219,6 +257,13 @@ const Usercreate = () => {
 
     };
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -337,12 +382,47 @@ const Usercreate = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
+                                <div className="card__header">
+                                    <h3>Managers</h3>
+                                </div>
                                 <Table
                                     limit="5"
                                     headData={fields}
                                     renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={rows}
+                                    bodyData={listData.lists}
                                     renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card full-height">
+                                <div className="card__header">
+                                    <h3>Executives</h3>
+                                </div>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData1.lists}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card full-height">
+                                <div className="card__header">
+                                    <h3>Operators</h3>
+                                </div>
+                                <Table
+                                    limit="5"
+                                    headData={fields1}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData2.lists}
+                                    renderBody={(item, index) => renderOrderBody1(item, index)}
                                 />
                             </div>
                         </div>
