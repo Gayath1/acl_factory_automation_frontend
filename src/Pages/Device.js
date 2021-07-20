@@ -10,18 +10,44 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from "axios";
+import {Alert, AlertTitle} from "@material-ui/lab";
+import moment from "moment";
 
 
-function createData(name,empty) {
-    return { name,empty};
-}
+const fields = [
+    "Department Name",
+    "Created At",
+    "Action"
+]
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    {
+        "id": 1,
+        "firstName": "mujeeb",
+        "lastName": "singham",
+        "email": "chandulagayan@gmail.com",
+        "verificationtoken": "1234",
+        "epfNo": null,
+        "phoneNo": "0776465645",
+        "image": null,
+        "statusId": 1,
+        "password": "$2y$10$zrrjILLqTKyxYiR3jrOdvuaE.tEG3U148gVPoe7zYQLpitytXpyU2 ",
+        "createdAt": "2021-07-16T10:38:11.002Z",
+        "updatedAt": "2021-07-16T10:38:11.002Z",
+    },
+    {
+        "id": 9,
+        "firstName": "Gayath",
+        "lastName": "Chandula",
+        "email": "chandulagayan1@gmail.com",
+        "verificationtoken": "g96wx6",
+        "epfNo": "47586598",
+        "phoneNo": null,
+        "image": "uploads/dashboard.JPG-1626512057383.jpeg",
+        "statusId": 50,
+        "password": "$2b$10$vqy4Pln0C.V88NOCdpOOFOKZYHbVGWv.yV/7XLn7cpYxLQnV2PzPi",
+    }
 ];
 
 const useStyles = makeStyles({
@@ -30,38 +56,52 @@ const useStyles = makeStyles({
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.departmentName}</td>
+        <td>{moment(item.createdAt).format("MMM Do YY")}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 const Device = () => {
     const classes = useStyles();
     const [uuid, setUuid] = useState("");
+    const [productlineId,setproductlineId] = useState("");
+    const [factoryId,setfactoryId] = useState("");
+    const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    let [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
+
+    const headers = {
+        headers: {
+
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
 
-    // create a preview as a side effect, whenever selected file is changed
-    
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
 
-    // function validateForm() {
-    //     return email.length > 0 && password.length > 0;
-    // }
-    // const handleChange = (event) => {
-    //     setType(event.target.value);
-    // };
-    // const imagehandleChange = (event) => {
-    //     setImage(event.target.files[0]);
-    // };
+            const body = {uuid,productlineId,factoryId};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/create",body,headers);
+            window.location.reload();
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
 
-    // const onSelectFile = e => {
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setSelectedFile(undefined)
-    //         return
-    //     }
-
-    //     // I've kept this example simple by using the first image instead of multiple
-    //     setSelectedFile(e.target.files[0])
-    // }
+    };
 
     return (
         <>
@@ -74,53 +114,41 @@ const Device = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-                               
-                                <div className="rowuser">
-                                <label>UUID</label>
+                                    {err ? (
+                                        <Alert severity="error">
+                                            <AlertTitle>Error</AlertTitle>
+                                            {err}
+                                        </Alert>
+                                    ) : null}
+                                    <div className="rowuser">
+                                        <label>UUID</label>
                                         <input type="text" autoFocus placeholder="" value={uuid}  onChange={(e) => setUuid(e.target.value)} />
                                     </div>
-                                    <div id="button" className="rowuser">
-                                        <button   onClick={handleSubmit}>submit</button>
+                                    <div className="rowuser">
+                                         <label>Product Line Id</label>
+                                         <input type="number"  placeholder="" value={productlineId}  onChange={(e) => setproductlineId(e.target.value)} />
                                     </div>
-
-
-
+                                    <div className="rowuser">
+                                        <label>Factory Id</label>
+                                        <input type="number"  placeholder="" value={factoryId}  onChange={(e) => setfactoryId(e.target.value)} />
+                                    </div>
+                                    <div id="button" className="rowuser">
+                                        <button   onClick={submit}>submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                            {/* <Grid item xs={6}>
-                            <div className="card full-height">
-
-                            </div>
-                            </Grid> */}
                         </div>
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Type</TableCell>
-                                                <TableCell align="center">UUID</TableCell>
-                                                
-                                                <TableCell align="center"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.empty}</TableCell>
-                                                   
-                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData.lists}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>
