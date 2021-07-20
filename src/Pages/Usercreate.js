@@ -213,7 +213,11 @@ const Usercreate = () => {
         if(type === 'Operator'){
             try{
                 const  formData = new FormData()
-                formData.append('image',selectedFile)
+                {selectedFile ?
+                    formData.append('image',selectedFile)
+                    :
+                    formData.append('image',avatar)
+                }
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
