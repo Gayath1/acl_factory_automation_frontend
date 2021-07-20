@@ -11,7 +11,9 @@ import moment from "moment";
 
 
 const fields = [
-    "Department Name",
+    "Id",
+    "Fault Type",
+    "Fault Reason",
     "Created At",
     "Action"
 ]
@@ -30,7 +32,9 @@ const renderOrderHead = (item, index) => (
 
 const renderOrderBody = (item, index) => (
     <tr key={index}>
-        <td>{item.departmentName}</td>
+        <td>{item.id}</td>
+        <td>{item.faultType}</td>
+        <td>{item.faultreason}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
             <button className="usertblbutton" >Delete</button>
@@ -66,7 +70,7 @@ const Fault = () => {
             const result1 = await axios(
                 `https://acl-automation.herokuapp.com/api/v1/faultreason/1/getall`,headers
             );
-            setListData1({lists:result1.data.data.DepartmentDetails})
+            setListData1({lists:result1.data.data.FaultReasonsDetails})
             setLoading(false);
         };
 
@@ -106,7 +110,7 @@ const Fault = () => {
             <div id="main" className="layout__content">
                 <TopNav/>
                 <div className="layout__content-main">
-                    <h2 className="page-header">Fault Manage</h2>
+                    <h2 className="page-header">Fault Reason Manage</h2>
                     <div className="row">
                         <div className="col-6">
                             <div className="card full-height">
@@ -118,12 +122,13 @@ const Fault = () => {
                                         </Alert>
                                     ) : null}
                                     <div className="rowuser">
-                                        <label>Reason</label>
-                                        <input type="text" autoFocus placeholder="" value={faultreason}  onChange={(e) => setfaultreason(e.target.value)} />
-                                    </div>
-                                    <div className="rowuser">
                                         <label>Fault Type</label>
-                                        <input type="text"  placeholder="" value={faultType}  onChange={(e) => setfaultType(e.target.value)} />
+                                        <select id="department" name="department" value={faultType} onChange={(e) => setfaultType(e.target.value)} >
+                                            <option value=""  selected>please select Fault Type</option>
+                                            <option value="Down Time">Down Time</option>
+                                            <option value="Slow Speed">Slow Speed</option>
+                                            <option value="Loading Material">Loading Material</option>
+                                        </select>
                                     </div>
                                     <div className="rowuser">
                                         <label>Department</label>
@@ -135,6 +140,10 @@ const Fault = () => {
                                                 </option>
                                             ))}
                                         </select>
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Reason</label>
+                                        <input type="text" autoFocus placeholder="" value={faultreason}  onChange={(e) => setfaultreason(e.target.value)} />
                                     </div>
 
                                     <div id="button" className="rowuser">
@@ -159,7 +168,7 @@ const Fault = () => {
                                     limit="5"
                                     headData={fields}
                                     renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={listData.lists}
+                                    bodyData={listData1.lists}
                                     renderBody={(item, index) => renderOrderBody(item, index)}
                                 />
                             </div>

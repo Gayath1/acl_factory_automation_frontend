@@ -17,7 +17,7 @@ import Tab from "@material-ui/core/Tab";
 
 const fields = [
     "Device Id",
-    "Factory Id",
+    "Factory ",
     "Product line Id",
     "Created At",
     "Action"
@@ -88,7 +88,7 @@ const renderOrderHead = (item, index) => (
 const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
-        <td>{item.factoryId}</td>
+        <td>{item.factories.factoryName}</td>
         <td>{item.productlineId}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
@@ -99,7 +99,7 @@ const renderOrderBody = (item, index) => (
 const renderOrderBody1 = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
-        <td>{item.factoryId}</td>
+        <td>{item.factories.factoryName}</td>
         <td>{item.productlineId}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
