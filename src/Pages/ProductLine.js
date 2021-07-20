@@ -2,32 +2,49 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
+import {HashLoader} from "react-spinners";
+import moment from "moment";
 
 
-function createData(name,lks) {
-    return { name, lks };
-}
+const fields = [
+    "Product line No",
+    "Product line Text",
+    "Factory Id",
+    "Created At",
+    "Action"
+]
 
 const rows = [
-    createData('Frozen yoghurt', 159 ),
-    createData('Ice cream sandwich', 237),
-    createData('Eclair', 262),
-    createData('Cupcake', 305),
-    createData('Gingerbread', 356),
+    {
+        "id": 1,
+        "firstName": "mujeeb",
+        "lastName": "singham",
+        "email": "chandulagayan@gmail.com",
+        "verificationtoken": "1234",
+        "epfNo": null,
+        "phoneNo": "0776465645",
+        "image": null,
+        "statusId": 1,
+        "password": "$2y$10$zrrjILLqTKyxYiR3jrOdvuaE.tEG3U148gVPoe7zYQLpitytXpyU2 ",
+        "createdAt": "2021-07-16T10:38:11.002Z",
+        "updatedAt": "2021-07-16T10:38:11.002Z",
+    },
+    {
+        "id": 9,
+        "firstName": "Gayath",
+        "lastName": "Chandula",
+        "email": "chandulagayan1@gmail.com",
+        "verificationtoken": "g96wx6",
+        "epfNo": "47586598",
+        "phoneNo": null,
+        "image": "uploads/dashboard.JPG-1626512057383.jpeg",
+        "statusId": 50,
+        "password": "$2b$10$vqy4Pln0C.V88NOCdpOOFOKZYHbVGWv.yV/7XLn7cpYxLQnV2PzPi",
+    }
 ];
 
 const useStyles = makeStyles({
@@ -36,6 +53,20 @@ const useStyles = makeStyles({
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.productlineNo}</td>
+        <td>{item.productlineText}</td>
+        <td>{item.factoryId}</td>
+        <td>{moment(item.createdAt).format("MMM Do YY")}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 const ProductLine = () => {
     const classes = useStyles();
@@ -54,6 +85,17 @@ const ProductLine = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/productlines/1/getall`,headers
+            );
+            setListData({lists:result.data.data.ProductLinesDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
+
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
@@ -69,7 +111,13 @@ const ProductLine = () => {
 
     };
 
-
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -110,32 +158,13 @@ const ProductLine = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Name</TableCell>
-                                                <TableCell align="center">Organization Id</TableCell>
-                                                
-                                                
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.lks}</TableCell>
-                                                    {/* <TableCell align="center">{row.fat}</TableCell> */}
-                                                    {/* <TableCell align="center">{row.carbs}</TableCell>
-                                                    <TableCell align="center">{row.protein}</TableCell> */}
-                                                    <TableCell align="center"><button className="usertblbutton"  >Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData.lists}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>
