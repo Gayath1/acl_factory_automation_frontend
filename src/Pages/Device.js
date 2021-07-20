@@ -2,21 +2,18 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import moment from "moment";
+import {HashLoader} from "react-spinners";
 
 
 const fields = [
-    "Department Name",
+    "Device Id",
+    "Factory Id",
+    "Product line Id",
     "Created At",
     "Action"
 ]
@@ -56,16 +53,41 @@ const useStyles = makeStyles({
     },
 });
 
+const token = localStorage.getItem("Token")
+
+const headers = {
+    headers: {
+
+        "Authorization":`Bearer ${token}`
+    }
+};
+
+const active = async (productlineId,uuid) => {
+
+    try{
+
+        const body = {productlineId,uuid};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/activate",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+       console.log(err)
+    }
+
+};
+
 const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
 )
 
 const renderOrderBody = (item, index) => (
     <tr key={index}>
-        <td>{item.departmentName}</td>
+        <td>{item.id}</td>
+        <td>{item.factoryId}</td>
+        <td>{item.productlineId}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button className="usertblbutton" >Delete</button>
+            <button onClick={()=>{active(item.productlineId,item.uuid)}} className="usertblactivebutton" >Activate</button>
         </td>
     </tr>
 )
@@ -87,6 +109,18 @@ const Device = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/device/1/getall`,headers
+            );
+            setListData({lists:result.data.data.DeviceDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
+
+
 
     const submit = async (e) => {
         e.preventDefault();
@@ -103,6 +137,13 @@ const Device = () => {
 
     };
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>

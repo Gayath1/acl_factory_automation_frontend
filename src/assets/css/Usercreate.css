@@ -143,6 +143,27 @@ a:hover {
     color: var(--main-color);
 }
 
+.usertblactivebutton{
+    border-radius: 5px;
+    width: 60%;
+    height: 30px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: rgb(243, 243, 243);
+    background: linear-gradient(
+            to right,
+            var(--main-color-green),
+            var(--second-color-green)
+    );
+    color: var(--txt-white);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+}
+.usertblactivebutton:hover{
+    opacity: 0.8;
+}
 @media screen and (max-width: 900px) {
     .rowuser input{
         width: 60%;
@@ -171,6 +192,14 @@ a:hover {
         transition: box-shadow 0.2s ease-in;
     }
     .usertblbutton{
+        border-radius: 5px;
+        width: 90%;
+        height: 30px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 0px;
+    }
+    .usertblactivebutton{
         border-radius: 5px;
         width: 90%;
         height: 30px;
