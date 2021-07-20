@@ -14,6 +14,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from "axios";
+import {Alert, AlertTitle} from "@material-ui/lab";
 
 
 function createData(name,lks) {
@@ -37,37 +39,36 @@ const useStyles = makeStyles({
 
 const ProductLine = () => {
     const classes = useStyles();
-    const [key, setKey] = useState("");
-    const [line, setLine] = useState("");
- 
+    const [durations, setdurations] = useState("");
+    const [name, setproductlineNo] = useState("");
+    const [factoryId,setfactoryId] = useState("");
+    const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
 
+    const headers = {
+        headers: {
 
-    // create a preview as a side effect, whenever selected file is changed
-    
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
-    // function validateForm() {
-    //     return email.length > 0 && password.length > 0;
-    // }
-    // const handleChange = (event) => {
-    //     setType(event.target.value);
-    // };
-    // const imagehandleChange = (event) => {
-    //     setImage(event.target.files[0]);
-    // };
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
+            const body = {durations,name,factoryId};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productlines/1/create",body,headers);
+            window.location.reload();
 
-    // const onSelectFile = e => {
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setSelectedFile(undefined)
-    //         return
-    //     }
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
 
-    //     // I've kept this example simple by using the first image instead of multiple
-    //     setSelectedFile(e.target.files[0])
-    // }
+    };
+
 
     return (
         <>
@@ -80,26 +81,27 @@ const ProductLine = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-                               
-                                <div className="rowuser">
-                                <label>Product Key</label>
-                                        <input type="text" autoFocus placeholder="" value={key}  onChange={(e) => setKey(e.target.value)} />
-                                    </div>
-
+                                    {err ? (
+                                        <Alert severity="error">
+                                            <AlertTitle>Error</AlertTitle>
+                                            {err}
+                                        </Alert>
+                                    ) : null}
                                     <div className="rowuser">
-                                <label>Line Number</label>
-                                        <input type="text" autoFocus placeholder="" value={line}  onChange={(e) => setLine(e.target.value)} />
+                                        <label>Product Line No</label>
+                                        <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setproductlineNo(e.target.value)} />
                                     </div>
-
-                                   
-
-
+                                    <div className="rowuser">
+                                        <label>Durations</label>
+                                        <input type="text"  placeholder="" value={durations}  onChange={(e) => setdurations(e.target.value)} />
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Factory Id</label>
+                                        <input type="text"  placeholder="" value={factoryId}  onChange={(e) => setfactoryId(e.target.value)} />
+                                    </div>
                                     <div id="button" className="rowuser">
-                                        <button   onClick={handleSubmit}>submit</button>
+                                        <button   onClick={submit}>submit</button>
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -128,7 +130,7 @@ const ProductLine = () => {
                                                     {/* <TableCell align="center">{row.fat}</TableCell> */}
                                                     {/* <TableCell align="center">{row.carbs}</TableCell>
                                                     <TableCell align="center">{row.protein}</TableCell> */}
-                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
+                                                    <TableCell align="center"><button className="usertblbutton"  >Delete</button></TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
