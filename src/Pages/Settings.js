@@ -2,70 +2,95 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
+import {HashLoader} from "react-spinners";
+import {Alert, AlertTitle} from "@material-ui/lab";
+import axios from "axios";
+import moment from "moment";
 
 
-function createData(name, duration,ky) {
-    return { name, duration,ky };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0),
-    createData('Ice cream sandwich', 237, 9.0),
-    createData('Eclair', 262, 16.0),
-    createData('Cupcake', 305, 3.7),
-    createData('Gingerbread', 356, 16.0),
-];
-
+const fields = [
+    "Name",
+    "Duration",
+    "Created At",
+    "Action"
+]
 const useStyles = makeStyles({
     table: {
         minWidth: 700,
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.name}</td>
+        <td>{item.durations}</td>
+        <td>{moment(item.createdAt).format("MMM Do YY")}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 const Settings = () => {
     const classes = useStyles();
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
- 
+    const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
 
+    const headers = {
+        headers: {
 
-    // create a preview as a side effect, whenever selected file is changed
-    
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
-    // function validateForm() {
-    //     return email.length > 0 && password.length > 0;
-    // }
-    // const handleChange = (event) => {
-    //     setType(event.target.value);
-    // };
-    // const imagehandleChange = (event) => {
-    //     setImage(event.target.files[0]);
-    // };
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/systemsettings/1/getall`,headers
+            );
+            setListData({lists:result.data.data.SystemSettingsDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
 
-    function handleSubmit(event) {
-        event.preventDefault();
+    function validateForm() {
+        return name.length > 0;
     }
 
-    // const onSelectFile = e => {
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setSelectedFile(undefined)
-    //         return
-    //     }
 
-    //     // I've kept this example simple by using the first image instead of multiple
-    //     setSelectedFile(e.target.files[0])
-    // }
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
 
+            const body = {name,duration};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/systemsettings/1/create",body,headers);
+            window.location.reload();
+
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
+
+    };
+
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -77,59 +102,37 @@ const Settings = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-                               
-                                <div className="rowuser">
-                                <label>Name</label>
+                                    {err ? (
+                                        <Alert severity="error">
+                                            <AlertTitle>Error</AlertTitle>
+                                            {err}
+                                        </Alert>
+                                    ) : null}
+                                    <div className="rowuser">
+                                        <label>Name</label>
                                         <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setName(e.target.value)} />
                                     </div>
-
                                     <div className="rowuser">
-                                <label>Duration</label>
+                                        <label>Duration</label>
                                         <input type="text" autoFocus placeholder="" value={duration}  onChange={(e) => setDuration(e.target.value)} />
                                     </div>
-
-                                   
-
-
                                     <div id="button" className="rowuser">
-                                        <button   onClick={handleSubmit}>submit</button>
+                                        <button disabled={!validateForm()}   onClick={submit}>submit</button>
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
                         </div>
                     <div className="row">
-                        <div className="col-9">
+                        <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Name</TableCell>
-                                                <TableCell align="center">Duration</TableCell>
-                                                <TableCell align="center">Keey</TableCell>
-                                              
-                                                <TableCell align="center"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.duration}</TableCell>
-                                                    <TableCell align="center">{row.ky}</TableCell>
-                                                  
-                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData.lists}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>

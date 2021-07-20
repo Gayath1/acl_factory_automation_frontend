@@ -74,6 +74,7 @@ const Info = () => {
     const [productName, setproductName] = useState("");
     const [productCode, setproductCode] = useState("");
     const [machineSpeed, setmachineSpeed] = useState("");
+    const [downTime, setdownTime] = useState("");
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
     const [loading, setLoading] = useState(true);
@@ -102,7 +103,7 @@ const Info = () => {
         setErr("");
         try{
 
-            const body = {productName,productCode,machineSpeed};
+            const body = {productName,productCode,machineSpeed,downTime};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create",body,headers);
             window.location.reload();
 
@@ -137,21 +138,30 @@ const Info = () => {
                                             {err}
                                         </Alert>
                                     ) : null}
-                                <div className="rowuser">
-                                <label>Product Name</label>
+                                    <div className="rowuser">
+                                        <label>Product Name</label>
                                         <input type="text" autoFocus placeholder="" value={productName}  onChange={(e) => setproductName(e.target.value)} />
                                     </div>
-
                                     <div className="rowuser">
-                                <label>Product Code</label>
+                                        <label>Product Code</label>
                                         <input type="text"  placeholder="" value={productCode}  onChange={(e) => setproductCode(e.target.value)} />
                                     </div>
-
                                     <div className="rowuser">
-                                <label>Machine Speed</label>
+                                        <label>Machine Speed</label>
                                         <input type="number"  placeholder="" value={machineSpeed}  onChange={(e) => setmachineSpeed(e.target.value)} />
                                     </div>
-
+                                    <div className="rowuser">
+                                        <label>Down Time</label>
+                                        <select id="department" name="department" value={downTime} onChange={(e) => setdownTime(e.target.value)} >
+                                            <option value=""  selected>please select DownTime</option>
+                                            <option value="5">05 Min</option>
+                                            <option value="10">10 Min</option>
+                                            <option value="15">15 Min</option>
+                                            <option value="20">20 Min</option>
+                                            <option value="25">25 Min</option>
+                                            <option value="30">30 Min</option>
+                                        </select>
+                                    </div>
 
                                     <div id="button" className="rowuser">
                                         <button   onClick={submit}>submit</button>
