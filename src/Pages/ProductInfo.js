@@ -12,6 +12,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from "axios";
+import {Alert, AlertTitle} from "@material-ui/lab";
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -35,37 +37,38 @@ const useStyles = makeStyles({
 
 const Info = () => {
     const classes = useStyles();
-    const [name, setName] = useState("");
-    const [code, setCode] = useState("");
-    const [speed, setSpeed] = useState("");
+    const [productName, setproductName] = useState("");
+    const [productCode, setproductCode] = useState("");
+    const [machineSpeed, setmachineSpeed] = useState("");
+    const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
+
+    const headers = {
+        headers: {
+
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
 
-    // create a preview as a side effect, whenever selected file is changed
-    
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
 
-    // function validateForm() {
-    //     return email.length > 0 && password.length > 0;
-    // }
-    // const handleChange = (event) => {
-    //     setType(event.target.value);
-    // };
-    // const imagehandleChange = (event) => {
-    //     setImage(event.target.files[0]);
-    // };
+            const body = {productName,productCode,machineSpeed};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create",body,headers);
+            window.location.reload();
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
 
-    // const onSelectFile = e => {
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setSelectedFile(undefined)
-    //         return
-    //     }
+    };
 
-    //     // I've kept this example simple by using the first image instead of multiple
-    //     setSelectedFile(e.target.files[0])
-    // }
+
 
     return (
         <>
@@ -78,25 +81,30 @@ const Info = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-                               
+                                    {err ? (
+                                        <Alert severity="error">
+                                            <AlertTitle>Error</AlertTitle>
+                                            {err}
+                                        </Alert>
+                                    ) : null}
                                 <div className="rowuser">
                                 <label>Product Name</label>
-                                        <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setName(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="" value={productName}  onChange={(e) => setproductName(e.target.value)} />
                                     </div>
 
                                     <div className="rowuser">
                                 <label>Product Code</label>
-                                        <input type="text" autoFocus placeholder="" value={code}  onChange={(e) => setCode(e.target.value)} />
+                                        <input type="text"  placeholder="" value={productCode}  onChange={(e) => setproductCode(e.target.value)} />
                                     </div>
 
                                     <div className="rowuser">
                                 <label>Machine Speed</label>
-                                        <input type="text" autoFocus placeholder="" value={speed}  onChange={(e) => setSpeed(e.target.value)} />
+                                        <input type="number"  placeholder="" value={machineSpeed}  onChange={(e) => setmachineSpeed(e.target.value)} />
                                     </div>
 
 
                                     <div id="button" className="rowuser">
-                                        <button   onClick={handleSubmit}>submit</button>
+                                        <button   onClick={submit}>submit</button>
                                     </div>
 
 
@@ -130,7 +138,7 @@ const Info = () => {
                                                     <TableCell align="center">{row.fat}</TableCell>
                                                     <TableCell align="center">{row.carbs}</TableCell>
                                                     <TableCell align="center">{row.protein}</TableCell>
-                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
+                                                    <TableCell align="center"><button className="usertblbutton"  onClick={submit}>Delete</button></TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
