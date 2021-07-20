@@ -136,6 +136,7 @@ const Usercreate = () => {
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
     const [listData2, setListData2] = useState({ lists: [] });
+    const [listData3, setListData3] = useState({ lists: [] });
     const [value, setValue] = React.useState(0);
     let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
@@ -164,6 +165,10 @@ const Usercreate = () => {
                 `https://acl-automation.herokuapp.com/api/v1/operator/1/getall`,headers
             );
             setListData2({lists:result2.data.data.OperatorsDetails})
+            const result3 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/department/1/getall`,headers
+            );
+            setListData3({lists:result3.data.data.DepartmentDetails})
             setLoading(false);
         };
 
@@ -388,9 +393,11 @@ const Usercreate = () => {
                                         <label>Department</label>
                                         <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} >
                                             <option value=""  selected>please select Department</option>
-                                            <option value="1">Shift A</option>
-                                            <option value="2">Shift B</option>
-                                            <option value="3">Shift C</option>
+                                            {listData3.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.departmentName}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                     :
