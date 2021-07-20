@@ -2,28 +2,21 @@ import React, {useEffect,useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
+import {HashLoader} from "react-spinners";
+import {Alert, AlertTitle} from "@material-ui/lab";
+import axios from "axios";
+import moment from "moment";
 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+const fields = [
+    "Department Name",
+    "Created At",
+    "Action"
+]
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
 
 const useStyles = makeStyles({
     table: {
@@ -31,39 +24,82 @@ const useStyles = makeStyles({
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.departmentName}</td>
+        <td>{moment(item.createdAt).format("MMM Do YY")}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
+
 
 const Fault = () => {
     const classes = useStyles();
-    const [reason, setReason] = useState("");
+    const [faultreason, setfaultreason] = useState("");
+    const [faultType, setfaultType] = useState("");
+    const [departmentId, setdepartmentId] = useState("");
+    const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    const [listData1, setListData1] = useState({ lists: [] });
+    let [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
 
+    const headers = {
+        headers: {
 
-    // create a preview as a side effect, whenever selected file is changed
-    
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
-    // function validateForm() {
-    //     return email.length > 0 && password.length > 0;
-    // }
-    // const handleChange = (event) => {
-    //     setType(event.target.value);
-    // };
-    // const imagehandleChange = (event) => {
-    //     setImage(event.target.files[0]);
-    // };
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/department/1/getall`,headers
+            );
+            setListData({lists:result.data.data.DepartmentDetails})
+            const result1 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/faultreason/1/getall`,headers
+            );
+            setListData1({lists:result1.data.data.DepartmentDetails})
+            setLoading(false);
+        };
 
-    function handleSubmit(event) {
-        event.preventDefault();
+        fetchData();
+    }, [])
+
+    function validateForm() {
+        return faultreason.length > 0 && faultType.length > 0 && departmentId.length > 0;
     }
 
-    // const onSelectFile = e => {
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setSelectedFile(undefined)
-    //         return
-    //     }
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
 
-    //     // I've kept this example simple by using the first image instead of multiple
-    //     setSelectedFile(e.target.files[0])
-    // }
+            const body = {faultreason,faultType,departmentId};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/faultreason/1/create",body,headers);
+            window.location.reload();
 
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
+
+    };
+
+
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -75,24 +111,34 @@ const Fault = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-                               
-                                <div className="rowuser">
-                                <label>Reason</label>
-                                        <input type="text" autoFocus placeholder="" value={reason}  onChange={(e) => setReason(e.target.value)} />
+                                    {err ? (
+                                        <Alert severity="error">
+                                            <AlertTitle>Error</AlertTitle>
+                                            {err}
+                                        </Alert>
+                                    ) : null}
+                                    <div className="rowuser">
+                                        <label>Reason</label>
+                                        <input type="text" autoFocus placeholder="" value={faultreason}  onChange={(e) => setfaultreason(e.target.value)} />
                                     </div>
-
-
                                     <div className="rowuser">
                                         <label>Fault Type</label>
-                                        <select id="Fault" name="Fault">
-                                            <option value=""  selected></option>
-                                            <option value="slowrun">Slow run</option>
-                                            <option value="downSpeed">Down Speed</option>
+                                        <input type="text"  placeholder="" value={faultType}  onChange={(e) => setfaultType(e.target.value)} />
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Department</label>
+                                        <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} >
+                                            <option value=""  selected>please select Department</option>
+                                            {listData.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.departmentName}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
 
                                     <div id="button" className="rowuser">
-                                        <button   onClick={handleSubmit}>submit</button>
+                                        <button disabled={!validateForm()}  onClick={submit}>submit</button>
                                     </div>
 
 
@@ -109,34 +155,13 @@ const Fault = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>First name</TableCell>
-                                                <TableCell align="center">Email</TableCell>
-                                                <TableCell align="center">Epf no</TableCell>
-                                                <TableCell align="center">Mobile</TableCell>
-                                                <TableCell align="center">Type</TableCell>
-                                                <TableCell align="center"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.calories}</TableCell>
-                                                    <TableCell align="center">{row.fat}</TableCell>
-                                                    <TableCell align="center">{row.carbs}</TableCell>
-                                                    <TableCell align="center">{row.protein}</TableCell>
-                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={listData.lists}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>
