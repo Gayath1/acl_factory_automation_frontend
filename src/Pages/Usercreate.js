@@ -151,7 +151,8 @@ const Usercreate = () => {
     const [epfNo,setepfNo] = useState("");
     const [shiftId,setshiftId] = useState("");
     const [departmentId,setdepartmentId] = useState("");
-    const [type, setType] = React.useState('Management')
+    const [type, setType] = React.useState('Management');
+    const [permissionId,setpermissionId] = useState("");
     const [image,setImage]= ('');
     const [err, setErr] = useState("");
     const [selectedFile, setSelectedFile] = useState();
@@ -280,6 +281,7 @@ const Usercreate = () => {
                 formData.append("epfNo", epfNo);
                 formData.append("shiftId", shiftId);
                 formData.append("departmentId", departmentId);
+                formData.append("permissionId", permissionId);
                 // const body = {email, firstName,lastName,mobile,epfNo,permission};
 
                 const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/create",formData
@@ -426,6 +428,19 @@ const Usercreate = () => {
                                                     {country.departmentName}
                                                 </option>
                                             ))}
+                                        </select>
+                                    </div>
+                                    :
+                                    null
+                                }
+                                {type === 'Executive' ?
+                                    <div className="rowuser">
+                                        <label>Permission</label>
+                                        <select id="department" name="department" value={permissionId} onChange={(e) => setpermissionId(e.target.value)} >
+                                            <option value=""  selected>please select permission</option>
+                                            <option value="70"  selected>Production Executive</option>
+                                            <option value="71">Electrical Executive</option>
+                                            <option value="72">Mechanical-Executive</option>
                                         </select>
                                     </div>
                                     :
