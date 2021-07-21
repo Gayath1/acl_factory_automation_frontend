@@ -22,6 +22,30 @@ const useStyles = makeStyles({
     },
 });
 
+const token = localStorage.getItem("Token")
+
+const headers = {
+    headers: {
+
+        "Authorization":`Bearer ${token}`
+    }
+};
+
+
+const submitdelete = async (id) => {
+
+    try{
+
+        const body = {id};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/systemsettings/1/delete",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+        console.log(err)
+    }
+
+};
+
 const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
 )
@@ -32,7 +56,7 @@ const renderOrderBody = (item, index) => (
         <td>{item.durations}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button className="usertblbutton" >Delete</button>
+            <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
         </td>
     </tr>
 )

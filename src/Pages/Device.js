@@ -153,9 +153,13 @@ const Device = () => {
     const [uuid, setUuid] = useState("");
     const [productlineId,setproductlineId] = useState("");
     const [factoryId,setfactoryId] = useState("");
+    const [deviceTypeId,setdeviceTypeId] = useState("");
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
+    const [listData2, setListData2] = useState({ lists: [] });
+    const [listData3, setListData3] = useState({ lists: [] });
+    const [listData4, setListData4] = useState({ lists: [] });
     let [loading, setLoading] = useState(true);
     const [value, setValue] = React.useState(0);
     const token = localStorage.getItem("Token")
@@ -182,6 +186,18 @@ const Device = () => {
                 `https://acl-automation.herokuapp.com/api/v1/device/1/getallinfo`,headers
             );
             setListData1({lists:result1.data.data.DeviceDetails})
+            const result2 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/productlines/1/getall`,headers
+            );
+            setListData2({lists:result2.data.data.ProductLinesDetails})
+            const result3 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/factories/1/getall`,headers
+            );
+            setListData3({lists:result3.data.data.FactoryDetails})
+            const result4 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/devicetypes/1/getall`,headers
+            );
+            setListData4({lists:result4.data.data.deviceTypes})
             setLoading(false);
         };
         fetchData();
@@ -233,12 +249,37 @@ const Device = () => {
                                         <input type="text" autoFocus placeholder="" value={uuid}  onChange={(e) => setUuid(e.target.value)} />
                                     </div>
                                     <div className="rowuser">
-                                         <label>Product Line Id</label>
-                                         <input type="number"  placeholder="" value={productlineId}  onChange={(e) => setproductlineId(e.target.value)} />
+                                        <label>Device Type</label>
+                                        <select id="department" name="department" value={deviceTypeId} onChange={(e) => setdeviceTypeId(e.target.value)} >
+                                            <option value=""  selected></option>
+                                            {listData4.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.deviceTypename}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <div className="rowuser">
-                                        <label>Factory Id</label>
-                                        <input type="number"  placeholder="" value={factoryId}  onChange={(e) => setfactoryId(e.target.value)} />
+                                         <label>Product Line</label>
+                                         <select id="department" name="department" value={productlineId} onChange={(e) => productlineId(e.target.value)} >
+                                            <option value=""  selected></option>
+                                            {listData2.lists.map((country, key) => (
+                                                <option key={key} value={country.productlineNo}>
+                                                    {country.productlineText}
+                                                </option>
+                                            ))}
+                                         </select>
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Factory</label>
+                                        <select id="department" name="department" value={factoryId} onChange={(e) => setfactoryId(e.target.value)} >
+                                            <option value=""  selected></option>
+                                            {listData3.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.factoryName}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <div id="button" className="rowuser">
                                         <button   onClick={submit}>submit</button>
