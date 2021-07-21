@@ -81,13 +81,36 @@ const renderOrderBody = (item, index) => (
     </tr>
 )
 
+const token = localStorage.getItem("Token")
+
+const headers = {
+    headers: {
+
+        "Authorization":`Bearer ${token}`
+    }
+};
+
+const deletedata = async (id) => {
+
+    try{
+
+        const body = {id};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/operator/1/delete",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+       console.log(err);
+    }
+
+};
+
 const renderOrderBody1 = (item, index) => (
     <tr key={index}>
         <td>{item.firstName}</td>
         <td>{item.lastName}</td>
         <td>{item.epfNo}</td>
         <td>
-            <button className="usertblbutton" >Delete</button>
+            <button onClick={()=>{deletedata(item.id)}} className="usertblbutton" >Delete</button>
         </td>
     </tr>
 )
@@ -307,9 +330,10 @@ const Usercreate = () => {
                 err.response.data.message && setErr(err.response.data.message)
             }
         }
-
-
     };
+
+
+
 
     if (loading) {
         return (

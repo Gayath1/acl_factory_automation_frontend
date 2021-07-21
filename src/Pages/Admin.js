@@ -154,6 +154,7 @@ const Usercreate = () => {
         }
 
     };
+
     const onSelectFile = e => {
         if (!e.target.files || e.target.files.length === 0) {
             setSelectedFile(undefined)
@@ -163,6 +164,7 @@ const Usercreate = () => {
         // I've kept this example simple by using the first image instead of multiple
         setSelectedFile(e.target.files[0])
     }
+
     if (loading) {
         return (
             <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
