@@ -63,7 +63,7 @@ const headers = {
 
 
 const submitdelete = async (id) => {
-;
+
     try{
 
         const body = {id};
