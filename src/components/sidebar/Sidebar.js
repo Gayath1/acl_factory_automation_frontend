@@ -26,7 +26,7 @@ const sidebar_items1 = [
     },
     {
         "display_name": "Product Sort",
-        "route": "/Admin",
+        "route": "/ProductionSort",
         "icon": "bx bx-sort-up"
     },
     {
