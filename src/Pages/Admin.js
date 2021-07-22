@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
@@ -8,6 +8,7 @@ import axios from 'axios';
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
 import avatar from '../assets/default.png';
+import UserContext from "../userContext";
 
 const fields = [
         "firstName",
@@ -70,6 +71,7 @@ const renderOrderBody = (item, index) => (
 const Usercreate = () => {
 
     const classes = useStyles();
+    const {userData} = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
@@ -173,7 +175,10 @@ const Usercreate = () => {
         )
     }
     return (
+
         <>
+            {userData.role === 1 || userData.role === 50? (
+            <>
             <Sidebar/>
             <div id="main" className="layout__content">
                 <TopNav/>
@@ -255,7 +260,10 @@ const Usercreate = () => {
                     </div>
                 </div>
             </div>
-        </>
+           </>
+            ):null}
+            </>
+
     )
 }
 

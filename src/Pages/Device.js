@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import UserContext from "../userContext";
 
 
 const fields = [
@@ -150,6 +151,7 @@ function a11yProps(index) {
 
 const Device = () => {
     const classes = useStyles();
+    const {userData} = useContext(UserContext);
     const [uuid, setUuid] = useState("");
     const [productlineId,setproductlineId] = useState("");
     const [factoryId,setfactoryId] = useState("");
@@ -228,6 +230,8 @@ const Device = () => {
         )
     }
     return (
+        <>
+            {userData.role === 1 || userData.role === 50? (
         <>
             <Sidebar/>
             <div id="main" className="layout__content">
@@ -327,6 +331,8 @@ const Device = () => {
                 </div>
             </div>
         </>
+            ):null}
+            </>
     )
 }
 

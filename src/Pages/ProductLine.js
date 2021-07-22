@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
@@ -8,6 +8,7 @@ import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
 import moment from "moment";
+import UserContext from "../userContext";
 
 
 const fields = [
@@ -94,6 +95,7 @@ const renderOrderBody = (item, index) => (
 
 const ProductLine = () => {
     const classes = useStyles();
+    const {userData} = useContext(UserContext);
     const [durations, setdurations] = useState("");
     const [name, setproductlineNo] = useState("");
     const [factoryId,setfactoryId] = useState("");
@@ -143,6 +145,8 @@ const ProductLine = () => {
         )
     }
     return (
+        <>
+            {userData.role === 1 || userData.role === 50? (
         <>
             <Sidebar/>
             <div id="main" className="layout__content">
@@ -195,6 +199,8 @@ const ProductLine = () => {
                 </div>
             </div>
         </>
+            ):null}
+            </>
     )
 }
 

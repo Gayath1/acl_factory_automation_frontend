@@ -78,7 +78,7 @@ const SidebarItem = props => {
 }
 
 const Sidebar = props => {
-    let {userData} = useContext(UserContext);
+    const {userData} = useContext(UserContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const activeItem = sidebar_items.findIndex(item => item.route === window.location.pathname)
 

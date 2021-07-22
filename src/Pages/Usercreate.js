@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
@@ -16,6 +16,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import avatar from "../assets/default.png";
+import UserContext from "../userContext";
 
 const fields = [
     "firstName",
@@ -144,6 +145,7 @@ function a11yProps(index) {
 }
 const Usercreate = () => {
     const classes = useStyles();
+    const {userData} = useContext(UserContext);
     const [firstName,setfirstName] = useState("");
     const [lastName,setlastName] = useState("");
     const [email, setEmail] = useState("");
@@ -346,6 +348,8 @@ const Usercreate = () => {
     }
     return (
         <>
+            {userData.role === 1 || userData.role === 50? (
+        <>
             <Sidebar/>
             <div id="main" className="layout__content">
                 <TopNav/>
@@ -523,6 +527,8 @@ const Usercreate = () => {
                 </div>
             </div>
         </>
+            ):null}
+            </>
     )
 }
 

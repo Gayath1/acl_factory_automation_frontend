@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
@@ -8,6 +8,7 @@ import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
 import moment from 'moment';
+import UserContext from "../userContext";
 
 
 const fields = [
@@ -91,6 +92,7 @@ const renderOrderBody = (item, index) => (
 
 const Department = () => {
     const classes = useStyles();
+    const {userData} = useContext(UserContext);
     const [departmentName, setdepartmentName] = useState("");
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
@@ -143,6 +145,8 @@ const Department = () => {
     }
     return (
         <>
+            {userData.role === 1 || userData.role === 50? (
+          <>
             <Sidebar/>
             <div id="main" className="layout__content">
                 <TopNav/>
@@ -187,7 +191,9 @@ const Department = () => {
                     </div>
                 </div>
             </div>
-        </>
+          </>
+            ):null}
+            </>
     )
 }
 
