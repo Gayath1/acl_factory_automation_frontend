@@ -5,6 +5,36 @@ import UserContext from '../../userContext'
 import './sidebar.css'
 import logo from '../../assets/INNOVIGENT.png';
 
+const sidebar_items2 = [
+    {
+        "display_name": "Dashboard",
+        "route": "/Dashboard",
+        "icon": "bx bx-category-alt"
+    }
+]
+
+const sidebar_items1 = [
+    {
+        "display_name": "Dashboard",
+        "route": "/Dashboard",
+        "icon": "bx bx-category-alt"
+    },
+    {
+        "display_name": "Product Info",
+        "route": "/Dashboard",
+        "icon": "bx bx-category-alt"
+    },
+    {
+        "display_name": "Product Sort",
+        "route": "/Admin",
+        "icon": "bx bx-user"
+    },
+    {
+        "display_name": "Production Orders",
+        "route": "/Usercreate",
+        "icon": "bx bx-user-pin"
+    },
+]
 
 const sidebar_items = [
         {
@@ -134,6 +164,72 @@ const Sidebar = props => {
             }
         </div>
     ):null}
+            {userData.role === 70  ?(
+                <div id="mySidebar" className='sidebar'>
+                    {isCollapsed === true ? <div className="sidebar__itemmenu">
+                            <button className="sidebar__item-inner"  onClick={openNav}><i className='bx bx-menu'></i></button>
+                        </div>:
+                        <div className="sidebar__itemmenu">
+                            <button className="sidebar__item-inner"  onClick={closeNav}><i className='bx bx-menu'></i></button>
+                        </div>
+                    }
+
+                    <div className="sidebar__logo">
+                        <img src={logo} alt="company logo" />
+                    </div>
+
+                    {
+                        sidebar_items1.map((item, index) => (
+                            <Link to={item.route} key={index}>
+                                {isCollapsed === true ?
+                                    <SidebarItem
+                                        icon={item.icon}
+                                        active={index === activeItem}
+                                    />:
+                                    <SidebarItem
+                                        title={item.display_name}
+                                        icon={item.icon}
+                                        active={index === activeItem}
+                                    />
+                                }
+                            </Link>
+                        ))
+                    }
+                </div>
+            ):null}
+            {userData.role === 71 || userData.role === 72 || userData.role === 30  ?(
+                <div id="mySidebar" className='sidebar'>
+                    {isCollapsed === true ? <div className="sidebar__itemmenu">
+                            <button className="sidebar__item-inner"  onClick={openNav}><i className='bx bx-menu'></i></button>
+                        </div>:
+                        <div className="sidebar__itemmenu">
+                            <button className="sidebar__item-inner"  onClick={closeNav}><i className='bx bx-menu'></i></button>
+                        </div>
+                    }
+
+                    <div className="sidebar__logo">
+                        <img src={logo} alt="company logo" />
+                    </div>
+
+                    {
+                        sidebar_items2.map((item, index) => (
+                            <Link to={item.route} key={index}>
+                                {isCollapsed === true ?
+                                    <SidebarItem
+                                        icon={item.icon}
+                                        active={index === activeItem}
+                                    />:
+                                    <SidebarItem
+                                        title={item.display_name}
+                                        icon={item.icon}
+                                        active={index === activeItem}
+                                    />
+                                }
+                            </Link>
+                        ))
+                    }
+                </div>
+            ):null}
         </>
     )
 }
