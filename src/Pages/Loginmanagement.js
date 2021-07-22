@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import "../assets/css/Login.css";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
-
+import UserContext from '../userContext';
 
 const Loginmanagement = () => {
+
+    const { setUserData } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState("");
@@ -23,7 +25,12 @@ const Loginmanagement = () => {
         try{
             const body = ({email, password});
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/login", body);
+            setUserData({
+                token: loginResponse.data.data.token,
+                user: loginResponse.data.data.user.id,
+                role : loginResponse.data.data.user.permission.id,
 
+            });
 
             localStorage.setItem("Token", loginResponse.data.data.token);
             setLoading(false)
@@ -54,7 +61,7 @@ const Loginmanagement = () => {
                 ) : null}
                 <div className="rowlogin">
                     <label>Username</label>
-                    <input type="text" autoFocus placeholder="Enter your username" value={email}  onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" id="email" autoFocus placeholder="Enter your username" value={email}  onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="rowlogin">
                     <label>Password</label>

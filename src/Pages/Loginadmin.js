@@ -28,7 +28,7 @@ const Loginadmin = () => {
             setUserData({
                 token: loginResponse.data.data.token,
                 user: loginResponse.data.data.user.id,
-                role : loginResponse.data.data.userpermissions.permissions.name,
+                role : loginResponse.data.data.userpermissions.permissions.id,
 
             });
 

@@ -1,63 +1,65 @@
-import React,{useState} from 'react'
+import React,{useState,useContext } from 'react'
 
 import { Link } from 'react-router-dom'
-
+import UserContext from '../../userContext'
 import './sidebar.css'
 import logo from '../../assets/INNOVIGENT.png';
 
 
 const sidebar_items = [
-    {
-        "display_name": "Dashboard",
-        "route": "/Dashboard",
-        "icon": "bx bx-category-alt"
-    },
-    {
-        "display_name": "Admin",
-        "route": "/Admin",
-        "icon": "bx bx-user"
-    },
-    {
-        "display_name": "Users",
-        "route": "/Usercreate",
-        "icon": "bx bx-user-pin"
-    },
-    {
-        "display_name": "Departments",
-        "route": "/Department",
-        "icon": "bx bx-building"
-    },
-    {
-        "display_name": "Factories",
-        "route": "/Factory",
-        "icon": "bx bxs-factory"
-    },
-    {
-        "display_name": "Devices",
-        "route": "/Device",
-        "icon": "bx bx-devices"
-    },
-    {
-        "display_name": "Product Line",
-        "route": "/ProductLine",
-        "icon": "bx bx-barcode"
-    },
-    {
-        "display_name": "Product Info",
-        "route": "/ProductInfo",
-        "icon": "bx bx-info-square"
-    },
-    {
-        "display_name": "Fault Manage",
-        "route": "/Fault",
-        "icon": "bx bx-error-alt"
-    },
-    {
-        "display_name": "settings",
-        "route": "/Settings",
-        "icon": "bx bx-cog"
-    }
-]
+        {
+            "display_name": "Dashboard",
+            "route": "/Dashboard",
+            "icon": "bx bx-category-alt"
+        },
+        {
+            "display_name": "Admin",
+            "route": "/Admin",
+            "icon": "bx bx-user"
+        },
+        {
+            "display_name": "Users",
+            "route": "/Usercreate",
+            "icon": "bx bx-user-pin"
+        },
+        {
+            "display_name": "Departments",
+            "route": "/Department",
+            "icon": "bx bx-building"
+        },
+        {
+            "display_name": "Factories",
+            "route": "/Factory",
+            "icon": "bx bxs-factory"
+        },
+        {
+            "display_name": "Devices",
+            "route": "/Device",
+            "icon": "bx bx-devices"
+        },
+        {
+            "display_name": "Product Line",
+            "route": "/ProductLine",
+            "icon": "bx bx-barcode"
+        },
+        {
+            "display_name": "Product Info",
+            "route": "/ProductInfo",
+            "icon": "bx bx-info-square"
+        },
+        {
+            "display_name": "Fault Manage",
+            "route": "/Fault",
+            "icon": "bx bx-error-alt"
+        },
+        {
+            "display_name": "settings",
+            "route": "/Settings",
+            "icon": "bx bx-cog"
+        }
+    ]
+
+
 
 const SidebarItem = props => {
 
@@ -76,6 +78,7 @@ const SidebarItem = props => {
 }
 
 const Sidebar = props => {
+    let {userData} = useContext(UserContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const activeItem = sidebar_items.findIndex(item => item.route === window.location.pathname)
 
@@ -97,6 +100,8 @@ const Sidebar = props => {
 
 
     return (
+        <>
+        {userData.role === 1 || userData.role === 50? (
         <div id="mySidebar" className='sidebar'>
             {isCollapsed === true ? <div className="sidebar__itemmenu">
                 <button className="sidebar__item-inner"  onClick={openNav}><i className='bx bx-menu'></i></button>
@@ -109,6 +114,7 @@ const Sidebar = props => {
             <div className="sidebar__logo">
                 <img src={logo} alt="company logo" />
             </div>
+
             {
                 sidebar_items.map((item, index) => (
                     <Link to={item.route} key={index}>
@@ -127,6 +133,8 @@ const Sidebar = props => {
                 ))
             }
         </div>
+    ):null}
+        </>
     )
 }
 
