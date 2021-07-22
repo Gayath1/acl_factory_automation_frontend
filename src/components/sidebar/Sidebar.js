@@ -21,18 +21,18 @@ const sidebar_items1 = [
     },
     {
         "display_name": "Product Info",
-        "route": "/Dashboard",
-        "icon": "bx bx-category-alt"
+        "route": "/ProductCard",
+        "icon": "bx bx-info-square"
     },
     {
         "display_name": "Product Sort",
         "route": "/Admin",
-        "icon": "bx bx-user"
+        "icon": "bx bx-sort-up"
     },
     {
         "display_name": "Production Orders",
-        "route": "/Usercreate",
-        "icon": "bx bx-user-pin"
+        "route": "/ProductionOrder",
+        "icon": "bx bx-spreadsheet"
     },
 ]
 
@@ -111,6 +111,8 @@ const Sidebar = props => {
     const {userData} = useContext(UserContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const activeItem = sidebar_items.findIndex(item => item.route === window.location.pathname)
+    const activeItem1 = sidebar_items1.findIndex(item => item.route === window.location.pathname)
+    const activeItem2 = sidebar_items2.findIndex(item => item.route === window.location.pathname)
 
     function closeNav() {
         setIsCollapsed(true)
@@ -184,12 +186,12 @@ const Sidebar = props => {
                                 {isCollapsed === true ?
                                     <SidebarItem
                                         icon={item.icon}
-                                        active={index === activeItem}
+                                        active={index === activeItem1}
                                     />:
                                     <SidebarItem
                                         title={item.display_name}
                                         icon={item.icon}
-                                        active={index === activeItem}
+                                        active={index === activeItem1}
                                     />
                                 }
                             </Link>
@@ -217,12 +219,12 @@ const Sidebar = props => {
                                 {isCollapsed === true ?
                                     <SidebarItem
                                         icon={item.icon}
-                                        active={index === activeItem}
+                                        active={index === activeItem2}
                                     />:
                                     <SidebarItem
                                         title={item.display_name}
                                         icon={item.icon}
-                                        active={index === activeItem}
+                                        active={index === activeItem2}
                                     />
                                 }
                             </Link>
