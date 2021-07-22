@@ -19,6 +19,7 @@ import Fault from "../Pages/FaultReason";
 import ProductInfo from "../Pages/ProductInfo";
 import ProductionOrder from "../Pages/ProductionOrder";
 import ProductCard from "../Pages/ProductCard";
+import ProductCalendar from "../Pages/ProductCalendar";
 
 const Routes = () => {
 
@@ -42,6 +43,7 @@ const Routes = () => {
                 <Route path="/ProductInfo" component={ProductInfo} />
                 <Route path="/ProductionOrder" component={ProductionOrder} />
                 <Route path="/ProductCard" component={ProductCard} />
+                <Route path="/ProductCalendar" component={ProductCalendar} />
 
             </Switch>
 

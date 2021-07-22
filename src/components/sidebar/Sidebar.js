@@ -30,6 +30,11 @@ const sidebar_items1 = [
         "icon": "bx bx-sort-up"
     },
     {
+        "display_name": "Product Calendar",
+        "route": "/ProductCalendar",
+        "icon": "bx bx-calendar-event"
+    },
+    {
         "display_name": "Production Orders",
         "route": "/ProductionOrder",
         "icon": "bx bx-spreadsheet"
