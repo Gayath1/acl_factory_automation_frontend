@@ -68,13 +68,13 @@ const Info = () => {
             <div id="main" className="layout__content">
                 <TopNav/>
                     <div className="layout__content-main">
-                        <h2 className="page-header">Product Information</h2>
+                        <h2 className="page-header">Production Order</h2>
                             <div className="row">
                                 <div className="col-6">
                                     <div className="card full-height">
                                         <div>
                                         <div className="rowuser">
-                                            <label>Product</label>
+                                            <label>Product Code</label>
                                             <CreatableSelect
                                             className="rowuserproductivity"
                                             components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
@@ -86,16 +86,16 @@ const Info = () => {
                                             />
                                         </div>
                                         <div className="rowuser">
-                                            <label>Produc Order NO.</label>
+                                            <label>Product Order no.</label>
                                             <input type="text" autoFocus placeholder="" value={code}  onChange={(e) => setCode(e.target.value)} />
                                         </div>
                                         <div className="rowuser">
-                                            <label>Product Code</label>
+                                            <label>Product</label>
                                             <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setName(e.target.value)} />
                                         </div>
                                         <div className="rowuser">
                                             <label>Quantity</label>
-                                            <input type="text" autoFocus placeholder="50" value={quantity}  onChange={(e) => setQuantity(e.target.value)}  disabled/>
+                                            <input type="text" autoFocus placeholder="50" value={quantity}  onChange={(e) => setQuantity(e.target.value)} />
                                         </div>
                                         <div id="button" className="rowuser">
                                             <button   onClick={handleSubmit}>submit</button>

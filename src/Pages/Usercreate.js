@@ -428,7 +428,7 @@ const Usercreate = () => {
                                         <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} >
                                             <option value=""  selected>please select Department</option>
                                             {listData3.lists.map((country, key) => (
-                                                <option key={key} value={country.id}>
+                                                <option key={key} value={(country.id)}>
                                                     {country.departmentName}
                                                 </option>
                                             ))}

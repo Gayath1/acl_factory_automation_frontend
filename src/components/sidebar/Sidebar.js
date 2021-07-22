@@ -20,7 +20,7 @@ const sidebar_items1 = [
         "icon": "bx bx-category-alt"
     },
     {
-        "display_name": "Product Info",
+        "display_name": "Production Orders",
         "route": "/ProductCard",
         "icon": "bx bx-info-square"
     },
@@ -33,11 +33,6 @@ const sidebar_items1 = [
         "display_name": "Product Calendar",
         "route": "/ProductCalendar",
         "icon": "bx bx-calendar-event"
-    },
-    {
-        "display_name": "Production Orders",
-        "route": "/ProductionOrder",
-        "icon": "bx bx-spreadsheet"
     },
 ]
 

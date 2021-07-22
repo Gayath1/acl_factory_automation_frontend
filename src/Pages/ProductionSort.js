@@ -89,12 +89,12 @@ const Device = () => {
                 <div className="layout__content-main">
                     <h2 className="page-header">Sort Page</h2>
                     <div className="row">
-                        <div className="col-6">
+                        <div className="col-12">
                             <div className="card full-height">
                                 <div>
                                
                                 <div className="rowuser">
-
+                                    <label>Production Order No</label>
                                             <CreatableSelect
                                             className="rowuserproductivity"
                                             components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
@@ -103,11 +103,12 @@ const Device = () => {
                                             onChange={handleChange}
                                             onInputChange={handleInputChange}
                                             styles={customStyles}
+                                            placeholder=""
 
                                             />
                                              </div>
                                     <div className="rowuser">
-                                        <label>Shift</label>
+                                        <label>Select a shift</label>
                                        <div className="wrapper">
                                            <input type="radio" name="select" id="option-1"/>
                                            <input type="radio" name="select" id="option-2"/>
@@ -128,7 +129,7 @@ const Device = () => {
                                      </div>
 
                                      <div className="rowuser">
-                                        <label>Line</label>
+                                        <label>Select a production line</label>
                                          <div className="wrapper1">
                                              <input type="radio" name="select1" id="option1-4"/>
                                              <input type="radio" name="select1" id="option1-5"/>
