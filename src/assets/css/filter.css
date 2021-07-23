@@ -17,10 +17,10 @@
     background-color: var(--main-bg);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
-    transition:  .4s linear;
+    transition:  .4s ease-out;
 }
 .filterbtn{
-    transition:  .4s linear;
+    transition:  .4s ease-out;
 }
 .filter-modal__header {
     display: flex;
