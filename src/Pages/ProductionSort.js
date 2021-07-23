@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import "../assets/css/buttonchoose.css";
+import "../assets/css/filter.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import Table from '@material-ui/core/Table';
@@ -89,13 +90,13 @@ const Device = () => {
                 <div className="layout__content-main">
                     <h2 className="page-header">Sort Page</h2>
                     <div className="row">
-                        <div className="col-12">
+                        <div className="col-6">
                             <div className="card full-height">
                                 <div>
                                
                                 <div className="rowuser">
                                     <label>Production Order No</label>
-                                            <CreatableSelect
+                                        <CreatableSelect
                                             className="rowuserproductivity"
                                             components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
 
@@ -105,8 +106,8 @@ const Device = () => {
                                             styles={customStyles}
                                             placeholder=""
 
-                                            />
-                                             </div>
+                                        />
+                                        </div>
                                     <div className="rowuser">
                                         <label>Select a shift</label>
                                        <div className="wrapper">
@@ -127,7 +128,6 @@ const Device = () => {
                                            </label>
                                        </div>
                                      </div>
-
                                      <div className="rowuser">
                                         <label>Select a production line</label>
                                          <div className="wrapper1">
@@ -148,21 +148,73 @@ const Device = () => {
                                              </label>
                                          </div>
                                      </div>
-
-
-
-                                    
-
-
-
                                 </div>
                             </div>
                         </div>
-                            {/* <Grid item xs={6}>
+                        <div className="col-6">
                             <div className="card full-height">
+                                <div>
 
+                                    <div className="rowuser">
+                                        <label>Production Order No</label>
+                                        <CreatableSelect
+                                            className="rowuserproductivity"
+                                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
+
+                                            isClearable
+                                            onChange={handleChange}
+                                            onInputChange={handleInputChange}
+                                            styles={customStyles}
+                                            placeholder=""
+
+                                        />
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Select a shift</label>
+                                        <div className="wrapper">
+                                            <input type="radio" name="select" id="option-1"/>
+                                            <input type="radio" name="select" id="option-2"/>
+                                            <input type="radio" name="select" id="option-3"/>
+                                            <label htmlFor="option-1" className="option option-1">
+                                                <div className="dot"></div>
+                                                <span>A</span>
+                                            </label>
+                                            <label htmlFor="option-2" className="option option-2">
+                                                <div className="dot"></div>
+                                                <span>B</span>
+                                            </label>
+                                            <label htmlFor="option-3" className="option option-3">
+                                                <div className="dot"></div>
+                                                <span>C</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Select a production line</label>
+                                        <div className="wrapper1">
+                                            <input type="radio" name="select1" id="option1-4"/>
+                                            <input type="radio" name="select1" id="option1-5"/>
+                                            <input type="radio" name="select1" id="option1-6"/>
+                                            <label htmlFor="option1-4" className="option1 option1-4">
+                                                <div className="dot"></div>
+                                                <span>A</span>
+                                            </label>
+                                            <label htmlFor="option1-5" className="option1 option1-5">
+                                                <div className="dot"></div>
+                                                <span>B</span>
+                                            </label>
+                                            <label htmlFor="option1-6" className="option1 option1-6">
+                                                <div className="dot"></div>
+                                                <span>C</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="button" className="rowuser">
+                                        <button  >submit</button>
+                                    </div>
+                                </div>
                             </div>
-                            </Grid> */}
+                        </div>
                         </div>
                     <div className="row">
                         <div className="col-12">
