@@ -10,14 +10,11 @@
 
 .filter-modal__wrapper {
     z-index: 50;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: white;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
+    padding: 30px;
+    margin-bottom: 30px;
+    background-color: var(--main-bg);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
 }
 
 .filter-modal__header {
@@ -35,9 +32,6 @@
 }
 
 .filter-modal__actions {
-    border-top-width: 1px;
-    border-top-color: #e4e7eb;
-    border-top-style: solid;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -46,12 +40,20 @@
 }
 
 .filter-modal__actions button {
-    border-radius: 0.125rem;
-    padding: 0.25rem 0.5rem;
-    background-color: #2b7de9;
-    border-color: transparent;
+    border-radius: 5px;
+    width: 5%;
+    height: 35px;
+    font-size: 1.3rem;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
+    background: rgb(6, 81, 140);
+    background: linear-gradient(
+            to right,
+            var(--main-color-blue),
+            var(--second-color)
+    );
+    color: var(--txt-white);
+    border: 0px;
     cursor: pointer;
-    width: 100%;
+    transition: opacity 0.25s ease-out;
 }

@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 
 const Device = () => {
     const classes = useStyles();
-    const [porder, setPorder] = useState("");
+    const [isCollapsed, setIsCollapsed] = useState(true);
     const {userData} = useContext(UserContext);
 
 
@@ -79,6 +79,16 @@ const Device = () => {
           return { ...provided, opacity, transition };
         }
       }
+
+    function closeNav() {
+        setIsCollapsed(true)
+        //document.getElementById("myfilter").style.height = "100px";
+    }
+
+    function openNav() {
+        setIsCollapsed(false)
+        //document.getElementById("myfilter").style.height = "500px";
+    }
 
     return (
         <>
@@ -152,68 +162,82 @@ const Device = () => {
                             </div>
                         </div>
                         <div className="col-6">
-                            <div className="card full-height">
-                                <div>
-
-                                    <div className="rowuser">
-                                        <label>Production Order No</label>
-                                        <CreatableSelect
-                                            className="rowuserproductivity"
-                                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
-
-                                            isClearable
-                                            onChange={handleChange}
-                                            onInputChange={handleInputChange}
-                                            styles={customStyles}
-                                            placeholder=""
-
-                                        />
-                                    </div>
-                                    <div className="rowuser">
-                                        <label>Select a shift</label>
-                                        <div className="wrapper">
-                                            <input type="radio" name="select" id="option-1"/>
-                                            <input type="radio" name="select" id="option-2"/>
-                                            <input type="radio" name="select" id="option-3"/>
-                                            <label htmlFor="option-1" className="option option-1">
-                                                <div className="dot"></div>
-                                                <span>A</span>
-                                            </label>
-                                            <label htmlFor="option-2" className="option option-2">
-                                                <div className="dot"></div>
-                                                <span>B</span>
-                                            </label>
-                                            <label htmlFor="option-3" className="option option-3">
-                                                <div className="dot"></div>
-                                                <span>C</span>
-                                            </label>
+                            {isCollapsed === false ?
+                                <div id="myfilter" className="filter-modal__wrapper">
+                                    <div>
+                                        <div className="filter-modal__actions button">
+                                            <button onClick={closeNav}>x</button>
                                         </div>
-                                    </div>
-                                    <div className="rowuser">
-                                        <label>Select a production line</label>
-                                        <div className="wrapper1">
-                                            <input type="radio" name="select1" id="option1-4"/>
-                                            <input type="radio" name="select1" id="option1-5"/>
-                                            <input type="radio" name="select1" id="option1-6"/>
-                                            <label htmlFor="option1-4" className="option1 option1-4">
-                                                <div className="dot"></div>
-                                                <span>A</span>
-                                            </label>
-                                            <label htmlFor="option1-5" className="option1 option1-5">
-                                                <div className="dot"></div>
-                                                <span>B</span>
-                                            </label>
-                                            <label htmlFor="option1-6" className="option1 option1-6">
-                                                <div className="dot"></div>
-                                                <span>C</span>
-                                            </label>
+
+                                        <div className="rowuser">
+                                            <label>Production Order No</label>
+                                            <CreatableSelect
+                                                className="rowuserproductivity"
+                                                components={{
+                                                    DropdownIndicator: () => null,
+                                                    IndicatorSeparator: () => null
+                                                }} r
+
+                                                isClearable
+                                                onChange={handleChange}
+                                                onInputChange={handleInputChange}
+                                                styles={customStyles}
+                                                placeholder=""
+
+                                            />
                                         </div>
-                                    </div>
-                                    <div id="button" className="rowuser">
-                                        <button  >submit</button>
+                                        <div className="rowuser">
+                                            <label>Select a shift</label>
+                                            <div className="wrapper">
+                                                <input type="radio" name="select" id="option-1"/>
+                                                <input type="radio" name="select" id="option-2"/>
+                                                <input type="radio" name="select" id="option-3"/>
+                                                <label htmlFor="option-1" className="option option-1">
+                                                    <div className="dot"></div>
+                                                    <span>A</span>
+                                                </label>
+                                                <label htmlFor="option-2" className="option option-2">
+                                                    <div className="dot"></div>
+                                                    <span>B</span>
+                                                </label>
+                                                <label htmlFor="option-3" className="option option-3">
+                                                    <div className="dot"></div>
+                                                    <span>C</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div className="rowuser">
+                                            <label>Select a production line</label>
+                                            <div className="wrapper1">
+                                                <input type="radio" name="select1" id="option1-4"/>
+                                                <input type="radio" name="select1" id="option1-5"/>
+                                                <input type="radio" name="select1" id="option1-6"/>
+                                                <label htmlFor="option1-4" className="option1 option1-4">
+                                                    <div className="dot"></div>
+                                                    <span>A</span>
+                                                </label>
+                                                <label htmlFor="option1-5" className="option1 option1-5">
+                                                    <div className="dot"></div>
+                                                    <span>B</span>
+                                                </label>
+                                                <label htmlFor="option1-6" className="option1 option1-6">
+                                                    <div className="dot"></div>
+                                                    <span>C</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="button" className="rowuser">
+                                            <button>submit</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                :
+                                <div id="myfilter" className="filter-modal__wrapper">
+                                    <div className="filter-modal__actions button">
+                                        <button onClick={openNav}>x</button>
+                                    </div>
+                                </div>
+                            }
                         </div>
                         </div>
                     <div className="row">
