@@ -177,3 +177,7 @@ input:focus {
 .forgot-password a {
     color: #167bff;
 }
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}

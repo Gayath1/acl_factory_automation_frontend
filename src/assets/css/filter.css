@@ -2,6 +2,7 @@
     display: block;
     background-color: transparent;
     opacity: 0;
+    z-index: 20;
 }
 @media (min-width: 768px) {
     .filter-modal {
@@ -16,10 +17,10 @@
     background-color: var(--main-bg);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
-    transition:  .2s linear;
+    transition:  .4s linear;
 }
 .filterbtn{
-    transition:  .2s linear;
+    transition:  .4s linear;
 }
 .filter-modal__header {
     display: flex;

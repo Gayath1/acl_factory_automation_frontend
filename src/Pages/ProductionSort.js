@@ -101,7 +101,6 @@ const Device = () => {
                 <div className="layout__content-main">
                     <h2 className="page-header">Sort Page</h2>
                     <div className="row">
-
                             {isCollapsed === false ?
                                 <div className="col-6">
                                 <div id="myfilter" className="filter-modal__wrapper">
