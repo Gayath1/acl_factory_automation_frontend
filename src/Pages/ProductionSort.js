@@ -4,32 +4,33 @@ import "../assets/css/buttonchoose.css";
 import "../assets/css/filter.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import CreatableSelect from 'react-select/creatable';
 import UserContext from "../userContext";
+import moment from "moment";
+import {HashLoader} from "react-spinners";
+import axios from "axios";
 
 
-function createData(name,empty) {
-    return { name,empty};
-}
+const fields = [
+    "Device Id",
+    "Factory ",
+    "Product line Id",
+    "Created At",
+    "Action"
+]
 
 const rows = [
     {
-        "po": 1,
+        "po": "1",
         "Shift": "A",
-        "Product Line": "1",
+        "ProductLine": "1",
     },
     {
-        "po": 9,
+        "po": "9",
         "Shift": "B",
-        "Product Line": "2",
+        "ProductLine": "2",
     }
 ];
 
@@ -39,30 +40,48 @@ const useStyles = makeStyles({
     },
 });
 
+const renderOrderHead = (item, index) => (
+    <th key={index}>{item}</th>
+)
+
+const renderOrderBody = (item, index) => (
+    <tr key={index}>
+        <td>{item.po}</td>
+        <td>{item.ProductLine}</td>
+        <td>{item.Shift}</td>
+        <td>
+            <button className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 const Device = () => {
     const classes = useStyles();
     const [isCollapsed, setIsCollapsed] = useState(true);
+    let [loading, setLoading] = useState(true);
+    const [listData, setListData] = useState({ lists: [] });
     const {userData} = useContext(UserContext);
+    let result = [];
 
+    const handleChange = (newValue: any, actionMeta: any) => {
+        setLoading(true);
+        let value = newValue.value;
+        result = [];
+        result = listData.lists.filter((data) => {
+            return data.po.search(value) != -1;
+        });
+        setListData(result);
+        setLoading(false);
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
+    };
 
-    const  handleChange = (newValue: any, actionMeta: any) => {
-        console.group('Value Changed');
-        console.log(newValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
-      };
-      const handleInputChange = (inputValue: any, actionMeta: any) => {
-        console.group('Input Changed');
-        console.log(inputValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
-      };
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(false);
+        };
+        fetchData();
 
+    }, [])
       const customStyles = {
         menu: (provided, state) => ({
           ...provided,
@@ -95,7 +114,13 @@ const Device = () => {
         //document.getElementById("myfilter").style.height = "500px";
     }
 
-
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             {userData.role === 70? (
@@ -125,10 +150,9 @@ const Device = () => {
 
                                                 isClearable
                                                 onChange={handleChange}
-                                                onInputChange={handleInputChange}
                                                 styles={customStyles}
                                                 placeholder=""
-
+                                                // onChange={(event) =>handleSearch(event)}
                                             />
                                         </div>
                                         <div className="rowuser">
@@ -184,9 +208,6 @@ const Device = () => {
                                         <button  onClick={openNav}>Filter</button>
                                     </div>
                                     </div>
-                                    {/*<div className="filter-modal__actions button">*/}
-                                    {/*    <button onClick={openNav}>x</button>*/}
-                                    {/*</div>*/}
                                 </div>
                             }
 
@@ -194,30 +215,13 @@ const Device = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Type</TableCell>
-                                                <TableCell align="center">UUID</TableCell>
-                                                
-                                                <TableCell align="center"></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="center">{row.empty}</TableCell>
-                                                   
-                                                    <TableCell align="center"><button className="usertblbutton"  onClick={handleSubmit}>Delete</button></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                                <Table
+                                    limit="5"
+                                    headData={fields}
+                                    renderHead={(item, index) => renderOrderHead(item, index)}
+                                    bodyData={result}
+                                    renderBody={(item, index) => renderOrderBody(item, index)}
+                                />
                             </div>
                         </div>
                     </div>
