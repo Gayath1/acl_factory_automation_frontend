@@ -8,10 +8,8 @@ import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import CreatableSelect from 'react-select/creatable';
 import UserContext from "../userContext";
-import moment from "moment";
 import {HashLoader} from "react-spinners";
-import axios from "axios";
-
+import { css } from '@emotion/css'
 
 const fields = [
     "Device Id",
@@ -107,22 +105,12 @@ const Device = () => {
         menu: (provided, state) => ({
           ...provided,
           width: "90%",
-          borderBottom: '1px dotted pink',
-          color: state.selectProps.menuColor,
           padding: 30,
         }),
       
         control: (_, { selectProps: { width }}) => ({
           width: "400px"
-        }),
-      
-        singleValue: (provided, state) => {
-          const opacity =  0.5 ;
-          const transition = 'opacity 100ms';
-
-      
-          return { ...provided, opacity, transition };
-        }
+        })
       }
 
     function closeNav() {
@@ -142,6 +130,32 @@ const Device = () => {
             </div>
         )
     }
+
+    const SingleValue = ({
+                             cx,
+                             getStyles,
+                             selectProps,
+                             data,
+                             isDisabled,
+                             className,
+                             ...props
+                         }) => {
+        console.log(props);
+        return (
+            <div
+                className={cx(
+                    css(getStyles("singleValue", props)),
+                    {
+                        "single-value": true,
+                        "single-value--is-disabled": isDisabled
+                    },
+                    className
+                )}
+            >
+                <div>{selectProps.getOptionLabel(data)}</div>
+            </div>
+        );
+    };
     return (
         <>
             {userData.role === 70? (
@@ -162,20 +176,43 @@ const Device = () => {
 
                                         <div className="rowuser">
                                             <label>Production Order No</label>
+                                            {/*<CreatableSelect*/}
+                                            {/*    className="rowuserproductivity"*/}
+                                            {/*    label="Single select"*/}
+                                            {/*    components={{*/}
+                                            {/*        DropdownIndicator: () => null,*/}
+                                            {/*        IndicatorSeparator: () => null,*/}
+                                            {/*        indicatorsContainer: () => null,*/}
+                                            {/*        SingleValue*/}
+                                            {/*    }}*/}
+                                            {/*    formatCreateLabel={() => undefined}*/}
+                                            {/*    isValidNewOption={() => false}*/}
+                                            {/*    options={podata}*/}
+                                            {/*    isClearable={true}*/}
+                                            {/*    onChange={handleChange}*/}
+                                            {/*    styles={customStyles}*/}
+                                            {/*    placeholder=""*/}
+                                            {/*    // onChange={(event) =>handleSearch(event)}*/}
+                                            {/*/>*/}
                                             <CreatableSelect
-                                                className="rowuserproductivity"
-                                                components={{
-                                                    DropdownIndicator: () => null,
-                                                    IndicatorSeparator: () => null
-                                                }}
-                                                formatCreateLabel={() => undefined}
-                                                isValidNewOption={() => false}
                                                 options={podata}
-                                                isClearable={true}
-                                                onChange={handleChange}
-                                                styles={customStyles}
-                                                placeholder=""
-                                                // onChange={(event) =>handleSearch(event)}
+                                                className="rowuserproductivity"
+                                                components={{ SingleValue }}
+                                                isValidNewOption={() => false}
+                                                // styles={customStyles}
+                                                styles={{
+                                                    menu: (provided, state) => ({
+                                                        ...provided,
+                                                        width: "95%",
+                                                        padding: 30,
+                                                    }),
+                                                    singleValue: (provided, state) => ({
+                                                        ...provided,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        opacity : 0.5
+                                                    })
+                                                }}
                                             />
                                         </div>
                                         <div className="rowuser">
