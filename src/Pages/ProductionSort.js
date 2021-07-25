@@ -147,7 +147,8 @@ const Device = () => {
                     css(getStyles("singleValue", props)),
                     {
                         "single-value": true,
-                        "single-value--is-disabled": isDisabled
+                        "single-value--is-disabled": isDisabled,
+
                     },
                     className
                 )}
@@ -197,10 +198,16 @@ const Device = () => {
                                             <CreatableSelect
                                                 options={podata}
                                                 className="rowuserproductivity"
-                                                components={{ SingleValue }}
+                                                components={{ SingleValue}}
                                                 isValidNewOption={() => false}
                                                 // styles={customStyles}
                                                 styles={{
+                                                    control: base => ({
+                                                        ...base,
+                                                        border: 0,
+                                                        // This line disable the blue border
+                                                        boxShadow: 'none'
+                                                    }),
                                                     menu: (provided, state) => ({
                                                         ...provided,
                                                         width: "95%",
