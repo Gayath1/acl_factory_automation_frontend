@@ -59,18 +59,31 @@ const Device = () => {
     const classes = useStyles();
     const [isCollapsed, setIsCollapsed] = useState(true);
     let [loading, setLoading] = useState(true);
-    const [listData, setListData] = useState({ lists: [] });
+    const [podata,setpodata] = useState([
+        { value: 'Color', label: 'Yellow' },
+        { value: 'Fruit', label: 'Apple' },
+        { value: 'Tool', label: 'Spanner' },
+    ])
+    const [listData, setListData] = useState({ lists: [{
+            "po": "1",
+            "Shift": "A",
+            "ProductLine": "1",
+        },
+            {
+                "po": "9",
+                "Shift": "B",
+                "ProductLine": "2",
+            }] });
     const {userData} = useContext(UserContext);
-    let result = [];
+    const  [result,setResult] = useState([])
 
     const handleChange = (newValue: any, actionMeta: any) => {
         setLoading(true);
         let value = newValue.value;
-        result = [];
-        result = listData.lists.filter((data) => {
+        const result = listData.lists.filter((data) => {
             return data.po.search(value) != -1;
         });
-        setListData(result);
+        setResult(result);
         setLoading(false);
 
     };
@@ -80,12 +93,20 @@ const Device = () => {
             setLoading(false);
         };
         fetchData();
-
     }, [])
+
+    useEffect(() => {
+        // if (!result) {
+        //     setResult(undefined)
+        //     return
+        // }
+    console.log(result)
+    }, [result])
+
       const customStyles = {
         menu: (provided, state) => ({
           ...provided,
-          width: "80%",
+          width: "90%",
           borderBottom: '1px dotted pink',
           color: state.selectProps.menuColor,
           padding: 30,
@@ -97,7 +118,7 @@ const Device = () => {
       
         singleValue: (provided, state) => {
           const opacity =  0.5 ;
-          const transition = 'opacity 300ms';
+          const transition = 'opacity 100ms';
 
       
           return { ...provided, opacity, transition };
@@ -146,9 +167,11 @@ const Device = () => {
                                                 components={{
                                                     DropdownIndicator: () => null,
                                                     IndicatorSeparator: () => null
-                                                }} r
-
-                                                isClearable
+                                                }}
+                                                formatCreateLabel={() => undefined}
+                                                isValidNewOption={() => false}
+                                                options={podata}
+                                                isClearable={true}
                                                 onChange={handleChange}
                                                 styles={customStyles}
                                                 placeholder=""
@@ -234,3 +257,4 @@ const Device = () => {
 }
 
 export default Device
+
