@@ -4,6 +4,10 @@ import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import CreatableSelect from 'react-select/creatable';
 import UserContext from "../userContext";
+import {css} from "@emotion/css";
+import axios from "axios";
+import {HashLoader} from "react-spinners";
+import {Alert, AlertTitle} from "@material-ui/lab";
 
 
 
@@ -13,53 +17,89 @@ const Info = () => {
 
     const {userData} = useContext(UserContext);
     const [name, setName] = useState("");
-    const [code, setCode] = useState("");
-    const [quantity, setQuantity] = useState("");
+    const [productionorderCode, setproductionorderCode] = useState("");
+    const [orderQuantity,setorderQuantity] = useState("");
+    const [productId,setproductId] = useState("");
+    let [loading, setLoading] = useState(true);
+    const [err, setErr] = useState("");
+    const [listData, setListData] = useState({ lists: [] });
+    const token = localStorage.getItem("Token")
+    const [unitofMeasurement,setunitofMeasurement] = useState('kg');
+    const headers = {
+        headers: {
 
+            "Authorization":`Bearer ${token}`
+        }
+    };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/productinfo/1/getall`,headers
+            );
+            setListData({lists:result.data.data.ProductDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
 
+    let options = listData.lists.map(function (city) {
+        return { value: city.productCode, label: city.productCode , name:city.productName };
+    })
 
-    function handleSubmit(event) {
-        event.preventDefault();
-    }
+    const submit = async (e) => {
+        e.preventDefault();
+        setErr("");
+        try{
 
+            const body = {productionorderCode,orderQuantity,productId,unitofMeasurement};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/create",body,headers);
+            window.location.reload();
+
+        } catch(err) {
+            err.response.data.message && setErr(err.response.data.message)
+        }
+
+    };
 
     const  handleChange = (newValue: any, actionMeta: any) => {
-        console.group('Value Changed');
-        console.log(newValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
-      };
-      const handleInputChange = (inputValue: any, actionMeta: any) => {
-        console.group('Input Changed');
-        console.log(inputValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
+        setproductId(newValue.value)
+        setName(newValue.name)
       };
 
-      const customStyles = {
-        menu: (provided, state) => ({
-          ...provided,
-          width: "80%",
-          borderBottom: '1px dotted pink',
-          color: state.selectProps.menuColor,
-          padding: 30,
-        }),
-      
-        control: (_, { selectProps: { width }}) => ({
-          width: "400px"
-        }),
-      
-        singleValue: (provided, state) => {
-          const opacity =  0.5 ;
-          const transition = 'opacity 300ms';
+    const SingleValue = ({
+                             cx,
+                             getStyles,
+                             selectProps,
+                             data,
+                             isDisabled,
+                             className,
+                             ...props
+                         }) => {
+        console.log(props);
+        return (
+            <div
+                className={cx(
+                    css(getStyles("singleValue", props)),
+                    {
+                        "single-value": true,
+                        "single-value--is-disabled": isDisabled,
 
-      
-          return { ...provided, opacity, transition };
-        }
-      }
-    
-
+                    },
+                    className
+                )}
+            >
+                <div>{selectProps.getOptionLabel(data)}</div>
+            </div>
+        );
+    };
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             {userData.role === 70? (
@@ -73,32 +113,72 @@ const Info = () => {
                                 <div className="col-6">
                                     <div className="card full-height">
                                         <div>
+                                            {err ? (
+                                                <Alert severity="error">
+                                                    <AlertTitle>Error</AlertTitle>
+                                                    {err}
+                                                </Alert>
+                                            ) : null}
                                         <div className="rowuser">
                                             <label>Product Code</label>
                                             <CreatableSelect
-                                            className="rowuserproductivity"
-                                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
-                                            isClearable
-                                            onChange={handleChange}
-                                            onInputChange={handleInputChange}
-                                            styles={customStyles}
-                                            placeholder=""
+                                                options={options}
+                                                className="rowuserproductivity"
+                                                components={{ SingleValue}}
+                                                isValidNewOption={() => false}
+                                                placeholder=""
+                                                // styles={customStyles}
+                                                onChange={handleChange}
+                                                styles={{
+                                                    control: base => ({
+                                                        ...base,
+                                                        border: 0,
+                                                        // This line disable the blue border
+                                                        boxShadow: 'none'
+                                                    }),
+                                                    menu: (provided, state) => ({
+                                                        ...provided,
+                                                        width: "95%",
+                                                        padding: 30,
+                                                    }),
+                                                    singleValue: (provided, state) => ({
+                                                        ...provided,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        opacity : 0.5
+                                                    })
+                                                }}
                                             />
                                         </div>
                                         <div className="rowuser">
                                             <label>Product Order no.</label>
-                                            <input type="text" autoFocus placeholder="" value={code}  onChange={(e) => setCode(e.target.value)} />
+                                            <input type="number"  placeholder="" value={productionorderCode}  onChange={(e) => setproductionorderCode(e.target.value)} />
                                         </div>
                                         <div className="rowuser">
                                             <label>Product</label>
-                                            <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setName(e.target.value)} />
+                                            <input type="text"  placeholder="" value={name} disabled/>
                                         </div>
                                         <div className="rowuser">
-                                            <label>Quantity</label>
-                                            <input type="text" autoFocus placeholder="50" value={quantity}  onChange={(e) => setQuantity(e.target.value)} />
+                                            <label>Quantity(KG)</label>
+                                            <select  value={orderQuantity} onChange={(e) => setorderQuantity(e.target.value)}>
+                                                <option value=""  selected></option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+                                                <option value="12">12</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="22">22</option>
+                                                <option value="25">25</option>
+                                                <option value="30">30</option>
+                                            </select>
                                         </div>
+
                                         <div id="button" className="rowuser">
-                                            <button   onClick={handleSubmit}>submit</button>
+                                            <button   onClick={submit}>submit</button>
                                         </div>
                                     </div>
                                 </div>

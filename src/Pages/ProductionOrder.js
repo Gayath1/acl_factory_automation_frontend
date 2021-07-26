@@ -5,6 +5,7 @@ import CreatableSelect from 'react-select/creatable';
 import UserContext from "../userContext";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
+import {css} from "@emotion/css";
 
 
 
@@ -20,7 +21,7 @@ const Device = () => {
     const {userData} = useContext(UserContext);
     const [porder, setPorder] = useState("");
     const [operator, setOperator] = useState("");
- 
+    const [productionorderCode,setproductionorderCode] = useState('');
 
 
     function handleSubmit(event) {
@@ -41,27 +42,32 @@ const Device = () => {
         console.groupEnd();
       };
 
-      const customStyles = {
-        menu: (provided, state) => ({
-          ...provided,
-          width: "90%",
-          borderBottom: '1px dotted pink',
-          color: state.selectProps.menuColor,
-          padding: 30,
-        }),
-      
-        control: (_, { selectProps: { width }}) => ({
-          width: "400px"
-        }),
-      
-        singleValue: (provided, state) => {
-          const opacity =  0.5 ;
-          const transition = 'opacity 300ms';
+    const SingleValue = ({
+                             cx,
+                             getStyles,
+                             selectProps,
+                             data,
+                             isDisabled,
+                             className,
+                             ...props
+                         }) => {
+        console.log(props);
+        return (
+            <div
+                className={cx(
+                    css(getStyles("singleValue", props)),
+                    {
+                        "single-value": true,
+                        "single-value--is-disabled": isDisabled,
 
-      
-          return { ...provided, opacity, transition };
-        }
-      }
+                    },
+                    className
+                )}
+            >
+                <div>{selectProps.getOptionLabel(data)}</div>
+            </div>
+        );
+    };
 
 
     return (
@@ -77,7 +83,6 @@ const Device = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
-
                                 <div className="rowuser">
                                         <label>Product Order</label>
                                         <select id="shift" name="department">
@@ -88,17 +93,31 @@ const Device = () => {
                                     </div>
                                <div className="rowuser">
                                    <label>Product</label>
-                                            <CreatableSelect
-                                            className="rowuserproductivity"
-                                            components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}r
-
-                                            isClearable
-                                            onChange={handleChange}
-                                            onInputChange={handleInputChange}
-                                            styles={customStyles}
-                                            placeholder=""
-
-                                            />
+                                   <CreatableSelect
+                                       className="rowuserproductivity"
+                                       components={{ SingleValue}}
+                                       isValidNewOption={() => false}
+                                       // styles={customStyles}
+                                       styles={{
+                                           control: base => ({
+                                               ...base,
+                                               border: 0,
+                                               // This line disable the blue border
+                                               boxShadow: 'none'
+                                           }),
+                                           menu: (provided, state) => ({
+                                               ...provided,
+                                               width: "95%",
+                                               padding: 30,
+                                           }),
+                                           singleValue: (provided, state) => ({
+                                               ...provided,
+                                               display: "flex",
+                                               alignItems: "center",
+                                               opacity : 0.5
+                                           })
+                                       }}
+                                   />
                                              </div>
                                 
 

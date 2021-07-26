@@ -5,6 +5,13 @@
     padding-top: 1rem;
     justify-content: center;
 }
+.rowusermeasure{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 1rem;
+    justify-content: center;
+}
 .rowuserradio{
     display: flex;
     flex-direction: column;
