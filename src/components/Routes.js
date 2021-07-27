@@ -23,6 +23,7 @@ import ProductCalendar from "../Pages/ProductCalendar";
 import ProductionSort from "../Pages/ProductionSort";
 import Shift from "../Pages/Shift";
 import SpecialCase from "../Pages/SpecialCase";
+import SpecialCasesEmail from "../Pages/SpecialCasesEmail";
 
 const Routes = () => {
 
@@ -50,6 +51,7 @@ const Routes = () => {
                 <Route path="/ProductionSort" component={ProductionSort} />
                 <Route path="/Shift" component={Shift} />
                 <Route path="/SpecialCase" component={SpecialCase} />
+                <Route path="/SpecialCasesEmail" component={SpecialCasesEmail} />
 
             </Switch>
 

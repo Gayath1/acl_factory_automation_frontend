@@ -164,6 +164,7 @@ const Usercreate = () => {
     const [listData1, setListData1] = useState({ lists: [] });
     const [listData2, setListData2] = useState({ lists: [] });
     const [listData3, setListData3] = useState({ lists: [] });
+    const [listData4, setListData4] = useState({ lists: [] });
     const [value, setValue] = React.useState(0);
     let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
@@ -196,6 +197,10 @@ const Usercreate = () => {
                 `https://acl-automation.herokuapp.com/api/v1/department/1/getall`,headers
             );
             setListData3({lists:result3.data.data.DepartmentDetails})
+            const result4 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/shiftcontrollers/1/getall`,headers
+            );
+            setListData4({lists:result4.data.data.ShiftDetails})
             setLoading(false);
         };
 
@@ -402,9 +407,11 @@ const Usercreate = () => {
                                         <label>Shift</label>
                                         <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} >
                                             <option value=""  selected>please select Shift</option>
-                                            <option value="1">Shift A</option>
-                                            <option value="2">Shift B</option>
-                                            <option value="3">Shift C</option>
+                                            {listData4.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.shiftName}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                     :
@@ -415,9 +422,11 @@ const Usercreate = () => {
                                         <label>Shift</label>
                                         <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} >
                                             <option value=""  selected>please select Shift</option>
-                                            <option value="1">Shift A</option>
-                                            <option value="2">Shift B</option>
-                                            <option value="3">Shift C</option>
+                                            {listData4.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.shiftName}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                     :

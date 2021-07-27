@@ -78,6 +78,11 @@ const sidebar_items = [
             "icon": "bx bx-import"
         },
         {
+            "display_name": "Fault Cases Email",
+            "route": "/SpecialCasesEmail",
+            "icon": "bx bx-briefcase-alt"
+        },
+        {
             "display_name": "Product Line",
             "route": "/ProductLine",
             "icon": "bx bx-barcode"
