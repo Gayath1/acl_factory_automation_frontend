@@ -73,6 +73,11 @@ const sidebar_items = [
             "icon": "bx bx-devices"
         },
         {
+            "display_name": "Fault Cases",
+            "route": "/SpecialCase",
+            "icon": "bx bx-import"
+        },
+        {
             "display_name": "Product Line",
             "route": "/ProductLine",
             "icon": "bx bx-barcode"

@@ -12,10 +12,9 @@ import UserContext from "../userContext";
 
 
 const fields = [
-    "Shift Name",
-    "Start time",
-    "End time",
+    "Special Case",
     "Created At",
+    "Action"
 ]
 
 const rows = [
@@ -69,7 +68,7 @@ const submitdelete = async (id) => {
     try{
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/department/1/delete",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/delete",body,headers);
         window.location.reload();
 
     } catch(err) {
@@ -83,24 +82,22 @@ const renderOrderHead = (item, index) => (
 )
 const renderOrderBody = (item, index) => (
     <tr key={index}>
-        <td>{item.shiftName}</td>
-        <td>{item.startTime}</td>
-        <td>{item.endTime}</td>
+        <td>{item.name}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
+        <td>
+            <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
+        </td>
     </tr>
 )
 
-const Shift = () => {
+const SpecialCase = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
-    const [shiftName, setshiftName] = useState("");
-    const [startTime, setstartTime] = useState("");
-    const [endTime, setendTime] = useState("");
+    const [spcialName, setspcialName] = useState("");
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
-
 
     const headers = {
         headers: {
@@ -112,16 +109,16 @@ const Shift = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/shiftcontrollers/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/getall`,headers
             );
-            setListData({lists:result.data.data.ShiftDetails})
+            setListData({lists:result.data.data.specialCase})
             setLoading(false);
         };
         fetchData();
     }, [])
 
     function validateForm() {
-        return shiftName.length > 0;
+        return spcialName.length > 0;
     }
 
     const submit = async (e) => {
@@ -129,8 +126,8 @@ const Shift = () => {
         setErr("");
         try{
 
-            const body = {shiftName,startTime,endTime};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/shiftcontrollers/1/create",body,headers);
+            const body = {spcialName};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/create",body,headers);
             window.location.reload();
 
         } catch(err) {
@@ -154,7 +151,7 @@ const Shift = () => {
                     <div id="main" className="layout__content">
                         <TopNav/>
                         <div className="layout__content-main">
-                            <h2 className="page-header">Shifts</h2>
+                            <h2 className="page-header">Fault Cases</h2>
                             <div className="row">
                                 <div className="col-6">
                                     <div className="card full-height">
@@ -166,23 +163,12 @@ const Shift = () => {
                                                 </Alert>
                                             ) : null}
                                             <div className="rowuser">
-                                                <label>Shift Name</label>
-                                                <input type="text" autoFocus placeholder="Shift name" value={shiftName} onChange={(e) => setshiftName(e.target.value)} />
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>Start Time</label>
-                                                <input type="time"  placeholder="" value={startTime} onChange={(e) => setstartTime(e.target.value)} />
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>End Time</label>
-                                                <input type="time"  placeholder="" value={endTime} onChange={(e) => setendTime(e.target.value)} />
+                                                <label>Special Name</label>
+                                                <input type="text" autoFocus placeholder="special name" value={spcialName} onChange={(e) => setspcialName(e.target.value)} />
                                             </div>
                                             <div id="button" className="rowuser">
                                                 <button disabled={!validateForm()}  onClick={submit}>submit</button>
                                             </div>
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -208,4 +194,4 @@ const Shift = () => {
     )
 }
 
-export default Shift
+export default SpecialCase
