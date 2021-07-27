@@ -19,8 +19,9 @@ import Badge from "../components/badge/Badge";
 
 const fields = [
     "Id",
-    "Production order code",
-    "Production Code",
+    "P.O code",
+    "Product name",
+    "Product Code",
     "Quantity",
     "Status",
     "Created At",
@@ -72,7 +73,8 @@ const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
         <td>{item.productionorderCode}</td>
-        <td>{item.productCode}</td>
+        <td>{item.productInfos.productName}</td>
+        <td>{item.productInfos.productCode}</td>
         <td>{item.orderQuantity}</td>
         <td>
             <Badge type={orderStatus[item.statusId]} content={orderStatusname[item.statusId]}/>
@@ -88,7 +90,8 @@ const renderOrderBody1 = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
         <td>{item.productionorderCode}</td>
-        <td>{item.productCode}</td>
+        <td>{item.productInfos.productName}</td>
+        <td>{item.productInfos.productCode}</td>
         <td>{item.orderQuantity}</td>
         <td>
             <Badge type={orderStatus[item.statusId]} content={orderStatusname[item.statusId]}/>
@@ -168,7 +171,7 @@ const Info = () => {
     }, [])
 
     let options = listData.lists.map(function (city) {
-        return { value: city.productCode, label: city.productCode , name:city.productName };
+        return { value: city.id, label: city.productCode , name:city.productName };
     })
 
     const submit = async (e) => {
