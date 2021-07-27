@@ -53,6 +53,11 @@ const sidebar_items = [
             "icon": "bx bx-user-pin"
         },
         {
+            "display_name": "Shifts",
+            "route": "/Shift",
+            "icon": "bx bx-time-five"
+        },
+        {
             "display_name": "Departments",
             "route": "/Department",
             "icon": "bx bx-building"

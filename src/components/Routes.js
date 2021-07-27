@@ -21,6 +21,7 @@ import ProductionOrder from "../Pages/ProductionOrder";
 import ProductCard from "../Pages/ProductCard";
 import ProductCalendar from "../Pages/ProductCalendar";
 import ProductionSort from "../Pages/ProductionSort";
+import Shift from "../Pages/Shift";
 
 const Routes = () => {
 
@@ -46,6 +47,7 @@ const Routes = () => {
                 <Route path="/ProductCard" component={ProductCard} />
                 <Route path="/ProductCalendar" component={ProductCalendar} />
                 <Route path="/ProductionSort" component={ProductionSort} />
+                <Route path="/Shift" component={Shift} />
 
             </Switch>
 
