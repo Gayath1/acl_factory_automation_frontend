@@ -1,9 +1,9 @@
-import React from 'react'
+import React,{useContext} from 'react'
 
 import './topnav.css'
 
 import { Link } from 'react-router-dom'
-
+import UserContext from '../../userContext';
 import Dropdown from '../dropdown/Dropdown'
 
 // import user_image from '../../assets/images/tuat.png'
@@ -46,7 +46,7 @@ const user_menu = [
     },
     {
         "icon": "bx bx-log-out-circle bx-rotate-180",
-        "onClick":clearLocalStorage,
+        "onClick":ClearLocalStorage,
         "route": "/Home",
         "content": "Logout"
     }
@@ -57,7 +57,14 @@ const curr_user = {
     // image: user_image
 }
 
-function clearLocalStorage(){
+function ClearLocalStorage(){
+    const { userData, setUserData } = useContext(UserContext);
+    setUserData({
+        token: '',
+        user: '',
+        role : '',
+
+    });
     localStorage.clear();
 }
 

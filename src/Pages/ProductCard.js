@@ -86,6 +86,27 @@ const renderOrderBody = (item, index) => (
     </tr>
 )
 
+const token = localStorage.getItem("Token")
+const headers = {
+    headers: {
+
+        "Authorization":`Bearer ${token}`
+    }
+};
+
+const changestatus = async (id) => {
+    try{
+
+        const body = {id};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/updatepending",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+        console.log(err);
+    }
+
+};
+
 const renderOrderBody1 = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
@@ -98,7 +119,7 @@ const renderOrderBody1 = (item, index) => (
         </td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            {/*<button onClick={()=>{active(item.productlineId,item.uuid)}} className="usertblactivebutton" >Activate</button>*/}
+            <button onClick={()=>{changestatus(item.id)}} className="usertblactivebutton" >Complete</button>
         </td>
     </tr>
 )
@@ -188,6 +209,8 @@ const Info = () => {
         }
 
     };
+
+
     const handletab = (event, newValue) => {
         setValue(newValue);
     };
