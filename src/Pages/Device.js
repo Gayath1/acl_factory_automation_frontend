@@ -249,7 +249,7 @@ const Device = () => {
                                         </Alert>
                                     ) : null}
                                     <div className="rowuser">
-                                        <label>UUID</label>
+                                        <label>MAC Address</label>
                                         <input type="text" autoFocus placeholder="" value={uuid}  onChange={(e) => setUuid(e.target.value)} />
                                     </div>
                                     <div className="rowuser">

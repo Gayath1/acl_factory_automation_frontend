@@ -73,10 +73,11 @@ const Fault = () => {
     const {userData} = useContext(UserContext);
     const [faultreason, setfaultreason] = useState("");
     const [faultType, setfaultType] = useState("");
-    const [departmentId, setdepartmentId] = useState("");
+    const [specialcaseId, setspecialcaseId] = useState("");
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
+    const [listData2, setListData2] = useState({ lists: [] });
     let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
@@ -90,9 +91,9 @@ const Fault = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/department/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/getall`,headers
             );
-            setListData({lists:result.data.data.DepartmentDetails})
+            setListData({lists:result.data.data.specialCase})
             const result1 = await axios(
                 `https://acl-automation.herokuapp.com/api/v1/faultreason/1/getall`,headers
             );
@@ -104,7 +105,7 @@ const Fault = () => {
     }, [])
 
     function validateForm() {
-        return faultreason.length > 0 && faultType.length > 0 && departmentId.length > 0;
+        return faultreason.length > 0 && faultType.length > 0 && specialcaseId.length > 0;
     }
 
     const submit = async (e) => {
@@ -112,7 +113,7 @@ const Fault = () => {
         setErr("");
         try{
 
-            const body = {faultreason,faultType,departmentId};
+            const body = {faultreason,faultType,specialcaseId};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/faultreason/1/create",body,headers);
             window.location.reload();
 
@@ -159,12 +160,12 @@ const Fault = () => {
                                         </select>
                                     </div>
                                     <div className="rowuser">
-                                        <label>Department</label>
-                                        <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} >
-                                            <option value=""  selected>please select Department</option>
+                                        <label>Special case</label>
+                                        <select id="department" name="department" value={specialcaseId} onChange={(e) => setspecialcaseId(e.target.value)} >
+                                            <option value=""  selected>please select special case</option>
                                             {listData.lists.map((country, key) => (
                                                 <option key={key} value={country.id}>
-                                                    {country.departmentName}
+                                                    {country.name}
                                                 </option>
                                             ))}
                                         </select>
@@ -173,21 +174,12 @@ const Fault = () => {
                                         <label>Reason</label>
                                         <input type="text" autoFocus placeholder="" value={faultreason}  onChange={(e) => setfaultreason(e.target.value)} />
                                     </div>
-
                                     <div id="button" className="rowuser">
                                         <button disabled={!validateForm()}  onClick={submit}>submit</button>
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
-                            {/* <Grid item xs={6}>
-                            <div className="card full-height">
-
-                            </div>
-                            </Grid> */}
                         </div>
                     <div className="row">
                         <div className="col-12">

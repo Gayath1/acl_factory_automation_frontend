@@ -35,6 +35,15 @@ const columns = [
     },
 ];
 
+const fields = [
+    "Name",
+    "Epf no",
+    "Special Case",
+    "Permission",
+    "Created At",
+    "Action"
+]
+
 const rows = [
     {
         "id": 1,
@@ -101,6 +110,9 @@ const renderOrderHead = (item, index) => (
 const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.name}</td>
+        <td>{item.epfNo}</td>
+        <td>{item.specialCase}</td>
+        <td>{item.role}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
             <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
@@ -116,6 +128,7 @@ const SpecialCaseEmail = () => {
     const [emailreceipents, setemailreceipents] = useState([]);
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
+    const [listData2, setListData2] = useState({ lists: [] });
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
@@ -136,6 +149,10 @@ const SpecialCaseEmail = () => {
                 `https://acl-automation.herokuapp.com/api/v1/Executives/1/getall`,headers
             );
             setListData1({lists:result1.data.data.executives})
+            const result2 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/specialcaseemaillreceipentcontroller/1/getall`,headers
+            );
+            setListData2({lists:result2.data.data.newsavedInfo})
             setLoading(false);
         };
         fetchData();
@@ -175,9 +192,9 @@ const SpecialCaseEmail = () => {
                     <div id="main" className="layout__content">
                         <TopNav/>
                         <div className="layout__content-main">
-                            <h2 className="page-header">Fault Cases</h2>
+                            <h2 className="page-header">Fault Cases Emails</h2>
                             <div className="row">
-                                <div className="col-6">
+                                <div className="col-9">
                                     <div className="card full-height">
                                         <div>
                                             {err ? (
@@ -197,6 +214,26 @@ const SpecialCaseEmail = () => {
                                                     ))}
                                                 </select>
                                             </div>
+                                            <br/>
+                                            <br/>
+                                            <div style={{ height: 400, width: '100%' }}>
+                                                <DataGrid
+                                                    rows={listData1.lists}
+                                                    columns={columns}
+                                                    pageSize={5}
+                                                    checkboxSelection
+                                                    disableSelectionOnClick
+                                                    onSelectionModelChange={(e) => {
+                                                        const selectedIDs = new Set(e.selectionModel);
+                                                        const selectedRowData = listData1.lists.filter((row) =>
+                                                            selectedIDs.has(row.id)
+                                                        );
+                                                        setemailreceipents(selectedRowData)
+                                                        console.log("selected rowData:", selectedRowData);
+                                                    }}
+                                                    // selectionModel={selectionModel}
+                                                />
+                                            </div>
                                             <div id="button" className="rowuser">
                                                 <button disabled={!validateForm()}  onClick={submit}>submit</button>
                                             </div>
@@ -207,24 +244,13 @@ const SpecialCaseEmail = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="card full-height">
-                                        <div style={{ height: 400, width: '100%' }}>
-                                            <DataGrid
-                                                rows={listData1.lists}
-                                                columns={columns}
-                                                pageSize={5}
-                                                checkboxSelection
-                                                disableSelectionOnClick
-                                                onSelectionModelChange={(e) => {
-                                                    const selectedIDs = new Set(e.selectionModel);
-                                                    const selectedRowData = listData1.lists.filter((row) =>
-                                                        selectedIDs.has(row.id)
-                                                    );
-                                                    setemailreceipents(selectedRowData)
-                                                    console.log("selected rowData:", selectedRowData);
-                                                }}
-                                                // selectionModel={selectionModel}
-                                            />
-                                        </div>
+                                        <Table
+                                            limit="5"
+                                            headData={fields}
+                                            renderHead={(item, index) => renderOrderHead(item, index)}
+                                            bodyData={listData2.lists}
+                                            renderBody={(item, index) => renderOrderBody(item, index)}
+                                        />
                                     </div>
                                 </div>
                             </div>

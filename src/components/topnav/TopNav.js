@@ -57,14 +57,8 @@ const curr_user = {
     // image: user_image
 }
 
-function ClearLocalStorage(){
-    const { userData, setUserData } = useContext(UserContext);
-    setUserData({
-        token: '',
-        user: '',
-        role : '',
 
-    });
+function ClearLocalStorage(){
     localStorage.clear();
 }
 
