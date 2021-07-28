@@ -90,12 +90,12 @@ const headers = {
 };
 
 
-const submitdelete = async (id) => {
+const submitdelete = async (id,permissionId,specialcaseId) => {
 
     try{
 
-        const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/delete",body,headers);
+        const body = {id,permissionId,specialcaseId};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcaseemaillreceipentcontroller/1/delete",body,headers);
         window.location.reload();
 
     } catch(err) {
@@ -115,7 +115,7 @@ const renderOrderBody = (item, index) => (
         <td>{item.role}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
+            <button onClick={()=>{submitdelete(item.id,item.permissionsId,item.specialCaseId)}} className="usertblbutton" >Delete</button>
         </td>
     </tr>
 )
