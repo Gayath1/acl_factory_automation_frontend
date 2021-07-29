@@ -25,6 +25,7 @@ import Shift from "../Pages/Shift";
 import SpecialCase from "../Pages/SpecialCase";
 import SpecialCasesEmail from "../Pages/SpecialCasesEmail";
 import VerifyAdmin from "../Pages/VerifyAdmin";
+import VerifyExecutive from "../Pages/VerifyExecutive";
 
 
 const Routes = () => {
@@ -55,6 +56,8 @@ const Routes = () => {
                 <Route path="/SpecialCase" component={SpecialCase} />
                 <Route path="/SpecialCasesEmail" component={SpecialCasesEmail} />
                 <Route path="/VerifyAdmin/:confirmationCode" component={VerifyAdmin} />
+                <Route path="/VerifyExecutive/:confirmationCode" component={VerifyExecutive} />
+
             </Switch>
 
 
