@@ -34,7 +34,12 @@ const Loginadmin = () => {
 
             localStorage.setItem("Token", loginResponse.data.data.token);
             setLoading(false)
-            history.push("/Dashboard");
+            {loginResponse.data.data.user.statusId === '1'?
+                history.push("/Dashboard")
+            :
+                history.push("/verify");
+            }
+
 
 
         } catch(err) {
