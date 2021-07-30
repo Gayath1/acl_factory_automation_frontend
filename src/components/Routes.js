@@ -28,6 +28,8 @@ import VerifyAdmin from "../Pages/VerifyAdmin";
 import VerifyExecutive from "../Pages/VerifyExecutive";
 import VerifyManagement from "../Pages/VerifyManagement";
 import Pleaseverify from "../Pages/Pleaseverify";
+import SendEmail from "../Pages/SendEmail";
+
 
 const Routes = () => {
 
@@ -60,6 +62,7 @@ const Routes = () => {
                 <Route path="/VerifyExecutive/:confirmationCode" component={VerifyExecutive} />
                 <Route path="/VerifyManagement/:confirmationCode" component={VerifyManagement} />
                 <Route path="/Pleaseverify" component={Pleaseverify} />
+                <Route path="/SendEmail" component={SendEmail} />
 
             </Switch>
 

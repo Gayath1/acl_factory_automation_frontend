@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import OtpInput from 'react-otp-input';
-import { Empty } from 'antd';
-import 'antd/dist/antd.css';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
 import {Alert, AlertTitle} from "@material-ui/lab";
