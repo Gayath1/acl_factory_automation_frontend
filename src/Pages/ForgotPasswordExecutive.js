@@ -10,7 +10,7 @@ import {useHistory} from "react-router-dom";
 
 
 
-const ForgotPasswordAdmin = (props) => {
+const ForgotPasswordExecutive = (props) => {
 
     const [password, setpassword] = useState("");
     const [passwordConfirm, setpasswordConfirm] = useState("");
@@ -29,10 +29,10 @@ const ForgotPasswordAdmin = (props) => {
         try{
 
             const body = {passwordConfirm,password};
-            const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/admin/1/forgotpasswordverify/Changepassword/${confirmationCode}`,body);
+            const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/Executives/1/forgotpasswordverify/Changepassword/${confirmationCode}`,body);
             setSuccess(loginResponse.data)
             setLoading(false)
-            history.push('/Loginadmin')
+            history.push('/Loginexecutive')
         } catch(err) {
             setLoading(false)
             err.response.data.message && setErr(err.response.data.message)
@@ -86,4 +86,4 @@ const ForgotPasswordAdmin = (props) => {
     )
 }
 
-export default ForgotPasswordAdmin
+export default ForgotPasswordExecutive

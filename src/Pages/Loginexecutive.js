@@ -72,6 +72,8 @@ const Loginexecutive = () => {
 
                 <div id="button" className="rowlogin">
                     <button  disabled={!validateForm()} onClick={submit}>Log in</button>
+                    <br/>
+                    <a href="/SendEmailexecutive">Forgot Password?</a>
                 </div>
             </div>
             <div id="alternativeLogin">

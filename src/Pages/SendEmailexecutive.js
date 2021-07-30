@@ -10,12 +10,10 @@ import {useHistory} from "react-router-dom";
 
 
 
-const ForgotPasswordAdmin = (props) => {
+const SendEmail = () => {
 
-    const [password, setpassword] = useState("");
-    const [passwordConfirm, setpasswordConfirm] = useState("");
+    const [email, setEmail] = useState("");
     const [err, setErr] = useState("");
-    const [confirmationCode, setconfirmationCode] = useState(props.match.params.confirmationCode);
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
     const history = useHistory();
@@ -28,11 +26,10 @@ const ForgotPasswordAdmin = (props) => {
         setSuccess("");
         try{
 
-            const body = {passwordConfirm,password};
-            const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/admin/1/forgotpasswordverify/Changepassword/${confirmationCode}`,body);
+            const body = {email};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/forgotpasswordverify/email",body);
             setSuccess(loginResponse.data)
             setLoading(false)
-            history.push('/Loginadmin')
         } catch(err) {
             setLoading(false)
             err.response.data.message && setErr(err.response.data.message)
@@ -40,7 +37,10 @@ const ForgotPasswordAdmin = (props) => {
 
     };
 
+    const Home = async (e) => {
+        history.push('/Home')
 
+    };
 
     if (loading) {
         return (
@@ -67,15 +67,14 @@ const ForgotPasswordAdmin = (props) => {
                     </Alert>
                 ) : null}
                 <div className="rowlogin">
-                    <label>New password</label>
-                    <input type="password"  placeholder="Enter your password" value={password}  onChange={(e) => setpassword(e.target.value)} />
-                </div>
-                <div className="rowlogin">
-                    <label>Confirm new password</label>
-                    <input type="password"   placeholder="Confirm your password" value={passwordConfirm}  onChange={(e) => setpasswordConfirm(e.target.value)} />
+                    <label>Email</label>
+                    <input type="email" id="email"  placeholder="Enter your email" value={email}  onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div id="button" className="rowuser">
-                    <button  onClick={submit}>Change Password</button>
+                    <button  onClick={submit}>Verify</button>
+                </div>
+                <div id="button" className="rowuser">
+                    <button  onClick={Home}>Home</button>
                 </div>
             </div>
             <div id="alternativeLogin">
@@ -86,4 +85,4 @@ const ForgotPasswordAdmin = (props) => {
     )
 }
 
-export default ForgotPasswordAdmin
+export default SendEmail

@@ -27,7 +27,7 @@ const SendEmail = () => {
         try{
 
             const body = {email};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/1/forgotpasswordverfy/email",body);
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/1/forgotpasswordverify/email",body);
             setSuccess(loginResponse.data)
             setLoading(false)
         } catch(err) {
