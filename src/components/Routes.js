@@ -65,7 +65,7 @@ const Routes = () => {
                 <Route path="/SpecialCasesEmail" component={SpecialCasesEmail} />
                 <Route path="/VerifyAdmin/:confirmationCode" component={VerifyAdmin} />
                 <Route path="/VerifyExecutive/:confirmationCode" component={VerifyExecutive} />
-                <Route path="/VerifyManagement/:confirmationCode" component={VerifyManagement} />
+                <Route path="/VerifyManagement/:confirmationCode" component={VerifyManagement} />npm start
                 <Route path="/Pleaseverify" component={Pleaseverify} />
                 <Route path="/SendEmail" component={SendEmail} />
                 <Route path="/ForgotPasswordAdmin/:confirmationCode" component={ForgotPasswordAdmin} />

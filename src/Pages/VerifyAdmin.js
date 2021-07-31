@@ -51,8 +51,8 @@ const Otp = (props) => {
     if (loadingverify) {
         return (
             <div className="layout__content-main">
-            <div style={{ padding: "5px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"90vh", backgroundColor:"#FFFFFF"}}>
-                <img src={verify} alt="loading..." />
+            <div style={{ padding: "5px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"90vh", backgroundColor:"#f1f1f1"}}>
+                <img style={{backgroundColor:"#f1f1f1"}} src={verify} alt="loading..." />
             </div>
                 <h2 className="page-header" style={{  textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center"}}><a href="/oginadmin">Account verified!Please Login</a></h2>
             </div>
