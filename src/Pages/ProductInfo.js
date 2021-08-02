@@ -239,15 +239,16 @@ const Info = () => {
                             <div className="col-6">
                                 <div className="card full-height">
 
-                                        <div className="rowpinfo">
+                                        <div className="rowuser">
                                         {listData1.lists.map((country, index) => (
                                           <>
-                                                <select id="department" name="department" value={Pline.id} onChange={onSelect1Change} >
-                                                    <option value=""  selected>please select Product line</option>
-                                                    <option key={index} value={country.id}>
-                                                        {country.productlineNo}
-                                                    </option>
-                                                </select>
+                                              <label>Product line&nbsp;{country.productlineNo}&nbsp; Speed</label>
+                                                {/*<select id="department" name="department" value={Pline.id} onChange={onSelect1Change} >*/}
+                                                {/*    <option value=""  selected>please select Product line</option>*/}
+                                                {/*    <option key={index} value={country.id}>*/}
+                                                {/*        {country.productlineNo}*/}
+                                                {/*    </option>*/}
+                                                {/*</select>*/}
 
 
                                                 {/*<label>Product line{country.productlineNo}</label>*/}
