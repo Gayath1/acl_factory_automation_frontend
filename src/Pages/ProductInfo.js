@@ -9,12 +9,14 @@ import {Alert, AlertTitle} from "@material-ui/lab";
 import moment from "moment";
 import {HashLoader} from "react-spinners";
 import UserContext from "../userContext";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 
 const fields = [
     "Product Name",
     "Product Code",
-    "Machine Speed",
     "Created At",
     "Action"
 ]
@@ -86,7 +88,6 @@ const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.productName}</td>
         <td>{item.productCode}</td>
-        <td>{item.machineSpeed}&nbsp;RPM</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
             <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
@@ -98,11 +99,15 @@ const Info = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
     const [productName, setproductName] = useState("");
+    // const [productId, setproductId] = useState("");
+    const [factoryId, setfactoryId] = useState("");
     const [productCode, setproductCode] = useState("");
     const [machineSpeed, setmachineSpeed] = useState("");
     const [downTime, setdownTime] = useState("");
+    const [productLineId, setproductLineId] = React.useState('');
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
+    const [listData1, setListData1] = useState({ lists: [] });
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
@@ -113,12 +118,20 @@ const Info = () => {
         }
     };
 
+    const handleChange = (id) => {
+        setproductLineId(id);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
                 `https://acl-automation.herokuapp.com/api/v1/productinfo/1/getall`,headers
             );
             setListData({lists:result.data.data.ProductDetails})
+            const result1 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/productlines/1/getall`,headers
+            );
+            setListData1({lists:result1.data.data.ProductLinesDetails})
             setLoading(false);
         };
         fetchData();
@@ -129,8 +142,14 @@ const Info = () => {
         setErr("");
         try{
 
-            const body = {productName,productCode,machineSpeed,downTime};
+            const body = {productName,productCode,machineSpeed,downTime,factoryId,productLineId};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create",body,headers);
+            // setproductId(loginResponse.data.id);
+            const productId = loginResponse.data.data.id;
+            const body1=({productId,productLineId})
+            setproductName('');
+            setmachineSpeed('');
+            const loginResponse1 = await axios.post("https://acl-automation.herokuapp.com/api/v1/productlinemachinespeedcontroller/1/create",body1,headers);
             window.location.reload();
 
         } catch(err) {
@@ -178,6 +197,14 @@ const Info = () => {
                                     <div className="rowuser">
                                         <label>Machine Speed</label>
                                         <input type="number"  placeholder="" value={machineSpeed}  onChange={(e) => setmachineSpeed(e.target.value)} />
+                                    </div>
+                                    <div className="rowuser">
+                                        <label>Product line</label>
+                                            {listData1.lists.map((country, key) => (
+                                                <RadioGroup  aria-label="type" name="type" value={productLineId} onChange={()=>handleChange(country.id)} row>
+                                                <FormControlLabel value={country.id} control={<Radio color="primary" />} label={country.productlineNo} />
+                                                </RadioGroup>
+                                            ))}
                                     </div>
                                     <div className="rowuser">
                                         <label>Down Time</label>
