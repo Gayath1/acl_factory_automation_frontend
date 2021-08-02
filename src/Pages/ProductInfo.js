@@ -12,6 +12,7 @@ import UserContext from "../userContext";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import {Checkbox, FormGroup} from "@material-ui/core";
 
 
 const fields = [
@@ -108,8 +109,13 @@ const Info = () => {
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
+    const [Pline, setPline] = useState( [] );
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
+    const [isChecked, setIsChecked] = useState(false);
+    const [checkedState, setCheckedState] = useState(
+        new Array(listData1.length).fill(false)
+    );
 
     const headers = {
         headers: {
@@ -119,6 +125,7 @@ const Info = () => {
     };
 
     const handleChange = (id) => {
+        setIsChecked(!isChecked);
         setproductLineId(id);
     };
 
@@ -142,7 +149,7 @@ const Info = () => {
         setErr("");
         try{
 
-            const body = {productName,productCode,machineSpeed,downTime,factoryId,productLineId};
+            const body = {productName,productCode,machineSpeed,downTime,factoryId,productLineId,Pline};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create",body,headers);
             // setproductId(loginResponse.data.id);
             const productId = loginResponse.data.data.id;
@@ -158,7 +165,25 @@ const Info = () => {
 
     };
 
+    const handleOnChange = (position) => {
+        const updatedCheckedState = checkedState.map((item, index) =>
+            index === position ? !item : item
+        );
 
+        setCheckedState(updatedCheckedState);
+
+        const totalPrice = updatedCheckedState.reduce(
+            (sum, currentState, index) => {
+                if (currentState === true) {
+                    return sum + listData1[index].id;
+                }
+                return sum;
+            },
+            0
+        );
+
+        setPline(totalPrice);
+    };
 
     if (loading) {
         return (
@@ -200,10 +225,38 @@ const Info = () => {
                                     </div>
                                     <div className="rowuser">
                                         <label>Product line</label>
-                                            {listData1.lists.map((country, key) => (
-                                                <RadioGroup  aria-label="type" name="type" value={productLineId} onChange={()=>handleChange(country.id)} row>
-                                                <FormControlLabel value={country.id} control={<Radio color="primary" />} label={country.productlineNo} />
-                                                </RadioGroup>
+                                            {listData1.lists.map((country, index) => (
+                                                <FormGroup row>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            // checked={isChecked}
+                                                            value={Pline}
+                                                            onChange={(e) => {
+                                                                // add to list
+                                                                if (e.target.checked) {
+                                                                    setPline([
+                                                                        {
+                                                                            id: country.id,
+                                                                        },
+                                                                    ]);
+                                                                } else {
+                                                                    // remove from list
+                                                                    setPline(
+                                                                        Pline.filter((people) => people.id !== country.id),
+                                                                    );
+                                                                }
+                                                            }}
+                                                            //onChange={()=>handleChange(country.id)}
+                                                            color="primary"
+                                                        />
+                                                    }
+                                                    label={country.productlineNo}
+                                                />
+                                                </FormGroup>
+                                                // <RadioGroup  aria-label="type" name="type" value={productLineId} onChange={()=>handleChange(country.id)} row>
+                                                // <FormControlLabel value={country.id} control={<Radio color="primary" />} label={country.productlineNo} />
+                                                // </RadioGroup>
                                             ))}
                                     </div>
                                     <div className="rowuser">
