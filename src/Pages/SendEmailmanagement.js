@@ -1,7 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
-import Sidebar from "../components/sidebar/Sidebar";
-import TopNav from "../components/topnav/TopNav";
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
