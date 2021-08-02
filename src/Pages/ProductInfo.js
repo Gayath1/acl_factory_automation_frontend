@@ -112,10 +112,10 @@ const Info = () => {
     const [Pline, setPline] = useState( [] );
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
-    const [isChecked, setIsChecked] = useState(false);
-    const [checkedState, setCheckedState] = useState(
-        new Array(listData1.length).fill(false)
-    );
+    const [data,setdata] = useState([{
+        id:"",
+        speed:"",
+    }]);
 
     const headers = {
         headers: {
@@ -124,10 +124,6 @@ const Info = () => {
         }
     };
 
-    const handleChange = (id) => {
-        setIsChecked(!isChecked);
-        setproductLineId(id);
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -144,20 +140,26 @@ const Info = () => {
         fetchData();
     }, [])
 
+    function removeDuplicates(arr) {
+        const map = new Map();
+        arr.forEach(v => map.set(v.id, v)) // having `departmentName` is always unique
+        return [...map.values()];
+    }
+
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
         try{
-
-            const body = {productName,productCode,machineSpeed,downTime,factoryId,productLineId,Pline};
+            const returnPline = removeDuplicates(Pline);
+            const body = {productName,productCode,machineSpeed,downTime,factoryId,productLineId};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create",body,headers);
             // setproductId(loginResponse.data.id);
             const productId = loginResponse.data.data.id;
-            const body1=({productId,productLineId})
+            const body1=({productId,productLineId,returnPline,machineSpeed})
             setproductName('');
             setmachineSpeed('');
             const loginResponse1 = await axios.post("https://acl-automation.herokuapp.com/api/v1/productlinemachinespeedcontroller/1/create",body1,headers);
-            window.location.reload();
+            //window.location.reload();
 
         } catch(err) {
             err.response.data.message && setErr(err.response.data.message)
@@ -165,25 +167,18 @@ const Info = () => {
 
     };
 
-    const handleOnChange = (position) => {
-        const updatedCheckedState = checkedState.map((item, index) =>
-            index === position ? !item : item
-        );
+    const onSelect1Change=(e) =>{
+        setdata({
+            ...data,
+            speed: e.target.value
+        })
 
-        setCheckedState(updatedCheckedState);
 
-        const totalPrice = updatedCheckedState.reduce(
-            (sum, currentState, index) => {
-                if (currentState === true) {
-                    return sum + listData1[index].id;
-                }
-                return sum;
-            },
-            0
-        );
+    }
+    const onSelect2Change=(id, e)=> {
+        setPline([...Pline, { id: id , speed: e.target.value}]);
+    }
 
-        setPline(totalPrice);
-    };
 
     if (loading) {
         return (
@@ -220,46 +215,6 @@ const Info = () => {
                                         <input type="text"  placeholder="" value={productCode}  onChange={(e) => setproductCode(e.target.value)} />
                                     </div>
                                     <div className="rowuser">
-                                        <label>Machine Speed</label>
-                                        <input type="number"  placeholder="" value={machineSpeed}  onChange={(e) => setmachineSpeed(e.target.value)} />
-                                    </div>
-                                    <div className="rowuser">
-                                        <label>Product line</label>
-                                            {listData1.lists.map((country, index) => (
-                                                <FormGroup row>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            // checked={isChecked}
-                                                            value={Pline}
-                                                            onChange={(e) => {
-                                                                // add to list
-                                                                if (e.target.checked) {
-                                                                    setPline([
-                                                                        {
-                                                                            id: country.id,
-                                                                        },
-                                                                    ]);
-                                                                } else {
-                                                                    // remove from list
-                                                                    setPline(
-                                                                        Pline.filter((people) => people.id !== country.id),
-                                                                    );
-                                                                }
-                                                            }}
-                                                            //onChange={()=>handleChange(country.id)}
-                                                            color="primary"
-                                                        />
-                                                    }
-                                                    label={country.productlineNo}
-                                                />
-                                                </FormGroup>
-                                                // <RadioGroup  aria-label="type" name="type" value={productLineId} onChange={()=>handleChange(country.id)} row>
-                                                // <FormControlLabel value={country.id} control={<Radio color="primary" />} label={country.productlineNo} />
-                                                // </RadioGroup>
-                                            ))}
-                                    </div>
-                                    <div className="rowuser">
                                         <label>Down Time</label>
                                         <select id="department" name="department" value={downTime} onChange={(e) => setdownTime(e.target.value)} >
                                             <option value=""  selected>please select DownTime</option>
@@ -281,6 +236,30 @@ const Info = () => {
                                 </div>
                             </div>
                         </div>
+                            <div className="col-6">
+                                <div className="card full-height">
+
+                                        <div className="rowpinfo">
+                                        {listData1.lists.map((country, index) => (
+                                          <>
+                                                <select id="department" name="department" value={Pline.id} onChange={onSelect1Change} >
+                                                    <option value=""  selected>please select Product line</option>
+                                                    <option key={index} value={country.id}>
+                                                        {country.productlineNo}
+                                                    </option>
+                                                </select>
+
+
+                                                {/*<label>Product line{country.productlineNo}</label>*/}
+                                                <input type="number"  placeholder=""  onChange={(e) => onSelect2Change(country.id, e)} value={Pline.speed}/>
+                                                <br/>
+                                              <br/>
+                                            </>
+                                        ))}
+                                        </div>
+
+                                </div>
+                            </div>
                         </div>
                     <div className="row">
                         <div className="col-12">

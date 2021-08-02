@@ -265,7 +265,7 @@ const Device = () => {
                                     </div>
                                     <div className="rowuser">
                                          <label>Product Line</label>
-                                         <select id="department" name="department" value={productlineId} onChange={(e) => productlineId(e.target.value)} >
+                                         <select id="department" name="department" value={productlineId} onChange={(e) => setproductlineId(e.target.value)} >
                                             <option value=""  selected></option>
                                             {listData2.lists.map((country, key) => (
                                                 <option key={key} value={country.productlineNo}>
