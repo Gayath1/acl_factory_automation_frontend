@@ -2,17 +2,33 @@ import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-import Table from "../components/table/Table";
+// import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import moment from "moment";
 import {HashLoader} from "react-spinners";
 import UserContext from "../userContext";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import {Checkbox, FormGroup} from "@material-ui/core";
+import { Table } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
+import {
+    TableHead,
+    TableBody,
+    TableCell,
+    TableRow,
+    Button,
+    Icon,
+    Tooltip,
+    TextField
+} from "@material-ui/core";
+import InputBase from "@material-ui/core/InputBase";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
+import Fab from "@material-ui/core/Fab";
+import SearchIcon from "@material-ui/icons/Search";
+import CloseIcon from "@material-ui/icons/Close";
+import EditIcon from "@material-ui/icons/Edit";
 
 
 const fields = [
@@ -51,11 +67,20 @@ const rows = [
     }
 ];
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 700,
+const useStyles = makeStyles(theme => ({
+    root: {
+        width: "100%"
     },
-});
+    paper: {
+        marginTop: theme.spacing(3),
+        width: "100%",
+        overflowX: "auto",
+        marginBottom: theme.spacing(2)
+    },
+    table: {
+        minWidth: 650
+    }
+}));
 
 const token = localStorage.getItem("Token")
 
@@ -112,6 +137,7 @@ const Info = () => {
     const [Pline, setPline] = useState( [] );
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
+    const [editingIndex, setEditingIndex] = useState(-1);
     const [data,setdata] = useState([{
         id:"",
         speed:"",
@@ -178,6 +204,17 @@ const Info = () => {
     const onSelect2Change=(id, e)=> {
         setPline([...Pline, { id: id , speed: e.target.value}]);
     }
+
+
+    const inputChangeHandler = (e, i) => {
+        let result = data.map((data) =>{
+            return data.id === i ? {...data, [e.target.name]:e.target.value} : {...data}
+        })
+        setPline(result)
+
+    }
+
+
 
 
     if (loading) {
@@ -272,6 +309,48 @@ const Info = () => {
                                     bodyData={listData.lists}
                                     renderBody={(item, index) => renderOrderBody(item, index)}
                                 />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card full-height">
+                                <Paper className={classes.paper}>
+                                    <Table className={classes.table} size="small">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Production Line</TableCell>
+                                                <TableCell>Machine Speed</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+
+                                        <TableBody>
+                                            {listData1.lists.map((country, index) => (
+                                                <TableRow key={index}>
+                                                        <TableCell component="th" scope="row">
+                                                           {country.id}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <input
+                                                                type="number"
+                                                                style={{ width: "8rem" }}
+                                                                onChange={(e) => onSelect2Change(country.id, e)}
+                                                                value = {Pline.speed}
+                                                            />
+                                                        </TableCell>
+                                                </TableRow>
+                                            ))}
+                                            {/* <TableRow>
+              <TablePagination
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+              />
+            </TableRow> */}
+                                        </TableBody>
+                                    </Table>
+                                </Paper>
                             </div>
                         </div>
                     </div>
