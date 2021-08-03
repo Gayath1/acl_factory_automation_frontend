@@ -2,33 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
-// import Table from "../components/table/Table";
+import Table from "../components/table/Table";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import moment from "moment";
 import {HashLoader} from "react-spinners";
 import UserContext from "../userContext";
-import { Table } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
-import {
-    TableHead,
-    TableBody,
-    TableCell,
-    TableRow,
-    Button,
-    Icon,
-    Tooltip,
-    TextField
-} from "@material-ui/core";
-import InputBase from "@material-ui/core/InputBase";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AddIcon from "@material-ui/icons/Add";
-import CheckIcon from "@material-ui/icons/Check";
-import Fab from "@material-ui/core/Fab";
-import SearchIcon from "@material-ui/icons/Search";
-import CloseIcon from "@material-ui/icons/Close";
-import EditIcon from "@material-ui/icons/Edit";
 
 
 const fields = [
@@ -106,6 +86,11 @@ const submitdelete = async (id) => {
 
 };
 
+const fields1 = [
+    "Product line",
+    "Speed"
+]
+
 const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
 )
@@ -150,6 +135,18 @@ const Info = () => {
         }
     };
 
+    const renderOrderHead1 = (item, index) => (
+        <th key={index}>{item}</th>
+    )
+
+    const renderOrderBody1 = (item, index) => (
+        <tr key={index}>
+            <td>{item.productlineNo}</td>
+            <td>
+                <input type="number"  placeholder=""  onChange={(e) => onSelect2Change(item.id, e)} value={Pline.speed}/>
+            </td>
+        </tr>
+    )
 
     useEffect(() => {
         const fetchData = async () => {
@@ -275,27 +272,13 @@ const Info = () => {
                         </div>
                             <div className="col-6">
                                 <div className="card full-height">
-
-                                        <div className="rowuser">
-                                        {listData1.lists.map((country, index) => (
-                                          <>
-                                              <label>Product line&nbsp;{country.productlineNo}&nbsp; Speed</label>
-                                                {/*<select id="department" name="department" value={Pline.id} onChange={onSelect1Change} >*/}
-                                                {/*    <option value=""  selected>please select Product line</option>*/}
-                                                {/*    <option key={index} value={country.id}>*/}
-                                                {/*        {country.productlineNo}*/}
-                                                {/*    </option>*/}
-                                                {/*</select>*/}
-
-
-                                                {/*<label>Product line{country.productlineNo}</label>*/}
-                                                <input type="number"  placeholder=""  onChange={(e) => onSelect2Change(country.id, e)} value={Pline.speed}/>
-                                                <br/>
-                                              <br/>
-                                            </>
-                                        ))}
-                                        </div>
-
+                                    <Table
+                                        limit="5"
+                                        headData={fields1}
+                                        renderHead={(item, index) => renderOrderHead1(item, index)}
+                                        bodyData={listData1.lists}
+                                        renderBody={(item, index) => renderOrderBody1(item, index)}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -309,48 +292,6 @@ const Info = () => {
                                     bodyData={listData.lists}
                                     renderBody={(item, index) => renderOrderBody(item, index)}
                                 />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card full-height">
-                                <Paper className={classes.paper}>
-                                    <Table className={classes.table} size="small">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Production Line</TableCell>
-                                                <TableCell>Machine Speed</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-
-                                        <TableBody>
-                                            {listData1.lists.map((country, index) => (
-                                                <TableRow key={index}>
-                                                        <TableCell component="th" scope="row">
-                                                           {country.id}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <input
-                                                                type="number"
-                                                                style={{ width: "8rem" }}
-                                                                onChange={(e) => onSelect2Change(country.id, e)}
-                                                                value = {Pline.speed}
-                                                            />
-                                                        </TableCell>
-                                                </TableRow>
-                                            ))}
-                                            {/* <TableRow>
-              <TablePagination
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-              />
-            </TableRow> */}
-                                        </TableBody>
-                                    </Table>
-                                </Paper>
                             </div>
                         </div>
                     </div>
