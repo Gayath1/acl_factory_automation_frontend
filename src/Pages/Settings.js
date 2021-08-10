@@ -130,6 +130,7 @@ const Settings = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
+                                    <form onSubmit={submit}>
                                     {err ? (
                                         <Alert severity="error">
                                             <AlertTitle>Error</AlertTitle>
@@ -138,15 +139,16 @@ const Settings = () => {
                                     ) : null}
                                     <div className="rowuser">
                                         <label>Name</label>
-                                        <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setName(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setName(e.target.value)} required/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Duration</label>
-                                        <input type="text" autoFocus placeholder="" value={duration}  onChange={(e) => setDuration(e.target.value)} />
+                                        <input type="text"  placeholder="" value={duration}  onChange={(e) => setDuration(e.target.value)} required/>
                                     </div>
                                     <div id="button" className="rowuser">
-                                        <button disabled={!validateForm()}   onClick={submit}>submit</button>
+                                        <button type="submit">submit</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

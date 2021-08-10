@@ -3,7 +3,7 @@ import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import Table from "../components/table/Table";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import moment from "moment";
@@ -64,33 +64,33 @@ const token = localStorage.getItem("Token")
 const headers = {
     headers: {
 
-        "Authorization":`Bearer ${token}`
+        "Authorization": `Bearer ${token}`
     }
 };
 
-const active = async (productlineId,uuid) => {
+const active = async (productlineId, uuid) => {
 
-    try{
+    try {
 
-        const body = {productlineId,uuid};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/activate",body,headers);
+        const body = {productlineId, uuid};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/activate", body, headers);
         window.location.reload();
 
-    } catch(err) {
-       console.log(err)
+    } catch (err) {
+        console.log(err)
     }
 
 };
 
 const submitdelete = async (id) => {
 
-    try{
+    try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/delete",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/delete", body, headers);
         window.location.reload();
 
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
 
@@ -107,7 +107,10 @@ const renderOrderBody = (item, index) => (
         <td>{item.productlineId}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
+            <button onClick={() => {
+                submitdelete(item.id)
+            }} className="usertblbutton">Delete
+            </button>
         </td>
     </tr>
 )
@@ -118,13 +121,16 @@ const renderOrderBody1 = (item, index) => (
         <td>{item.productlineId}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button onClick={()=>{active(item.productlineId,item.uuid)}} className="usertblactivebutton" >Activate</button>
+            <button onClick={() => {
+                active(item.productlineId, item.uuid)
+            }} className="usertblactivebutton">Activate
+            </button>
         </td>
     </tr>
 )
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -142,6 +148,7 @@ function TabPanel(props) {
         </div>
     );
 }
+
 function a11yProps(index) {
     return {
         id: `simple-tab-${index}`,
@@ -153,15 +160,15 @@ const Device = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
     const [uuid, setUuid] = useState("");
-    const [productlineId,setproductlineId] = useState("");
-    const [factoryId,setfactoryId] = useState("");
-    const [deviceTypeId,setdeviceTypeId] = useState("");
+    const [productlineId, setproductlineId] = useState("");
+    const [factoryId, setfactoryId] = useState("");
+    const [deviceTypeId, setdeviceTypeId] = useState("");
     const [err, setErr] = useState("");
-    const [listData, setListData] = useState({ lists: [] });
-    const [listData1, setListData1] = useState({ lists: [] });
-    const [listData2, setListData2] = useState({ lists: [] });
-    const [listData3, setListData3] = useState({ lists: [] });
-    const [listData4, setListData4] = useState({ lists: [] });
+    const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
+    const [listData2, setListData2] = useState({lists: []});
+    const [listData3, setListData3] = useState({lists: []});
+    const [listData4, setListData4] = useState({lists: []});
     let [loading, setLoading] = useState(true);
     const [value, setValue] = React.useState(0);
     const token = localStorage.getItem("Token")
@@ -170,7 +177,7 @@ const Device = () => {
     const headers = {
         headers: {
 
-            "Authorization":`Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     };
 
@@ -181,42 +188,41 @@ const Device = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/device/1/getall/pending`,headers
+                `https://acl-automation.herokuapp.com/api/v1/device/1/getall/pending`, headers
             );
-            setListData({lists:result.data.data.DeviceDetails})
+            setListData({lists: result.data.data.DeviceDetails})
             const result1 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/device/1/getallinfo`,headers
+                `https://acl-automation.herokuapp.com/api/v1/device/1/getallinfo`, headers
             );
-            setListData1({lists:result1.data.data.DeviceDetails})
+            setListData1({lists: result1.data.data.DeviceDetails})
             const result2 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/productlines/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/productlines/1/getall`, headers
             );
-            setListData2({lists:result2.data.data.ProductLinesDetails})
+            setListData2({lists: result2.data.data.ProductLinesDetails})
             const result3 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/factories/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/factories/1/getall`, headers
             );
-            setListData3({lists:result3.data.data.FactoryDetails})
+            setListData3({lists: result3.data.data.FactoryDetails})
             const result4 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/devicetypes/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/devicetypes/1/getall`, headers
             );
-            setListData4({lists:result4.data.data.deviceTypes})
+            setListData4({lists: result4.data.data.deviceTypes})
             setLoading(false);
         };
         fetchData();
     }, [])
 
 
-
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
-        try{
+        try {
 
-            const body = {uuid,productlineId,factoryId,deviceTypeId};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/create",body,headers);
+            const body = {uuid, productlineId, factoryId, deviceTypeId};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/create", body, headers);
             window.location.reload();
 
-        } catch(err) {
+        } catch (err) {
             err.response.data.message && setErr(err.response.data.message)
         }
 
@@ -224,115 +230,133 @@ const Device = () => {
 
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
     return (
         <>
-            {userData.role === 1 || userData.role === 50? (
-        <>
-            <Sidebar/>
-            <div id="main" className="layout__content">
-                <TopNav/>
-                <div className="layout__content-main">
-                    <h2 className="page-header">Device</h2>
-                    <div className="row">
-                        <div className="col-6">
-                            <div className="card full-height">
-                                <div>
-                                    {err ? (
-                                        <Alert severity="error">
-                                            <AlertTitle>Error</AlertTitle>
-                                            {err}
-                                        </Alert>
-                                    ) : null}
-                                    <div className="rowuser">
-                                        <label>MAC Address</label>
-                                        <input type="text" autoFocus placeholder="" value={uuid}  onChange={(e) => setUuid(e.target.value)} />
+            {userData.role === 1 || userData.role === 50 ? (
+                <>
+                    <Sidebar/>
+                    <div id="main" className="layout__content">
+                        <TopNav/>
+                        <div className="layout__content-main">
+                            <h2 className="page-header">Device</h2>
+                            <div className="row">
+                                <div className="col-6">
+                                    <div className="card full-height">
+                                        <div>
+                                            <form onSubmit={submit}>
+                                                {err ? (
+                                                    <Alert severity="error">
+                                                        <AlertTitle>Error</AlertTitle>
+                                                        {err}
+                                                    </Alert>
+                                                ) : null}
+                                                <div className="rowuser">
+                                                    <label>MAC Address</label>
+                                                    <input type="text" autoFocus placeholder="" value={uuid}
+                                                           onChange={(e) => setUuid(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Device Type</label>
+                                                    <select id="department" name="department" value={deviceTypeId}
+                                                            onChange={(e) => setdeviceTypeId(e.target.value)} required>
+                                                        <option value="" selected></option>
+                                                        {listData4.lists.map((country, key) => (
+                                                            <option key={key} value={country.id}>
+                                                                {country.deviceTypename}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Product Line</label>
+                                                    <select id="department" name="department" value={productlineId}
+                                                            onChange={(e) => setproductlineId(e.target.value)} required>
+                                                        <option value="" selected></option>
+                                                        {listData2.lists.map((country, key) => (
+                                                            <option key={key} value={country.productlineNo}>
+                                                                {country.productlineText}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Factory</label>
+                                                    <select id="department" name="department" value={factoryId}
+                                                            onChange={(e) => setfactoryId(e.target.value)} required>
+                                                        <option value="" selected></option>
+                                                        {listData3.lists.map((country, key) => (
+                                                            <option key={key} value={country.id}>
+                                                                {country.factoryName}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div id="button" className="rowuser">
+                                                    <button type="submit">submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div className="rowuser">
-                                        <label>Device Type</label>
-                                        <select id="department" name="department" value={deviceTypeId} onChange={(e) => setdeviceTypeId(e.target.value)} >
-                                            <option value=""  selected></option>
-                                            {listData4.lists.map((country, key) => (
-                                                <option key={key} value={country.id}>
-                                                    {country.deviceTypename}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="rowuser">
-                                         <label>Product Line</label>
-                                         <select id="department" name="department" value={productlineId} onChange={(e) => setproductlineId(e.target.value)} >
-                                            <option value=""  selected></option>
-                                            {listData2.lists.map((country, key) => (
-                                                <option key={key} value={country.productlineNo}>
-                                                    {country.productlineText}
-                                                </option>
-                                            ))}
-                                         </select>
-                                    </div>
-                                    <div className="rowuser">
-                                        <label>Factory</label>
-                                        <select id="department" name="department" value={factoryId} onChange={(e) => setfactoryId(e.target.value)} >
-                                            <option value=""  selected></option>
-                                            {listData3.lists.map((country, key) => (
-                                                <option key={key} value={country.id}>
-                                                    {country.factoryName}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div id="button" className="rowuser">
-                                        <button   onClick={submit}>submit</button>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card full-height">
+                                        <div className="card__header">
+                                            <AppBar position="static" style={{
+                                                background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
+                                                borderRadius: "8px"
+                                            }}>
+                                                <Tabs TabIndicatorProps={{
+                                                    style: {
+                                                        backgroundColor: "#ffffff"
+                                                    }
+                                                }} value={value} onChange={handletab}>
+                                                    <Tab label="Active" {...a11yProps(0)} />
+                                                    <Tab label="Pending" {...a11yProps(1)} />
+                                                </Tabs>
+                                            </AppBar>
+                                        </div>
+                                        <TabPanel value={value} index={0}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData1.lists}
+                                                renderBody={(item, index) => renderOrderBody(item, index)}
+                                            />
+                                        </TabPanel>
+                                        <TabPanel value={value} index={1}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData.lists}
+                                                renderBody={(item, index) => renderOrderBody1(item, index)}
+                                            />
+                                        </TabPanel>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card full-height">
-                                <div className="card__header">
-                                <AppBar position="static" style={{background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)` ,borderRadius:"8px"}}>
-                                    <Tabs TabIndicatorProps={{
-                                        style: {
-                                            backgroundColor: "#ffffff"
-                                        }
-                                    }} value={value} onChange={handletab}  >
-                                        <Tab label="Active" {...a11yProps(0)} />
-                                        <Tab label="Pending" {...a11yProps(1)} />
-                                    </Tabs>
-                                </AppBar>
-                            </div>
-                            <TabPanel value={value} index={0}>
-                                <Table
-                                    limit="5"
-                                    headData={fields}
-                                    renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={listData1.lists}
-                                    renderBody={(item, index) => renderOrderBody(item, index)}
-                                />
-                            </TabPanel>
-                            <TabPanel value={value} index={1}>
-                                <Table
-                                    limit="5"
-                                    headData={fields}
-                                    renderHead={(item, index) => renderOrderHead(item, index)}
-                                    bodyData={listData.lists}
-                                    renderBody={(item, index) => renderOrderBody1(item, index)}
-                                />
-                            </TabPanel>
-                            </div>
-                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            ) : null}
         </>
-            ):null}
-            </>
     )
 }
 

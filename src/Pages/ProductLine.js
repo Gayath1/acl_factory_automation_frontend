@@ -157,6 +157,7 @@ const ProductLine = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
+                                    <form onSubmit={submit}>
                                     {err ? (
                                         <Alert severity="error">
                                             <AlertTitle>Error</AlertTitle>
@@ -165,19 +166,20 @@ const ProductLine = () => {
                                     ) : null}
                                     <div className="rowuser">
                                         <label>Product Line No</label>
-                                        <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setproductlineNo(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="" value={name}  onChange={(e) => setproductlineNo(e.target.value)} required/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Durations</label>
-                                        <input type="text"  placeholder="" value={durations}  onChange={(e) => setdurations(e.target.value)} />
+                                        <input type="text"  placeholder="" value={durations}  onChange={(e) => setdurations(e.target.value)} required/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Factory Id</label>
-                                        <input type="text"  placeholder="" value={factoryId}  onChange={(e) => setfactoryId(e.target.value)} />
+                                        <input type="text"  placeholder="" value={factoryId}  onChange={(e) => setfactoryId(e.target.value)} required/>
                                     </div>
                                     <div id="button" className="rowuser">
-                                        <button   onClick={submit}>submit</button>
+                                        <button   type="submit">submit</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

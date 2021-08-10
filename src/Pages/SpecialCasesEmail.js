@@ -159,7 +159,7 @@ const SpecialCaseEmail = () => {
     }, [])
 
     function validateForm() {
-        return specialcaseId.length > 0;
+        return specialcaseId.length > 0 && emailreceipents.length > 0;
     }
 
     const submit = async (e) => {

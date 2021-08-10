@@ -144,6 +144,7 @@ const Fault = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
+                                    <form onSubmit={submit}>
                                     {err ? (
                                         <Alert severity="error">
                                             <AlertTitle>Error</AlertTitle>
@@ -152,7 +153,7 @@ const Fault = () => {
                                     ) : null}
                                     <div className="rowuser">
                                         <label>Fault Type</label>
-                                        <select id="department" name="department" value={faultType} onChange={(e) => setfaultType(e.target.value)} >
+                                        <select id="department" name="department" value={faultType} onChange={(e) => setfaultType(e.target.value)} required>
                                             <option value=""  selected>please select Fault Type</option>
                                             <option value="Down Time">Down Time</option>
                                             <option value="Slow Speed">Slow Speed</option>
@@ -161,7 +162,7 @@ const Fault = () => {
                                     </div>
                                     <div className="rowuser">
                                         <label>Special case</label>
-                                        <select id="department" name="department" value={specialcaseId} onChange={(e) => setspecialcaseId(e.target.value)} >
+                                        <select id="department" name="department" value={specialcaseId} onChange={(e) => setspecialcaseId(e.target.value)} required>
                                             <option value=""  selected>please select special case</option>
                                             {listData.lists.map((country, key) => (
                                                 <option key={key} value={country.id}>
@@ -172,11 +173,12 @@ const Fault = () => {
                                     </div>
                                     <div className="rowuser">
                                         <label>Reason</label>
-                                        <input type="text" autoFocus placeholder="" value={faultreason}  onChange={(e) => setfaultreason(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="" value={faultreason}  onChange={(e) => setfaultreason(e.target.value)} required/>
                                     </div>
                                     <div id="button" className="rowuser">
-                                        <button disabled={!validateForm()}  onClick={submit}>submit</button>
+                                        <button   type="submit">submit</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

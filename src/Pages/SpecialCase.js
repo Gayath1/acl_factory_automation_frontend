@@ -156,6 +156,7 @@ const SpecialCase = () => {
                                 <div className="col-6">
                                     <div className="card full-height">
                                         <div>
+                                            <form onSubmit={submit}>
                                             {err ? (
                                                 <Alert severity="error">
                                                     <AlertTitle>Error</AlertTitle>
@@ -164,11 +165,12 @@ const SpecialCase = () => {
                                             ) : null}
                                             <div className="rowuser">
                                                 <label>Special Name</label>
-                                                <input type="text" autoFocus placeholder="special name" value={spcialName} onChange={(e) => setspcialName(e.target.value)} />
+                                                <input type="text" autoFocus placeholder="special name" value={spcialName} onChange={(e) => setspcialName(e.target.value)} required/>
                                             </div>
                                             <div id="button" className="rowuser">
-                                                <button disabled={!validateForm()}  onClick={submit}>submit</button>
+                                                <button   type="submit">submit</button>
                                             </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

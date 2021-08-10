@@ -156,6 +156,7 @@ const Department = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
+                                    <form onSubmit={submit}>
                                     {err ? (
                                         <Alert severity="error">
                                             <AlertTitle>Error</AlertTitle>
@@ -164,13 +165,13 @@ const Department = () => {
                                     ) : null}
                                     <div className="rowuser">
                                         <label>Department Name</label>
-                                        <input type="text" autoFocus placeholder="department name" value={departmentName} onChange={(e) => setdepartmentName(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="department name" value={departmentName} onChange={(e) => setdepartmentName(e.target.value)} required/>
                                     </div>
                                     <div id="button" className="rowuser">
-                                        <button disabled={!validateForm()}  onClick={submit}>submit</button>
+                                        <button type="submit">submit</button>
                                     </div>
 
-
+                                    </form>
 
                                 </div>
                             </div>

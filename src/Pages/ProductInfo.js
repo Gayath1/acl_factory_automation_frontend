@@ -143,10 +143,14 @@ const Info = () => {
         <tr key={index}>
             <td>{item.productlineNo}</td>
             <td>
-                <input type="number"  placeholder=""  onChange={(e) => onSelect2Change(item.id, e)} value={Pline.speed}/>
+                <input type="number" min="0"  placeholder=""  onChange={(e) => onSelect2Change(item.id, e)} value={Pline.speed} required/>
             </td>
         </tr>
     )
+
+    function validateForm() {
+        return Pline.length > 0;
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -234,6 +238,7 @@ const Info = () => {
                         <div className="col-6">
                             <div className="card full-height">
                                 <div>
+                                    <form onSubmit={submit}>
                                     {err ? (
                                         <Alert severity="error">
                                             <AlertTitle>Error</AlertTitle>
@@ -242,15 +247,15 @@ const Info = () => {
                                     ) : null}
                                     <div className="rowuser">
                                         <label>Product Name</label>
-                                        <input type="text" autoFocus placeholder="" value={productName}  onChange={(e) => setproductName(e.target.value)} />
+                                        <input type="text" autoFocus placeholder="" value={productName}  onChange={(e) => setproductName(e.target.value)} required/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Product Code</label>
-                                        <input type="text"  placeholder="" value={productCode}  onChange={(e) => setproductCode(e.target.value)} />
+                                        <input type="text"  placeholder="" value={productCode}  onChange={(e) => setproductCode(e.target.value)} required/>
                                     </div>
                                     <div className="rowuser">
                                         <label>Down Time</label>
-                                        <select id="department" name="department" value={downTime} onChange={(e) => setdownTime(e.target.value)} >
+                                        <select id="department" name="department" value={downTime} onChange={(e) => setdownTime(e.target.value)} required>
                                             <option value=""  selected>please select DownTime</option>
                                             <option value="5">05 Min</option>
                                             <option value="10">10 Min</option>
@@ -262,10 +267,10 @@ const Info = () => {
                                     </div>
 
                                     <div id="button" className="rowuser">
-                                        <button   onClick={submit}>submit</button>
+                                        <button disabled={!validateForm()}  type="submit">submit</button>
                                     </div>
 
-
+                                    </form>
 
                                 </div>
                             </div>
