@@ -53,6 +53,30 @@ const useStyles = makeStyles({
     },
 });
 
+const token = localStorage.getItem("Token")
+
+const headers = {
+    headers: {
+
+        "Authorization":`Bearer ${token}`
+    }
+};
+
+const deletedata = async (id) => {
+
+    try{
+
+        const body = {id};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/1/delete",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+        console.log(err);
+    }
+
+};
+
+
 const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
 )
@@ -62,7 +86,7 @@ const renderOrderBody = (item, index) => (
         <td>{item.email}</td>
         <td>{item.epfNo}</td>
         <td>
-            <button className="usertblbutton" >Delete</button>
+            <button onClick={()=>{deletedata(item.id)}} className="usertblbutton" >Delete</button>
         </td>
     </tr>
 )
@@ -79,6 +103,7 @@ const Usercreate = () => {
     const [epfNo,setEpfNo] = useState("");
     const [permission,setPermission] = useState("")
     const [selectedFile, setSelectedFile] = useState();
+    const [image, setImage] = useState(avatar);
     const [preview, setPreview] = useState();
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({ lists: [] });
@@ -120,7 +145,7 @@ const Usercreate = () => {
     }, [])
 
     function validateForm() {
-        return email.length > 0 ;
+        return email.length > 0 && selectedFile === null;
     }
 
     const submit = async (e) => {
@@ -128,11 +153,8 @@ const Usercreate = () => {
         setErr("");
         try{
             const  formData = new FormData()
-            {selectedFile ?
-                formData.append('image',selectedFile)
-                :
-                formData.append('image',avatar)
-            }
+
+            formData.append('image',selectedFile)
             formData.append("email", email);
             formData.append("firstName", firstName);
             formData.append("lastName", lastName);

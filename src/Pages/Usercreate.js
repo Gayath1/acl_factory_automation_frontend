@@ -222,7 +222,7 @@ const Usercreate = () => {
     }, [selectedFile])
 
     function validateForm() {
-        return email.length > 0;
+        return email.length > 0 && selectedFile === null;
     }
     const handleChange = (event) => {
         setType(event.target.value);
@@ -245,11 +245,8 @@ const Usercreate = () => {
         if(type === 'Operator'){
             try{
                 const  formData = new FormData()
-                {selectedFile ?
-                    formData.append('image',selectedFile)
-                    :
-                    formData.append('image',avatar)
-                }
+
+                formData.append('image',selectedFile)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -277,11 +274,8 @@ const Usercreate = () => {
         }else if(type === 'Executive'){
             try{
                 const  formData = new FormData()
-                {selectedFile ?
-                    formData.append('image',selectedFile)
-                    :
-                    formData.append('image',avatar)
-                }
+
+                formData.append('image',selectedFile)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -310,11 +304,8 @@ const Usercreate = () => {
         }else if(type === 'Management'){
             try{
                 const  formData = new FormData()
-                {selectedFile === null ?
-                    formData.append('image',avatar)
-                    :
-                    formData.append('image',selectedFile)
-                }
+
+                formData.append('image',avatar)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -396,7 +387,7 @@ const Usercreate = () => {
                                 }
                                 <div className="rowuser">
                                     <label>Epf No</label>
-                                    <input type="number" placeholder="enter your epf no" value={epfNo} onChange={(e) => setepfNo(e.target.value)}/>
+                                    <input type="number" min="0" placeholder="enter your epf no" value={epfNo} onChange={(e) => setepfNo(e.target.value)}/>
                                 </div>
                                 <div className="rowuser">
                                     <label>Mobile</label>
