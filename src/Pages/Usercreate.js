@@ -105,6 +105,34 @@ const deletedata = async (id) => {
 
 };
 
+const deletedata1 = async (id) => {
+
+    try{
+
+        const body = {id};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/1/delete",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+        console.log(err);
+    }
+
+};
+
+const deletedata2 = async (id) => {
+
+    try{
+
+        const body = {id};
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/delete",body,headers);
+        window.location.reload();
+
+    } catch(err) {
+        console.log(err);
+    }
+
+};
+
 const renderOrderBody1 = (item, index) => (
     <tr key={index}>
         <td>{item.firstName}</td>
@@ -116,7 +144,29 @@ const renderOrderBody1 = (item, index) => (
     </tr>
 )
 
+const renderOrderBody2 = (item, index) => (
+    <tr key={index}>
+        <td>{item.firstName}</td>
+        <td>{item.lastName}</td>
+        <td>{item.email}</td>
+        <td>{item.epfNo}</td>
+        <td>
+            <button onClick={()=>{deletedata1(item.id)}} className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
+const renderOrderBody3 = (item, index) => (
+    <tr key={index}>
+        <td>{item.firstName}</td>
+        <td>{item.lastName}</td>
+        <td>{item.email}</td>
+        <td>{item.epfNo}</td>
+        <td>
+            <button onClick={()=>{deletedata2(item.id)}} className="usertblbutton" >Delete</button>
+        </td>
+    </tr>
+)
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -220,6 +270,10 @@ const Usercreate = () => {
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
     }, [selectedFile])
+
+    function validateForm1() {
+        return epfNo.length > 0 && selectedFile === null;
+    }
 
     function validateForm() {
         return email.length > 0 && selectedFile === null;
@@ -453,7 +507,7 @@ const Usercreate = () => {
                                 }
                                 {type === 'Operator' ?
                                     <div id="button" className="rowuser">
-                                        <button  onClick={submit}>Register</button>
+                                        <button disabled={!validateForm1()} onClick={submit}>Register</button>
                                     </div>
                                     :
                                     <div id="button" className="rowuser">
@@ -501,7 +555,7 @@ const Usercreate = () => {
                                         headData={fields}
                                         renderHead={(item, index) => renderOrderHead(item, index)}
                                         bodyData={listData.lists}
-                                        renderBody={(item, index) => renderOrderBody(item, index)}
+                                        renderBody={(item, index) => renderOrderBody2(item, index)}
                                     />
                                 </TabPanel>
                                 <TabPanel value={value} index={1}>
@@ -510,7 +564,7 @@ const Usercreate = () => {
                                         headData={fields}
                                         renderHead={(item, index) => renderOrderHead(item, index)}
                                         bodyData={listData1.lists}
-                                        renderBody={(item, index) => renderOrderBody(item, index)}
+                                        renderBody={(item, index) => renderOrderBody3(item, index)}
                                     />
                                 </TabPanel>
                                 <TabPanel value={value} index={2}>
