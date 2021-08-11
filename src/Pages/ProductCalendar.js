@@ -6,6 +6,8 @@ import UserContext from "../userContext";
 import { Calendar, momentLocalizer} from 'react-big-calendar'
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import axios from "axios";
+import {HashLoader} from "react-spinners";
 const rows = [
     {
         "id": 1,
@@ -41,16 +43,44 @@ const ProductCalendar = () => {
     const {userData} = useContext(UserContext);
     const localizer = momentLocalizer(moment);
     const [listData, setListData] = useState({ lists: [] });
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
 
-    const events= rows.map((appointment)=>{
+    const headers = {
+        headers: {
+
+            "Authorization":`Bearer ${token}`
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/getallpending`,headers
+            );
+            setListData({lists:result.data.data.productionOrders})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
+
+    const events= listData.lists.map((appointment)=>{
         return {
             id: appointment.id,
-            title: appointment.firstName,
+            title: appointment.productInfos.productName,
             start: new Date(appointment.createdAt),
             end: new Date(appointment.updatedAt),
             allDay: true
         }
     })
+
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             {userData.role === 70? (
