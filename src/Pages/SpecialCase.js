@@ -3,7 +3,7 @@ import "../assets/css/Usercreate.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import Table from "../components/table/Table";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
@@ -13,6 +13,7 @@ import UserContext from "../userContext";
 
 const fields = [
     "Special Case",
+    "Case type",
     "Created At",
     "Action"
 ]
@@ -58,20 +59,20 @@ const token = localStorage.getItem("Token")
 const headers = {
     headers: {
 
-        "Authorization":`Bearer ${token}`
+        "Authorization": `Bearer ${token}`
     }
 };
 
 
 const submitdelete = async (id) => {
 
-    try{
+    try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/delete",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/delete", body, headers);
         window.location.reload();
 
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
 
@@ -83,9 +84,13 @@ const renderOrderHead = (item, index) => (
 const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.name}</td>
+        <td>{item.specialcasetypes.specialTypename}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button onClick={()=>{submitdelete(item.id)}} className="usertblbutton" >Delete</button>
+            <button onClick={() => {
+                submitdelete(item.id)
+            }} className="usertblbutton">Delete
+            </button>
         </td>
     </tr>
 )
@@ -94,24 +99,30 @@ const SpecialCase = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
     const [spcialName, setspcialName] = useState("");
+    const [specialtypeId , setspecialtypeId] = useState('');
     const [err, setErr] = useState("");
-    const [listData, setListData] = useState({ lists: [] });
+    const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
     const headers = {
         headers: {
 
-            "Authorization":`Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     };
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/getall`, headers
             );
-            setListData({lists:result.data.data.specialCase})
+            setListData({lists: result.data.data.specialCase})
+            const result1 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1//specialtype/getall`, headers
+            );
+            setListData1({lists: result1.data.data.specialTypes})
             setLoading(false);
         };
         fetchData();
@@ -124,13 +135,13 @@ const SpecialCase = () => {
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
-        try{
+        try {
 
-            const body = {spcialName};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/create",body,headers);
+            const body = {spcialName,specialtypeId};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/specialcasescontroller/1/create", body, headers);
             window.location.reload();
 
-        } catch(err) {
+        } catch (err) {
             err.response.data.message && setErr(err.response.data.message)
         }
 
@@ -138,14 +149,23 @@ const SpecialCase = () => {
 
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
     return (
         <>
-            {userData.role === 1 || userData.role === 50? (
+            {userData.role === 1 || userData.role === 50 ? (
                 <>
                     <Sidebar/>
                     <div id="main" className="layout__content">
@@ -157,19 +177,32 @@ const SpecialCase = () => {
                                     <div className="card full-height">
                                         <div>
                                             <form onSubmit={submit}>
-                                            {err ? (
-                                                <Alert severity="error">
-                                                    <AlertTitle>Error</AlertTitle>
-                                                    {err}
-                                                </Alert>
-                                            ) : null}
-                                            <div className="rowuser">
-                                                <label>Special Name</label>
-                                                <input type="text" autoFocus placeholder="special name" value={spcialName} onChange={(e) => setspcialName(e.target.value)} required/>
-                                            </div>
-                                            <div id="button" className="rowuser">
-                                                <button   type="submit">submit</button>
-                                            </div>
+                                                {err ? (
+                                                    <Alert severity="error">
+                                                        <AlertTitle>Error</AlertTitle>
+                                                        {err}
+                                                    </Alert>
+                                                ) : null}
+                                                <div className="rowuser">
+                                                    <label>Special Name</label>
+                                                    <input type="text" autoFocus placeholder="special name"
+                                                           value={spcialName}
+                                                           onChange={(e) => setspcialName(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Special Case type</label>
+                                                    <select id="department" name="department" value={specialtypeId} onChange={(e) => setspecialtypeId(e.target.value)} >
+                                                        <option value=""  selected>please select Special case type</option>
+                                                        {listData1.lists.map((country, key) => (
+                                                            <option key={key} value={country.id}>
+                                                                {country.specialTypename}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div id="button" className="rowuser">
+                                                    <button type="submit">submit</button>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -191,7 +224,7 @@ const SpecialCase = () => {
                         </div>
                     </div>
                 </>
-            ):null}
+            ) : null}
         </>
     )
 }

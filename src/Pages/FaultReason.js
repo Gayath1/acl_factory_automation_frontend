@@ -13,7 +13,8 @@ import UserContext from "../userContext";
 
 const fields = [
     "Id",
-    "Fault Type",
+    "Special Case",
+    "Case Type",
     "Fault Reason",
     "Created At",
     "Action"
@@ -58,7 +59,8 @@ const renderOrderHead = (item, index) => (
 const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
-        <td>{item.faultType}</td>
+        <td>{item.specialCases.name}</td>
+        <td>{item.specialCases.specialcasetypes.specialTypename}</td>
         <td>{item.faultreason}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
@@ -98,6 +100,10 @@ const Fault = () => {
                 `https://acl-automation.herokuapp.com/api/v1/faultreason/1/getall`,headers
             );
             setListData1({lists:result1.data.data.FaultReasonsDetails})
+            const result2 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1//specialtype/getall`, headers
+            );
+            setListData2({lists: result2.data.data.specialTypes})
             setLoading(false);
         };
 
@@ -153,11 +159,13 @@ const Fault = () => {
                                     ) : null}
                                     <div className="rowuser">
                                         <label>Fault Type</label>
-                                        <select id="department" name="department" value={faultType} onChange={(e) => setfaultType(e.target.value)} required>
-                                            <option value=""  selected>please select Fault Type</option>
-                                            <option value="Down Time">Down Time</option>
-                                            <option value="Slow Speed">Slow Speed</option>
-                                            <option value="Loading Material">Loading Material</option>
+                                        <select id="department" name="department" value={faultType} onChange={(e) => setfaultType(e.target.value)} >
+                                            <option value=""  selected>please select Special case type</option>
+                                            {listData2.lists.map((country, key) => (
+                                                <option key={key} value={country.id}>
+                                                    {country.specialTypename}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                     <div className="rowuser">

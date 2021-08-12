@@ -129,6 +129,8 @@ const SpecialCaseEmail = () => {
     const [listData, setListData] = useState({ lists: [] });
     const [listData1, setListData1] = useState({ lists: [] });
     const [listData2, setListData2] = useState({ lists: [] });
+    const [listData3, setListData3] = useState({ lists: [] });
+    const [specialtypeId , setspecialtypeId] = useState('');
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
 
@@ -153,6 +155,10 @@ const SpecialCaseEmail = () => {
                 `https://acl-automation.herokuapp.com/api/v1/specialcaseemaillreceipentcontroller/1/getall`,headers
             );
             setListData2({lists:result2.data.data.newsavedInfo})
+            const result3 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1//specialtype/getall`, headers
+            );
+            setListData3({lists: result3.data.data.specialTypes})
             setLoading(false);
         };
         fetchData();
@@ -204,16 +210,31 @@ const SpecialCaseEmail = () => {
                                                 </Alert>
                                             ) : null}
                                             <div className="rowuser">
-                                                <label>Special Name</label>
-                                                <select id="department" name="department" value={specialcaseId} onChange={(e) => setspecialcaseId(e.target.value)} >
-                                                    <option value=""  selected>please select Special case</option>
-                                                    {listData.lists.map((country, key) => (
+                                                <label>Case type</label>
+                                                <select id="department" name="department" value={specialtypeId} onChange={(e) => setspecialtypeId(e.target.value)} >
+                                                    <option value=""  selected>please select Special case type</option>
+                                                    {listData3.lists.map((country, key) => (
                                                         <option key={key} value={country.id}>
-                                                            {country.name}
+                                                            {country.specialTypename}
                                                         </option>
                                                     ))}
                                                 </select>
                                             </div>
+                                            {specialtypeId === '1'?
+                                                <div className="rowuser">
+                                                    <label>Special Name</label>
+                                                    <select id="department" name="department" value={specialcaseId} onChange={(e) => setspecialcaseId(e.target.value)} >
+                                                        <option value=""  selected>please select Special case</option>
+                                                        {listData.lists.map((country, key) => (
+                                                            <option key={key} value={country.id}>
+                                                                {country.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                :
+                                                null
+                                            }
                                             <br/>
                                             <br/>
                                             <div style={{ height: 400, width: '100%' }}>
