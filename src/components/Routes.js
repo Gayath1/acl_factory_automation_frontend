@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 
 
 import Dashboard from '../Pages/Dashboard'
@@ -41,7 +41,9 @@ const Routes = () => {
     return (
 
             <Switch>
-
+                <Route exact path="/">
+                    <Redirect to="/Home" />
+                </Route>
                 <Route path="/Loginmanagement" component={Loginmanagement} />
                 <Route path="/Loginexecutive" component={Loginexecutive} />
                 <Route path="/Loginadmin" component={Loginadmin}/>
