@@ -36,7 +36,6 @@ const ChangePasswordAdmin = (props) => {
 
             const body = {passwordConfirm,password,confirmationCode};
             const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/admin/1/changepasswordfirst`,body);
-            setSuccess(loginResponse.data)
             setLoading(false)
             history.push('/Loginadmin')
         } catch(err) {

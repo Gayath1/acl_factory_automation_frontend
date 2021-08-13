@@ -272,11 +272,11 @@ const Usercreate = () => {
     }, [selectedFile])
 
     function validateForm1() {
-        return epfNo.length > 0 && selectedFile === null;
+        return epfNo.length > 0 && selectedFile.length !== null;;
     }
 
     function validateForm() {
-        return email.length > 0 && selectedFile === null;
+        return email.length > 0 && selectedFile.length !== null;;
     }
     const handleChange = (event) => {
         setType(event.target.value);
@@ -359,7 +359,7 @@ const Usercreate = () => {
             try{
                 const  formData = new FormData()
 
-                formData.append('image',avatar)
+                formData.append('image',selectedFile)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
