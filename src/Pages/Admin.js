@@ -145,7 +145,7 @@ const Usercreate = () => {
     }, [])
 
     function validateForm() {
-        return email.length > 0 && selectedFile.length !== null;
+        return email.length > 0 ;
     }
 
     const submit = async (e) => {
