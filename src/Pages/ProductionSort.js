@@ -14,12 +14,9 @@ import axios from "axios";
 
 const fields = [
     "Product Id",
-    "Order Quantity",
     "Product Code",
     "Name",
-    "Product line Id",
-    "Created At",
-    "Action"
+    "Order Quantity"
 ]
 
 const rows = [
@@ -51,10 +48,6 @@ const renderOrderBody = (item, index) => (
         <td>{item.productInfos.productCode}</td>
         <td>{item.productInfos.productName}</td>
         <td>{item.orderQuantity}</td>
-        <td>{item.Shift}</td>
-        <td>
-            <button className="usertblbutton">Delete</button>
-        </td>
     </tr>
 )
 
