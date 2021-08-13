@@ -24,6 +24,13 @@ const Otp = (props) => {
                 const body = {confirmationCode};
                 const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/Management/1/verify/${confirmationCode}`,body);
                 setloadingverify(true)
+                setTimeout(()=>{
+                    //this will make sure the loader is not showed anymore, and your main content will popup
+                    setloadingverify(false)
+                    history.push({pathname: '/ChangeManagementPassword',
+                        state: confirmationCode
+                    })
+                }, 5000)
 
             } catch(err) {
                 err.response.data.message && setErr(err.response.data.message)
@@ -54,7 +61,7 @@ const Otp = (props) => {
                 <div style={{ padding: "5px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"90vh", backgroundColor:"#FFFFFF"}}>
                     <img src={verify} alt="loading..." />
                 </div>
-                <h2 className="page-header" style={{  textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center"}}><a href="/oginadmin">Account verified!Please Login</a></h2>
+                <h2 className="page-header" style={{  textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center"}}><a href="/Loginmanagement">Account verified!Please Login</a></h2>
             </div>
         )
     }
