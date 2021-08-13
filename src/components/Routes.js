@@ -34,6 +34,8 @@ import SendEmailexecutive from "../Pages/SendEmailexecutive";
 import ForgotPasswordExecutive from "../Pages/ForgotPasswordExecutive";
 import SendEmailmanagement from "../Pages/SendEmailmanagement";
 import ForgotPasswordManagement from "../Pages/ForgotPasswordManagement";
+import ChangeExecutivePassword from "../Pages/ChangeExecutivePassword";
+import ChangeAdminPassword from "../Pages/ChangeAdminPassword";
 
 
 const Routes = () => {
@@ -75,6 +77,8 @@ const Routes = () => {
                 <Route path="/ForgotPasswordExecutive/:confirmationCode" component={ForgotPasswordExecutive} />
                 <Route path="/SendEmailmanagement" component={SendEmailmanagement} />
                 <Route path="/ForgotPasswordManagement/:confirmationCode" component={ForgotPasswordManagement} />
+                <Route path="/ChangeExecutivePassword" component={ChangeExecutivePassword} />
+                <Route path="/ChangeAdminPassword" component={ChangeAdminPassword} />
 
             </Switch>
 
