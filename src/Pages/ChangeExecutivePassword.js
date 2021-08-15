@@ -9,7 +9,6 @@ import Email from '../assets/email.gif';
 import {useHistory, useLocation} from "react-router-dom";
 
 
-
 const ChangePasswordExecutive = (props) => {
 
     const [password, setpassword] = useState("");
@@ -32,13 +31,13 @@ const ChangePasswordExecutive = (props) => {
         setLoading(true)
         setErr("");
         setSuccess("");
-        try{
+        try {
 
-            const body = {passwordConfirm,password,confirmationCode};
-            const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/Executives/1/changepasswordfirst`,body);
+            const body = {passwordConfirm, password, confirmationCode};
+            const loginResponse = await axios.post(`https://acl-automation.herokuapp.com/api/v1/Executives/1/changepasswordfirst`, body);
             setLoading(false)
             history.push('/Loginexecutive')
-        } catch(err) {
+        } catch (err) {
             setLoading(false)
             err.response.data.message && setErr(err.response.data.message)
         }
@@ -46,11 +45,19 @@ const ChangePasswordExecutive = (props) => {
     };
 
 
-
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <img src={Email} alt="loading..." />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <img src={Email} alt="loading..."/>
             </div>
         )
     }
@@ -73,14 +80,16 @@ const ChangePasswordExecutive = (props) => {
                 ) : null}
                 <div className="rowlogin">
                     <label>New password</label>
-                    <input type="password"  placeholder="Enter your password" value={password}  onChange={(e) => setpassword(e.target.value)} />
+                    <input type="password" placeholder="Enter your password" value={password}
+                           onChange={(e) => setpassword(e.target.value)}/>
                 </div>
                 <div className="rowlogin">
                     <label>Confirm new password</label>
-                    <input type="password"   placeholder="Confirm your password" value={passwordConfirm}  onChange={(e) => setpasswordConfirm(e.target.value)} />
+                    <input type="password" placeholder="Confirm your password" value={passwordConfirm}
+                           onChange={(e) => setpasswordConfirm(e.target.value)}/>
                 </div>
                 <div id="button" className="rowuser">
-                    <button  onClick={submit}>Change Password</button>
+                    <button onClick={submit}>Change Password</button>
                 </div>
             </div>
             <div id="alternativeLogin">
