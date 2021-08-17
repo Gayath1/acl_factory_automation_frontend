@@ -1,19 +1,20 @@
-import React, {useContext,useState} from 'react';
+import React, {useContext, useState} from 'react';
 import "../assets/css/Login.css";
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import {useHistory} from 'react-router-dom';
+import {Alert, AlertTitle} from '@material-ui/lab';
 import UserContext from '../userContext';
 import {HashLoader} from "react-spinners";
 
 const Loginadmin = () => {
 
-    const { setUserData } = useContext(UserContext);
+    const {setUserData} = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     let [loading, setLoading] = useState('');
     const [err, setErr] = useState("");
     const history = useHistory();
+
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
@@ -22,13 +23,13 @@ const Loginadmin = () => {
         //e.preventDefault();
         setErr("");
         setLoading(true);
-        try{
+        try {
             const body = ({email, password});
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/admin/login", body);
             setUserData({
                 token: loginResponse.data.data.token,
                 user: loginResponse.data.data.user.id,
-                role : loginResponse.data.data.userpermissions.permissions.id,
+                role: loginResponse.data.data.userpermissions.permissions.id,
 
             });
 
@@ -38,9 +39,7 @@ const Loginadmin = () => {
             history.push("/Dashboard")
 
 
-
-
-        } catch(err) {
+        } catch (err) {
             setLoading(false)
             err.response.data.message && setErr(err.response.data.message)
         }
@@ -48,8 +47,17 @@ const Loginadmin = () => {
 
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
@@ -66,16 +74,18 @@ const Loginadmin = () => {
                 ) : null}
                 <div className="rowlogin">
                     <label>Username</label>
-                    <input type="email" id="email" autoFocus placeholder="Enter your username" value={email}  onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" id="email" autoFocus placeholder="Enter your username" value={email}
+                           onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div className="rowlogin">
                     <label>Password</label>
-                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <input type="password" placeholder="Enter your password" value={password}
+                           onChange={(e) => setPassword(e.target.value)}/>
                 </div>
 
 
                 <div id="button" className="rowlogin">
-                    <button  disabled={!validateForm()} onClick={submit}>Log in</button>
+                    <button disabled={!validateForm()} onClick={submit}>Log in</button>
                     <br/>
                     <a href="/SendEmail">Forgot Password?</a>
                 </div>
