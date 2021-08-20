@@ -333,8 +333,12 @@ const Dashboard = () => {
     const [value, setValue] = React.useState(0);
     const [value1, setValue1] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl1, setAnchorEl1] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+    };
+    const handleClick1 = (event) => {
+        setAnchorEl1(event.currentTarget);
     };
 
 
@@ -345,9 +349,10 @@ const Dashboard = () => {
             "title": "Daily Availability"
         },
         {
-            "icon": "bx bx-cart",
+            "icon": "bx bxs-traffic-barrier",
             "count": "2,001",
-            "title": "OEE"
+            "title": "Total Slowdown",
+            "onClick": handleClick1
         },
         {
             "icon": "bx bx-dollar-circle",
@@ -365,6 +370,10 @@ const Dashboard = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleClose1 = () => {
+        setAnchorEl1(null);
     };
 
     const handletab = (event, newValue) => {
@@ -395,7 +404,9 @@ const Dashboard = () => {
     ];
 
     const open = Boolean(anchorEl);
+    const open1 = Boolean(anchorEl1);
     const id = open ? 'simple-popover' : undefined;
+    const id1 = open1 ? 'simple-popover' : undefined;
 
     return (
         <>
@@ -435,6 +446,30 @@ const Dashboard = () => {
                                         </div>
                                     ))
                                 }
+                                <Popover
+                                    id={id1}
+                                    open={open1}
+                                    anchorEl={anchorEl1}
+                                    onClose={handleClose1}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    <MaterialTable
+                                        title=""
+                                        columns={columns}
+                                        data={data}
+                                        icons={tableIcons}
+                                        // options={{
+                                        //     filtering: true
+                                        // }}
+                                    />
+                                </Popover>
                                 <Popover
                                     id={id}
                                     open={open}
