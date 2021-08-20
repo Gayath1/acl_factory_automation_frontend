@@ -246,7 +246,7 @@ const Device = () => {
     }
     return (
         <>
-            {userData.role === 1 || userData.role === 50 ? (
+            {userData.role === 2 ? (
                 <>
                     <Sidebar/>
                     <div id="main" className="layout__content">

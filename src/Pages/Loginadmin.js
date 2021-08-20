@@ -35,8 +35,12 @@ const Loginadmin = () => {
 
             localStorage.setItem("Token", loginResponse.data.data.token);
             setLoading(false)
+            if(loginResponse.data.data.userpermissions.permissions.id === 2){
+                history.push("/Device")
+            }else{
+                history.push("/Dashboard")
+            }
 
-            history.push("/Dashboard")
 
 
         } catch (err) {

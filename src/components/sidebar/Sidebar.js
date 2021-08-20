@@ -5,6 +5,14 @@ import UserContext from '../../userContext'
 import './sidebar.css'
 import logo from '../../assets/INNOVIGENT.png';
 
+const sidebar_items3 = [
+    {
+        "display_name": "Devices",
+        "route": "/Device",
+        "icon": "bx bx-devices"
+    }
+]
+
 const sidebar_items2 = [
     {
         "display_name": "Dashboard",
@@ -68,11 +76,6 @@ const sidebar_items = [
             "icon": "bx bxs-factory"
         },
         {
-            "display_name": "Devices",
-            "route": "/Device",
-            "icon": "bx bx-devices"
-        },
-        {
             "display_name": "Fault Cases",
             "route": "/SpecialCase",
             "icon": "bx bx-import"
@@ -128,6 +131,7 @@ const Sidebar = props => {
     const activeItem = sidebar_items.findIndex(item => item.route === window.location.pathname)
     const activeItem1 = sidebar_items1.findIndex(item => item.route === window.location.pathname)
     const activeItem2 = sidebar_items2.findIndex(item => item.route === window.location.pathname)
+    const activeItem3 = sidebar_items3.findIndex(item => item.route === window.location.pathname)
 
     function closeNav() {
         setIsCollapsed(true)
@@ -240,6 +244,39 @@ const Sidebar = props => {
                                         title={item.display_name}
                                         icon={item.icon}
                                         active={index === activeItem2}
+                                    />
+                                }
+                            </Link>
+                        ))
+                    }
+                </div>
+            ):null}
+            {userData.role === 2 ?(
+                <div id="mySidebar" className='sidebar'>
+                    {isCollapsed === true ? <div className="sidebar__itemmenu">
+                            <button className="sidebar__item-inner"  onClick={openNav}><i className='bx bx-menu'></i></button>
+                        </div>:
+                        <div className="sidebar__itemmenu">
+                            <button className="sidebar__item-inner"  onClick={closeNav}><i className='bx bx-menu'></i></button>
+                        </div>
+                    }
+
+                    <div className="sidebar__logo">
+                        <img src={logo} alt="company logo" />
+                    </div>
+
+                    {
+                        sidebar_items3.map((item, index) => (
+                            <Link to={item.route} key={index}>
+                                {isCollapsed === true ?
+                                    <SidebarItem
+                                        icon={item.icon}
+                                        active={index === activeItem3}
+                                    />:
+                                    <SidebarItem
+                                        title={item.display_name}
+                                        icon={item.icon}
+                                        active={index === activeItem3}
                                     />
                                 }
                             </Link>
