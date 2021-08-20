@@ -30,6 +30,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
+import moment from "moment";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -50,6 +51,41 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref}/>),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
 };
+
+const fields = [
+    "Device Id",
+    "Factory ",
+    "Product line Id",
+    "Created At",
+    "Action"
+]
+
+function TabPanel1(props) {
+    const {children, value1, index, ...other} = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value1 !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value1 === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps1(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -271,6 +307,7 @@ const Dashboard = () => {
     const [data, setData] = useState(rows);
     const [checked, setChecked] = useState(false);
     const [value, setValue] = React.useState(0);
+    const [value1, setValue1] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -309,6 +346,9 @@ const Dashboard = () => {
 
     const handletab = (event, newValue) => {
         setValue(newValue);
+    };
+    const handletab1 = (event, newValue) => {
+        setValue1(newValue);
     };
 
     const filterValue = value => {
@@ -431,16 +471,40 @@ const Dashboard = () => {
                             <div className="col-8">
                                 <div className="card">
                                     <div className="card__header">
-                                        <h3>Machine Downtime reasons</h3>
+                                        <AppBar position="static" style={{
+                                            background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
+                                            borderRadius: "8px"
+                                        }}>
+                                            <Tabs TabIndicatorProps={{
+                                                style: {
+                                                    backgroundColor: "#ffffff"
+                                                }
+                                            }} value={value1} onChange={handletab1}>
+                                                <Tab label="Active" {...a11yProps1(0)} />
+                                                <Tab label="Pending" {...a11yProps1(1)} />
+                                            </Tabs>
+                                        </AppBar>
                                     </div>
+
                                     <div className="card__body">
-                                        <Table
-                                            limit="5"
-                                            headData={latestOrders.header}
-                                            renderHead={(item, index) => renderOrderHead(item, index)}
-                                            bodyData={latestOrders.body}
-                                            renderBody={(item, index) => renderOrderBody(item, index)}
-                                        />
+                                        <TabPanel1 value1={value1} index={0}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={rows}
+                                                renderBody={(item, index) => renderOrderBody(item, index)}
+                                            />
+                                        </TabPanel1>
+                                        <TabPanel1 value1={value1} index={1}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={rows}
+                                                renderBody={(item, index) => renderOrderBody(item, index)}
+                                            />
+                                        </TabPanel1>
                                     </div>
                                     <div className="card__footer">
                                         <Link to='/'>view all</Link>
