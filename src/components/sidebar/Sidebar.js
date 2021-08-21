@@ -7,6 +7,11 @@ import logo from '../../assets/INNOVIGENT.png';
 
 const sidebar_items3 = [
     {
+        "display_name": "Users",
+        "route": "/InnovigentUser",
+        "icon": "bx bx-user"
+    },
+    {
         "display_name": "Devices",
         "route": "/Device",
         "icon": "bx bx-devices"
