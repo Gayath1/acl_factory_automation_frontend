@@ -38,6 +38,7 @@ import ChangeExecutivePassword from "../Pages/ChangeExecutivePassword";
 import ChangeAdminPassword from "../Pages/ChangeAdminPassword";
 import ChangeManagementPassword from "../Pages/ChangeManagementPassword";
 import InnovigentUser from "../Pages/InnovigentUser";
+import AdvancedDashboard from "../Pages/AdvancedDashboard";
 
 
 const Routes = () => {
@@ -83,6 +84,7 @@ const Routes = () => {
                 <Route path="/ChangeAdminPassword" component={ChangeAdminPassword} />
                 <Route path="/ChangeManagementPassword" component={ChangeManagementPassword} />
                 <Route path="/InnovigentUser" component={InnovigentUser} />
+                <Route path="/AdvancedDashboard" component={AdvancedDashboard} />
 
             </Switch>
 

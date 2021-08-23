@@ -31,6 +31,7 @@ import Typography from "@material-ui/core/Typography";
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import moment from "moment";
+import axios from "axios";
 
 
 const tableIcons = {
@@ -334,6 +335,28 @@ const Dashboard = () => {
     const [value1, setValue1] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorEl1, setAnchorEl1] = React.useState(null);
+    const [listData, setListData] = useState({lists: []});
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
+
+    const headers = {
+        headers: {
+
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/factories/1/getall`, headers
+            );
+            setListData({lists: result.data.data.FactoryDetails})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -344,25 +367,37 @@ const Dashboard = () => {
 
     const statusCards = [
         {
-            "icon": "bx bx-shopping-bag",
+            "icon": "bx bx-error-alt",
             "count": "1,995",
-            "title": "Daily Availability"
+            "title": "Not respond"
         },
         {
             "icon": "bx bxs-traffic-barrier",
             "count": "2,001",
-            "title": "Total Slowdown",
+            "title": "Total Breakdown",
             "onClick": handleClick1
         },
         {
-            "icon": "bx bx-dollar-circle",
+            "icon": "bx bx-pause",
             "count": "$2,632",
-            "title": "OEEP"
+            "title": "Slow Speeds"
         },
         {
             "icon": "bx bx-wrench",
             "count": "1,711",
-            "title": "Total Breakdown",
+            "title": "Downtime",
+            "onClick": handleClick
+        },
+        {
+            "icon": "bx bxl-product-hunt",
+            "count": "1,711",
+            "title": "Planned Production",
+            "onClick": handleClick
+        },
+        {
+            "icon": "bx bxl-product-hunt",
+            "count": "1,711",
+            "title": "Total Productions",
             "onClick": handleClick
         }
     ]
@@ -410,194 +445,131 @@ const Dashboard = () => {
 
     return (
         <>
-        <Sidebar/>
-        <div id="main" className="layout__content">
-            <TopNav/>
-            <div className="layout__content-main">
-                <AppBar position="static" style={{
-                    background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
-                    borderRadius: "8px"
-                }}>
-                    <Tabs TabIndicatorProps={{
-                        style: {
-                            backgroundColor: "#ffffff"
-                        }
-                    }} value={value} onChange={handletab}>
-                        <Tab label="Dashboard" {...a11yProps(0)} />
-                        <Tab label="Pending" {...a11yProps(1)} />
-                    </Tabs>
-                </AppBar>
-            </div>
-            <TabPanel value={value} index={0}>
-                <div>
-                    <h2 className="page-header">Dashboard</h2>
-                    <div className="row">
-                        <div className="col-6">
+            <Sidebar/>
+            <div id="main" className="layout__content">
+                <TopNav/>
+                <div className="layout__content-main">
+                    <AppBar position="static" style={{
+                        background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
+                        borderRadius: "8px"
+                    }}>
+                        <Tabs TabIndicatorProps={{
+                            style: {
+                                backgroundColor: "#ffffff"
+                            }
+                        }} value={value} onChange={handletab}>
+                            {listData.lists.map((country, index) => (
+                                <Tab
+                                    label={country.factoryName}
+                                    id={`simple-tab-${index}`}
+                                    key={country.id}
+                                    ariaControls={`simple-tabpanel-${index}`}
+                                />
+                            ))}
+                        </Tabs>
+                    </AppBar>
+                </div>
+                {listData.lists.map((tabInfo, index) => (
+                    <TabPanel value={value} index={index}>
+                        <div>
+                            <h2 className="page-header">Dashboard</h2>
                             <div className="row">
-                                {
-                                    statusCards.map((item, index) => (
-                                        <div className="col-6" key={index}>
-                                            <StatusCard
-                                                icon={item.icon}
-                                                count={item.count}
-                                                title={item.title}
-                                                onClick={item.onClick}
-                                            />
-                                        </div>
-                                    ))
-                                }
-                                <Popover
-                                    id={id1}
-                                    open={open1}
-                                    anchorEl={anchorEl1}
-                                    onClose={handleClose1}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'center',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'center',
-                                    }}
-                                >
-                                    <MaterialTable
-                                        title=""
-                                        columns={columns}
-                                        data={data}
-                                        icons={tableIcons}
-                                        // options={{
-                                        //     filtering: true
-                                        // }}
-                                    />
-                                </Popover>
-                                <Popover
-                                    id={id}
-                                    open={open}
-                                    anchorEl={anchorEl}
-                                    onClose={handleClose}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'center',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'center',
-                                    }}
-                                >
-                                    <MaterialTable
-                                        title=""
-                                        columns={columns}
-                                        data={data}
-                                        icons={tableIcons}
-                                        // options={{
-                                        //     filtering: true
-                                        // }}
-                                    />
-                                </Popover>
-                            </div>
-                        </div>
-                        <div className="col-6">
-                            <div className="card full-height">
-                                {/* chart */}
-                                <Chart options={chartOptions.options} series={chartOptions.series} type="bar" height={350}/>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card__header">
-                                <h3>DownTimes</h3>
-                            </div>
-                            <div className="card__body">
-                                <Table
-                                    limit="5"
-                                    headData={topCustomers.head}
-                                    renderHead={(item, index) => renderCusomerHead(item, index)}
-                                    bodyData={topCustomers.body}
-                                    renderBody={(item, index) => renderCusomerBody(item, index)}
-                                />
-                            </div>
-                            <div className="card__footer">
-                                <Link to='/'>view all</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-8">
-                        <div className="card">
-                            <div className="card__header">
-                                <AppBar position="static" style={{
-                                    background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
-                                    borderRadius: "8px"
-                                }}>
-                                    <Tabs TabIndicatorProps={{
-                                        style: {
-                                            backgroundColor: "#ffffff"
+                                <div className="col-6">
+                                    <div className="row">
+                                        {
+                                            statusCards.map((item, index) => (
+                                                <div className="col-6" key={index}>
+                                                    <StatusCard
+                                                        icon={item.icon}
+                                                        count={item.count}
+                                                        title={item.title}
+                                                        onClick={item.onClick}
+                                                    />
+                                                </div>
+                                            ))
                                         }
-                                    }} value={value1} onChange={handletab1}>
-                                        <Tab label="Active" {...a11yProps1(0)} />
-                                        <Tab label="Pending" {...a11yProps1(1)} />
-                                    </Tabs>
-                                </AppBar>
-                            </div>
+                                        <Popover
+                                            id={id1}
+                                            open={open1}
+                                            anchorEl={anchorEl1}
+                                            onClose={handleClose1}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'center',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'center',
+                                            }}
+                                        >
+                                            <MaterialTable
+                                                title=""
+                                                columns={columns}
+                                                data={data}
+                                                icons={tableIcons}
+                                                // options={{
+                                                //     filtering: true
+                                                // }}
+                                            />
+                                        </Popover>
+                                        <Popover
+                                            id={id}
+                                            open={open}
+                                            anchorEl={anchorEl}
+                                            onClose={handleClose}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'center',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'center',
+                                            }}
+                                        >
+                                            <MaterialTable
+                                                title=""
+                                                columns={columns}
+                                                data={data}
+                                                icons={tableIcons}
+                                                // options={{
+                                                //     filtering: true
+                                                // }}
+                                            />
+                                        </Popover>
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                    <div className="card full-height">
+                                        {/* chart */}
+                                        <Chart options={chartOptions.options} series={chartOptions.series} type="bar"
+                                               height={350}/>
+                                    </div>
 
-                            <div className="card__body">
-                                <TabPanel1 value1={value1} index={0}>
-                                    <Table
-                                        limit="5"
-                                        headData={fields}
-                                        renderHead={(item, index) => renderOrderHead(item, index)}
-                                        bodyData={rows}
-                                        renderBody={(item, index) => renderOrderBody(item, index)}
-                                    />
-                                </TabPanel1>
-                                <TabPanel1 value1={value1} index={1}>
-                                    <Table
-                                        limit="5"
-                                        headData={fields}
-                                        renderHead={(item, index) => renderOrderHead(item, index)}
-                                        bodyData={rows}
-                                        renderBody={(item, index) => renderOrderBody(item, index)}
-                                    />
-                                </TabPanel1>
+                                </div>
                             </div>
-                            <div className="card__footer">
-                                <Link to='/'>view all</Link>
+                            <div className="col-12">
+                                <div className="card">
+                                    <div className="card__header">
+                                        <h3>DownTimes</h3>
+                                    </div>
+                                    <div className="card__body">
+                                        <Chart options={chartOptions.options} series={chartOptions.series} type="line"
+                                               height={350}/>
+                                    </div>
+                                    <div className="card__footer">
+                                        <Link to='/AdvancedDashboard'>view all</Link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-8">
-                        <div className="card">
-                            <div className="card__header">
-                                <h3>Machine Downtime reasons</h3>
-                            </div>
-                            <div className="card__body">
-                                <MaterialTable
-                                    title=""
-                                    columns={columns}
-                                    data={data}
-                                    icons={tableIcons}
-                                    // options={{
-                                    //     filtering: true
-                                    // }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-        </TabPanel>
-    <TabPanel value={value} index={1}>
-
-    </TabPanel>
+                    </TabPanel>
+                ))}
 
 
-</div>
+            </div>
 
-</>
-)
+        </>
+    )
 }
 
 export default Dashboard
