@@ -4,7 +4,7 @@ import './statuscard.css'
 
 const StatusCard = props => {
     return (
-        <div className='status-card' onClick={props.onClick}>
+        <div className='status-card' onClick={props.onClick} style={{backgroundColor:props.color}}>
             <div className="status-card__icon">
                 <i className={props.icon}></i>
             </div>

@@ -369,36 +369,42 @@ const Dashboard = () => {
         {
             "icon": "bx bx-error-alt",
             "count": "1,995",
-            "title": "Not respond"
+            "title": "Not respond",
+            "color":"#ffcc00"
         },
         {
             "icon": "bx bxs-traffic-barrier",
             "count": "2,001",
             "title": "Total Breakdown",
-            "onClick": handleClick1
+            "onClick": handleClick1,
+            "color":"#fb0b12"
         },
         {
             "icon": "bx bx-pause",
             "count": "$2,632",
-            "title": "Slow Speeds"
+            "title": "Slow Speeds",
+            "color":"#fca11a"
         },
         {
             "icon": "bx bx-wrench",
             "count": "1,711",
             "title": "Downtime",
-            "onClick": handleClick
+            "onClick": handleClick,
+            "color":"#fca11a"
         },
         {
             "icon": "bx bxl-product-hunt",
             "count": "1,711",
             "title": "Planned Production",
-            "onClick": handleClick
+            "onClick": handleClick,
+            "color":"#4caf50"
         },
         {
             "icon": "bx bxl-product-hunt",
             "count": "1,711",
             "title": "Total Productions",
-            "onClick": handleClick
+            "onClick": handleClick,
+            "color":"#019707"
         }
     ]
 
@@ -484,6 +490,7 @@ const Dashboard = () => {
                                                         count={item.count}
                                                         title={item.title}
                                                         onClick={item.onClick}
+                                                        color={item.color}
                                                     />
                                                 </div>
                                             ))
