@@ -101,6 +101,11 @@ const sidebar_items = [
         "icon": "bx bx-info-square"
     },
     {
+        "display_name": "Product Speed",
+        "route": "/ProductionSpeed",
+        "icon": "bx bx-info-square"
+    },
+    {
         "display_name": "Fault Manage",
         "route": "/Fault",
         "icon": "bx bx-error-alt"

@@ -261,81 +261,81 @@ const Info = () => {
                 <TopNav/>
                     <div className="layout__content-main">
                         <h2 className="page-header">Production Order</h2>
-                            <div className="row">
-                                <div className="col-6">
-                                    <div className="card full-height">
-                                        <div>
-                                            {err ? (
-                                                <Alert severity="error">
-                                                    <AlertTitle>Error</AlertTitle>
-                                                    {err}
-                                                </Alert>
-                                            ) : null}
-                                        <div className="rowuser">
-                                            <label>Product Code</label>
-                                            <CreatableSelect
-                                                options={options}
-                                                className="rowuserproductivity"
-                                                components={{ SingleValue}}
-                                                isValidNewOption={() => false}
-                                                placeholder=""
-                                                // styles={customStyles}
-                                                onChange={handleChange}
-                                                styles={{
-                                                    control: base => ({
-                                                        ...base,
-                                                        border: 0,
-                                                        // This line disable the blue border
-                                                        boxShadow: 'none'
-                                                    }),
-                                                    menu: (provided, state) => ({
-                                                        ...provided,
-                                                        width: "95%",
-                                                        padding: 30,
-                                                    }),
-                                                    singleValue: (provided, state) => ({
-                                                        ...provided,
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        opacity : 0.5
-                                                    })
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="rowuser">
-                                            <label>Product Order no.</label>
-                                            <input type="number"  placeholder="" value={productionorderCode}  onChange={(e) => setproductionorderCode(e.target.value)} />
-                                        </div>
-                                        <div className="rowuser">
-                                            <label>Product</label>
-                                            <input type="text"  placeholder="" value={name} disabled/>
-                                        </div>
-                                        <div className="rowuser">
-                                            <label>Quantity(KG)</label>
-                                            <select  value={orderQuantity} onChange={(e) => setorderQuantity(e.target.value)}>
-                                                <option value=""  selected></option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="10">10</option>
-                                                <option value="12">12</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="22">22</option>
-                                                <option value="25">25</option>
-                                                <option value="30">30</option>
-                                            </select>
-                                        </div>
+                        {/*    <div className="row">*/}
+                        {/*        <div className="col-6">*/}
+                        {/*            <div className="card full-height">*/}
+                        {/*                <div>*/}
+                        {/*                    {err ? (*/}
+                        {/*                        <Alert severity="error">*/}
+                        {/*                            <AlertTitle>Error</AlertTitle>*/}
+                        {/*                            {err}*/}
+                        {/*                        </Alert>*/}
+                        {/*                    ) : null}*/}
+                        {/*                <div className="rowuser">*/}
+                        {/*                    <label>Product Code</label>*/}
+                        {/*                    <CreatableSelect*/}
+                        {/*                        options={options}*/}
+                        {/*                        className="rowuserproductivity"*/}
+                        {/*                        components={{ SingleValue}}*/}
+                        {/*                        isValidNewOption={() => false}*/}
+                        {/*                        placeholder=""*/}
+                        {/*                        // styles={customStyles}*/}
+                        {/*                        onChange={handleChange}*/}
+                        {/*                        styles={{*/}
+                        {/*                            control: base => ({*/}
+                        {/*                                ...base,*/}
+                        {/*                                border: 0,*/}
+                        {/*                                // This line disable the blue border*/}
+                        {/*                                boxShadow: 'none'*/}
+                        {/*                            }),*/}
+                        {/*                            menu: (provided, state) => ({*/}
+                        {/*                                ...provided,*/}
+                        {/*                                width: "95%",*/}
+                        {/*                                padding: 30,*/}
+                        {/*                            }),*/}
+                        {/*                            singleValue: (provided, state) => ({*/}
+                        {/*                                ...provided,*/}
+                        {/*                                display: "flex",*/}
+                        {/*                                alignItems: "center",*/}
+                        {/*                                opacity : 0.5*/}
+                        {/*                            })*/}
+                        {/*                        }}*/}
+                        {/*                    />*/}
+                        {/*                </div>*/}
+                        {/*                <div className="rowuser">*/}
+                        {/*                    <label>Product Order no.</label>*/}
+                        {/*                    <input type="number"  placeholder="" value={productionorderCode}  onChange={(e) => setproductionorderCode(e.target.value)} />*/}
+                        {/*                </div>*/}
+                        {/*                <div className="rowuser">*/}
+                        {/*                    <label>Product</label>*/}
+                        {/*                    <input type="text"  placeholder="" value={name} disabled/>*/}
+                        {/*                </div>*/}
+                        {/*                <div className="rowuser">*/}
+                        {/*                    <label>Quantity(KG)</label>*/}
+                        {/*                    <select  value={orderQuantity} onChange={(e) => setorderQuantity(e.target.value)}>*/}
+                        {/*                        <option value=""  selected></option>*/}
+                        {/*                        <option value="1">1</option>*/}
+                        {/*                        <option value="2">2</option>*/}
+                        {/*                        <option value="3">3</option>*/}
+                        {/*                        <option value="4">4</option>*/}
+                        {/*                        <option value="5">5</option>*/}
+                        {/*                        <option value="10">10</option>*/}
+                        {/*                        <option value="12">12</option>*/}
+                        {/*                        <option value="15">15</option>*/}
+                        {/*                        <option value="20">20</option>*/}
+                        {/*                        <option value="22">22</option>*/}
+                        {/*                        <option value="25">25</option>*/}
+                        {/*                        <option value="30">30</option>*/}
+                        {/*                    </select>*/}
+                        {/*                </div>*/}
 
-                                        <div id="button" className="rowuser">
-                                            <button   onClick={submit}>submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {/*                <div id="button" className="rowuser">*/}
+                        {/*                    <button   onClick={submit}>submit</button>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <div className="row">
                             <div className="col-12">
                                 <div className="card full-height">
