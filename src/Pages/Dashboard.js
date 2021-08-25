@@ -1,6 +1,6 @@
 import React, {useEffect, useState, forwardRef} from 'react'
 import {makeStyles} from '@material-ui/core/styles';
-import {Link, Route} from 'react-router-dom';
+import {Link, Route, useHistory} from 'react-router-dom';
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 import StatusCard from '../components/status-card/StatusCard';
@@ -338,6 +338,7 @@ const Dashboard = () => {
     const [listData, setListData] = useState({lists: []});
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
+    const history = useHistory();
 
     const headers = {
         headers: {
@@ -362,6 +363,9 @@ const Dashboard = () => {
     };
     const handleClick1 = (event) => {
         setAnchorEl1(event.currentTarget);
+    };
+    const handleClick2 = (event) => {
+        history.push('/BreakdownTable')
     };
 
 
@@ -401,9 +405,9 @@ const Dashboard = () => {
         },
         {
             "icon": "bx bxl-product-hunt",
-            "count": "1,711",
-            "title": "Total Productions",
-            "onClick": handleClick,
+            "count": "SEE MORE",
+            "title": ">>>>>>>>",
+            "onClick": handleClick2,
             "color":"#019707"
         }
     ]
