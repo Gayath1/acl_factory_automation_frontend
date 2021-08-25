@@ -40,6 +40,7 @@ import ChangeManagementPassword from "../Pages/ChangeManagementPassword";
 import InnovigentUser from "../Pages/InnovigentUser";
 import AdvancedDashboard from "../Pages/AdvancedDashboard";
 import ProductionSpeed from "../Pages/ProductionSpeed";
+import BreakdownTable from "../Pages/BreakdownTable";
 
 
 const Routes = () => {
@@ -87,6 +88,7 @@ const Routes = () => {
                 <Route path="/InnovigentUser" component={InnovigentUser} />
                 <Route path="/AdvancedDashboard" component={AdvancedDashboard} />
                 <Route path="/ProductionSpeed" component={ProductionSpeed} />
+                <Route path="/BreakdownTable" component={BreakdownTable} />
 
             </Switch>
 
