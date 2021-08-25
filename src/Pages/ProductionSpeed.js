@@ -11,7 +11,18 @@ import {HashLoader} from "react-spinners";
 import UserContext from "../userContext";
 import {css} from "@emotion/css";
 import CreatableSelect from "react-select/creatable";
-
+import TableMaterial from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Input from "@material-ui/core/Input";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+// Icons
+import EditIcon from "@material-ui/icons/EditOutlined";
+import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
+import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
 
 const fields = [
     "Product Name",
@@ -49,20 +60,20 @@ const rows = [
     }
 ];
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: "100%"
-    },
-    paper: {
-        marginTop: theme.spacing(3),
-        width: "100%",
-        overflowX: "auto",
-        marginBottom: theme.spacing(2)
-    },
-    table: {
-        minWidth: 650
-    }
-}));
+// const useStyles = makeStyles(theme => ({
+//     root: {
+//         width: "100%"
+//     },
+//     paper: {
+//         marginTop: theme.spacing(3),
+//         width: "100%",
+//         overflowX: "auto",
+//         marginBottom: theme.spacing(2)
+//     },
+//     table: {
+//         minWidth: 650
+//     }
+// }));
 
 const token = localStorage.getItem("Token")
 
@@ -112,6 +123,59 @@ const renderOrderBody = (item, index) => (
     </tr>
 )
 
+const useStyles = makeStyles(theme => ({
+    root: {
+        width: "100%",
+        marginTop: theme.spacing(3),
+        overflowX: "auto"
+    },
+    table: {
+        minWidth: 650
+    },
+    selectTableCell: {
+        width: 60
+    },
+    tableCell: {
+        width: 130,
+        height: 40
+    },
+    input: {
+        width: 130,
+        height: 40
+    }
+}));
+
+
+const createData = (name, calories, fat, carbs, protein) => ({
+    id: name.replace(" ", "_"),
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
+    isEditMode: false
+});
+
+
+const CustomTableCell = ({row, name, onChange}) => {
+    const classes = useStyles();
+    const {isEditMode} = row;
+    return (
+        <TableCell align="left" className={classes.tableCell}>
+            {isEditMode ? (
+                <Input
+                    value={row[name]}
+                    name={name}
+                    onChange={e => onChange(e, row)}
+                    className={classes.input}
+                />
+            ) : (
+                row[name]
+            )}
+        </TableCell>
+    );
+};
+
 const ProductionSpeed = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
@@ -125,43 +189,16 @@ const ProductionSpeed = () => {
     const [productLineId, setproductLineId] = React.useState('');
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({lists: []});
-    const [listData1, setListData1] = useState({lists: []});
-    const [Pline, setPline] = useState([]);
+    const [listData1, setListData1] = useState( []);
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
-    const [editingIndex, setEditingIndex] = useState(-1);
-    const [data, setdata] = useState([]);
-
+    const [previous, setPrevious] = React.useState({});
     const headers = {
         headers: {
 
             "Authorization": `Bearer ${token}`
         }
     };
-
-    const renderOrderHead1 = (item, index) => (
-        <th key={index}>{item}</th>
-    )
-
-    const renderOrderBody1 = (item, index) => (
-        <tr key={index}>
-            <td>{item.productlineNo}</td>
-            <td>
-                <input style={{borderRadius: '5px', borderColor: '#000000'}} type="number" min="0" placeholder=""
-                       name="speed" onChange={(e) => setPline({...Pline, speed: e.target.value})}
-                       value={Pline.speed} required/>
-            </td>
-            <td>
-                <input style={{borderRadius: '5px', borderColor: '#000000'}} type="number" min="0" name="slowspeed"
-                       placeholder="" value={Pline.slowspeed}
-                       onChange={(e) => setPline({...Pline, slowspeed: e.target.value})} required/>
-            </td>
-        </tr>
-    )
-
-    function validateForm() {
-        return Pline.length > 0;
-    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -172,28 +209,23 @@ const ProductionSpeed = () => {
             const result1 = await axios(
                 `https://acl-automation.herokuapp.com/api/v1/productlines/1/getall`, headers
             );
-            setListData1({lists: result1.data.data.ProductLinesDetails})
+            setListData1(result1.data.data.ProductLinesDetails)
             setLoading(false);
         };
         fetchData();
     }, [])
 
-    function removeDuplicates(arr) {
-        const map = new Map();
-        arr.forEach(v => map.set(v.id, v)) // having `departmentName` is always unique
-        return [...map.values()];
-    }
+
 
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
         try {
-            const returnPline = removeDuplicates(Pline);
-            const body = {productName, productCode, machineSpeed, downTime, factoryId, productLineId, slowspeed};
+            const body = {productName, productCode, machineSpeed, downTime, factoryId, productLineId, slowspeed,listData1};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create", body, headers);
             // setproductId(loginResponse.data.id);
             const productId = loginResponse.data.data.id;
-            const body1 = ({productId, productLineId, returnPline, machineSpeed, slowspeed})
+            const body1 = ({productId, productLineId, machineSpeed, slowspeed,listData1})
             setproductName('');
             setmachineSpeed('');
             const loginResponse1 = await axios.post("https://acl-automation.herokuapp.com/api/v1/productlinemachinespeedcontroller/1/create", body1, headers);
@@ -205,30 +237,52 @@ const ProductionSpeed = () => {
 
     };
 
-    const onSelect1Change = (e) => {
-        setdata({
-            ...data,
-            speed: e.target.value
-        })
-
-
-    }
-    const onSelect2Change = (id, e) => {
-        setPline([...Pline, {id: id, speed: e.target.value}]);
-    }
-
-
-    const inputChangeHandler = (e, i) => {
-        let result = data.map((data) => {
-            return data.id === i ? {...data, [e.target.name]: e.target.value} : {...data}
-        })
-        setPline(result)
-
-    }
 
     const handleChange = (newValue: any, actionMeta: any) => {
         setproductName(newValue.value)
         // setName(newValue.name)
+    };
+
+    const onToggleEditMode = id => {
+        setListData1(state => {
+            return listData1.map(row => {
+                if (row.id === id) {
+                    return { ...row, isEditMode: !row.isEditMode };
+                }
+                return row;
+            });
+        });
+    };
+
+    const onChange = (e, row) => {
+        if (!previous[row.id]) {
+            setPrevious(state => ({...state, [row.id]: row}));
+        }
+        const value = e.target.value;
+        const name = e.target.name;
+        const {id} = row;
+        const newRows = listData1.map(row => {
+            if (row.id === id) {
+                return {...row, [name]: value};
+            }
+            return row;
+        });
+        setListData1(newRows);
+    };
+
+    const onRevert = id => {
+        const newRows = listData1.map(row => {
+            if (row.id === id) {
+                return previous[id] ? previous[id] : row;
+            }
+            return row;
+        });
+        setListData1(newRows);
+        setPrevious(state => {
+            delete state[id];
+            return state;
+        });
+        onToggleEditMode(id);
     };
 
     const SingleValue = ({
@@ -350,7 +404,7 @@ const ProductionSpeed = () => {
                                                 </div>
 
                                                 <div id="button" className="rowuser">
-                                                    <button disabled={!validateForm()} type="submit">submit</button>
+                                                    <button  type="submit">submit</button>
                                                 </div>
 
                                             </form>
@@ -360,13 +414,56 @@ const ProductionSpeed = () => {
                                 </div>
                                 <div className="col-6">
                                     <div className="card full-height">
-                                        <Table
-                                            limit="5"
-                                            headData={fields1}
-                                            renderHead={(item, index) => renderOrderHead1(item, index)}
-                                            bodyData={listData1.lists}
-                                            renderBody={(item, index) => renderOrderBody1(item, index)}
-                                        />
+                                        <Paper className={classes.root}>
+                                            <TableMaterial className={classes.table} aria-label="caption table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell align="left"/>
+                                                        <TableCell align="left">Product line</TableCell>
+                                                        <TableCell align="left">Speed</TableCell>
+                                                        <TableCell align="left">Slow Speed</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {listData1.map(row => (
+                                                        <TableRow key={row.id}>
+                                                            <TableCell className={classes.selectTableCell}>
+                                                                {row.isEditMode ? (
+                                                                    <>
+                                                                        <IconButton
+                                                                            aria-label="done"
+                                                                            onClick={() => onToggleEditMode(row.id)}
+                                                                        >
+                                                                            <DoneIcon/>
+                                                                        </IconButton>
+                                                                        <IconButton
+                                                                            aria-label="revert"
+                                                                            onClick={() => onRevert(row.id)}
+                                                                        >
+                                                                            <RevertIcon/>
+                                                                        </IconButton>
+                                                                    </>
+                                                                ) : (
+                                                                    <IconButton
+                                                                        aria-label="delete"
+                                                                        onClick={() => onToggleEditMode(row.id)}
+                                                                    >
+                                                                        <EditIcon/>
+                                                                    </IconButton>
+                                                                )}
+                                                            </TableCell>
+                                                            <CustomTableCell {...{
+                                                                row,
+                                                                name: "productlineNo",
+                                                                onChange
+                                                            }} />
+                                                            <CustomTableCell {...{row, name: "speed", onChange}} />
+                                                            <CustomTableCell {...{row, name: "slowspeed", onChange}} />
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </TableMaterial>
+                                        </Paper>
                                     </div>
                                 </div>
                             </div>
