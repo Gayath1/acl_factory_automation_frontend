@@ -374,41 +374,41 @@ const Dashboard = () => {
             "icon": "bx bx-error-alt",
             "count": "1,995",
             "title": "Not respond",
-            "color":"#ffcc00"
+            "color": "#ffcc00"
         },
         {
             "icon": "bx bxs-traffic-barrier",
             "count": "2,001",
             "title": "Total Breakdown",
             "onClick": handleClick1,
-            "color":"#fb0b12"
+            "color": "#fb0b12"
         },
         {
             "icon": "bx bx-pause",
             "count": "$2,632",
             "title": "Slow Speeds",
-            "color":"#fca11a"
+            "color": "#fca11a"
         },
         {
             "icon": "bx bx-wrench",
             "count": "1,711",
             "title": "Downtime",
             "onClick": handleClick,
-            "color":"#fca11a"
+            "color": "#fca11a"
         },
         {
             "icon": "bx bxl-product-hunt",
             "count": "1,711",
             "title": "Planned Production",
             "onClick": handleClick,
-            "color":"#4caf50"
+            "color": "#4caf50"
         },
         {
-            "icon": "bx bxl-product-hunt",
+            "icon": "bx bx-chevrons-right",
             "count": "SEE MORE",
             "title": ">>>>>>>>",
             "onClick": handleClick2,
-            "color":"#019707"
+            "color": "#ffffff"
         }
     ]
 
