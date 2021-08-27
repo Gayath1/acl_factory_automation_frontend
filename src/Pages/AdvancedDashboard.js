@@ -250,7 +250,7 @@ const AdvancedDashboard = () => {
     return (
         <>
             <Sidebar/>
-            <div className="layout__content">
+            <div id="main" className="layout__content">
                 <TopNav/>
                 <div className="layout__content-main">
                     <div>
