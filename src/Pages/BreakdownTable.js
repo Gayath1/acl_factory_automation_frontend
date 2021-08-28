@@ -278,28 +278,6 @@ const Downtimetable = () => {
                             <div className="col-8">
                                 <div className="card">
                                     <div className="card__header">
-                                        <h3>Total Breakdown</h3>
-                                    </div>
-                                    <div className="card__body">
-                                        <MaterialTable
-                                            title=""
-                                            columns={columns}
-                                            data={data}
-                                            icons={tableIcons}
-                                            // options={{
-                                            //     filtering: true
-                                            // }}
-                                        />
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className="row">
-                            <div className="col-8">
-                                <div className="card">
-                                    <div className="card__header">
                                         <h3>Slow Speed</h3>
                                     </div>
                                     <div className="card__body">

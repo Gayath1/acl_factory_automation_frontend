@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, {useState} from 'react'
 
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 
@@ -47,52 +47,50 @@ const Routes = () => {
 
     return (
 
-            <Switch>
-                <Route exact path="/">
-                    <Redirect to="/Home" />
-                </Route>
-                <Route path="/Loginmanagement" component={Loginmanagement} />
-                <Route path="/Loginexecutive" component={Loginexecutive} />
-                <Route path="/Loginadmin" component={Loginadmin}/>
-                <Route path="/Home" component={Home}/>
-                <Route path="/Dashboard" component={Dashboard} />
-                <Route path="/Usercreate" component={Usercreate} />
-                <Route path="/Admin" component={Admin} />
-                <Route path="/Department" component={Department} />
-                <Route path="/Factory" component={Factory} />
-                <Route path="/Device" component={Device} />
-                <Route path="/ProductLine" component={ProductLine} />
-                <Route path="/Settings" component={Settings} />
-                <Route path="/Fault" component={Fault} />
-                <Route path="/ProductInfo" component={ProductInfo} />
-                <Route path="/ProductionOrder" component={ProductionOrder} />
-                <Route path="/ProductCard" component={ProductCard} />
-                <Route path="/ProductCalendar" component={ProductCalendar} />
-                <Route path="/ProductionSort" component={ProductionSort} />
-                <Route path="/Shift" component={Shift} />
-                <Route path="/SpecialCase" component={SpecialCase} />
-                <Route path="/SpecialCasesEmail" component={SpecialCasesEmail} />
-                <Route path="/VerifyAdmin/:confirmationCode" component={VerifyAdmin} />
-                <Route path="/VerifyExecutive/:confirmationCode" component={VerifyExecutive} />
-                <Route path="/VerifyManagement/:confirmationCode" component={VerifyManagement} />npm start
-                <Route path="/Pleaseverify" component={Pleaseverify} />
-                <Route path="/SendEmail" component={SendEmail} />
-                <Route path="/ForgotPasswordAdmin/:confirmationCode" component={ForgotPasswordAdmin} />
-                <Route path="/SendEmailexecutive" component={SendEmailexecutive} />
-                <Route path="/ForgotPasswordExecutive/:confirmationCode" component={ForgotPasswordExecutive} />
-                <Route path="/SendEmailmanagement" component={SendEmailmanagement} />
-                <Route path="/ForgotPasswordManagement/:confirmationCode" component={ForgotPasswordManagement} />
-                <Route path="/ChangeExecutivePassword" component={ChangeExecutivePassword} />
-                <Route path="/ChangeAdminPassword" component={ChangeAdminPassword} />
-                <Route path="/ChangeManagementPassword" component={ChangeManagementPassword} />
-                <Route path="/InnovigentUser" component={InnovigentUser} />
-                <Route path="/AdvancedDashboard" component={AdvancedDashboard} />
-                <Route path="/ProductionSpeed" component={ProductionSpeed} />
-                <Route path="/BreakdownTable" component={BreakdownTable} />
+        <Switch>
+            <Route exact path="/">
+                <Redirect to="/Home"/>
+            </Route>
+            <Route path="/Loginmanagement" component={Loginmanagement}/>
+            <Route path="/Loginexecutive" component={Loginexecutive}/>
+            <Route path="/Loginadmin" component={Loginadmin}/>
+            <Route path="/Home" component={Home}/>
+            <Route path="/Dashboard" component={Dashboard}/>
+            <Route path="/Usercreate" component={Usercreate}/>
+            <Route path="/Admin" component={Admin}/>
+            <Route path="/Department" component={Department}/>
+            <Route path="/Factory" component={Factory}/>
+            <Route path="/Device" component={Device}/>
+            <Route path="/ProductLine" component={ProductLine}/>
+            <Route path="/Settings" component={Settings}/>
+            <Route path="/Fault" component={Fault}/>
+            <Route path="/ProductInfo" component={ProductInfo}/>
+            <Route path="/ProductionOrder" component={ProductionOrder}/>
+            <Route path="/ProductCard" component={ProductCard}/>
+            <Route path="/ProductCalendar" component={ProductCalendar}/>
+            <Route path="/ProductionSort" component={ProductionSort}/>
+            <Route path="/Shift" component={Shift}/>
+            <Route path="/SpecialCase" component={SpecialCase}/>
+            <Route path="/SpecialCasesEmail" component={SpecialCasesEmail}/>
+            <Route path="/VerifyAdmin/:confirmationCode" component={VerifyAdmin}/>
+            <Route path="/VerifyExecutive/:confirmationCode" component={VerifyExecutive}/>
+            <Route path="/VerifyManagement/:confirmationCode" component={VerifyManagement}/>
+            <Route path="/Pleaseverify" component={Pleaseverify}/>
+            <Route path="/SendEmail" component={SendEmail}/>
+            <Route path="/ForgotPasswordAdmin/:confirmationCode" component={ForgotPasswordAdmin}/>
+            <Route path="/SendEmailexecutive" component={SendEmailexecutive}/>
+            <Route path="/ForgotPasswordExecutive/:confirmationCode" component={ForgotPasswordExecutive}/>
+            <Route path="/SendEmailmanagement" component={SendEmailmanagement}/>
+            <Route path="/ForgotPasswordManagement/:confirmationCode" component={ForgotPasswordManagement}/>
+            <Route path="/ChangeExecutivePassword" component={ChangeExecutivePassword}/>
+            <Route path="/ChangeAdminPassword" component={ChangeAdminPassword}/>
+            <Route path="/ChangeManagementPassword" component={ChangeManagementPassword}/>
+            <Route path="/InnovigentUser" component={InnovigentUser}/>
+            <Route path="/AdvancedDashboard" component={AdvancedDashboard}/>
+            <Route path="/ProductionSpeed" component={ProductionSpeed}/>
+            <Route path="/BreakdownTable" component={BreakdownTable}/>
 
-            </Switch>
-
-
+        </Switch>
 
 
     )

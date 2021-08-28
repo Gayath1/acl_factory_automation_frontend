@@ -561,7 +561,7 @@ const Dashboard = () => {
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card__header">
-                                        <h3>DownTimes</h3>
+                                        <h3>OEE</h3>
                                     </div>
                                     <div className="card__body">
                                         <Chart options={chartOptions.options} series={chartOptions.series} type="line"
