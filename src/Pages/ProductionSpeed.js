@@ -25,7 +25,6 @@ import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
 
 const fields = [
-    "Product Name",
     "Product Code",
     "Created At",
     "Action"
@@ -111,7 +110,6 @@ const renderOrderHead = (item, index) => (
 
 const renderOrderBody = (item, index) => (
     <tr key={index}>
-        <td>{item.productName}</td>
         <td>{item.productCode}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
@@ -180,6 +178,7 @@ const ProductionSpeed = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
     const [productName, setproductName] = useState("");
+    const [Name, setName] = useState("");
     // const [productId, setproductId] = useState("");
     const [factoryId, setfactoryId] = useState("");
     const [productCode, setproductCode] = useState("");
@@ -240,7 +239,8 @@ const ProductionSpeed = () => {
 
     const handleChange = (newValue: any, actionMeta: any) => {
         setproductName(newValue.value)
-        // setName(newValue.name)
+        setproductCode(newValue.label)
+        setName(newValue.name)
     };
 
     const onToggleEditMode = id => {
@@ -354,7 +354,7 @@ const ProductionSpeed = () => {
                                                     </Alert>
                                                 ) : null}
                                                 <div className="rowuser">
-                                                    <label>Product Name</label>
+                                                    <label>Product Code</label>
                                                     <CreatableSelect
                                                         options={options}
                                                         className="rowuserproductivity"
@@ -385,9 +385,9 @@ const ProductionSpeed = () => {
                                                     />
                                                 </div>
                                                 <div className="rowuser">
-                                                    <label>Product Code</label>
-                                                    <input type="text" placeholder="" value={productCode}
-                                                           onChange={(e) => setproductCode(e.target.value)} required/>
+                                                    <label>Product Description</label>
+                                                    <input type="text" placeholder="" value={Name}
+                                                            disabled/>
                                                 </div>
                                                 <div className="rowuser">
                                                     <label>Down Time</label>
