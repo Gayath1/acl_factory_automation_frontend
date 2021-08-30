@@ -221,14 +221,10 @@ const ProductionSpeed = () => {
         setErr("");
         try {
             const body = {productName, productCode, machineSpeed, downTime, factoryId, productLineId, slowspeed,listData1};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/productinfo/1/create", body, headers);
-            // setproductId(loginResponse.data.id);
-            const productId = loginResponse.data.data.id;
-            const body1 = ({productId, productLineId, machineSpeed, slowspeed,listData1})
             setproductName('');
             setmachineSpeed('');
-            const loginResponse1 = await axios.post("https://acl-automation.herokuapp.com/api/v1/productlinemachinespeedcontroller/1/create", body1, headers);
-            //window.location.reload();
+            const loginResponse1 = await axios.post("https://acl-automation.herokuapp.com/api/v1/productlinemachinespeedcontroller/1/create", body, headers);
+            window.location.reload();
 
         } catch (err) {
             err.response.data.message && setErr(err.response.data.message)
