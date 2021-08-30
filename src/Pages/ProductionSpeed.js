@@ -314,7 +314,7 @@ const ProductionSpeed = () => {
 
 
     let options = listData.lists.map(function (city) {
-        return {value: city.id, label: city.productCode, name: city.productName};
+        return {value: city.id, label: city.productCode, name: city.productDescription};
     })
 
     if (loading) {
