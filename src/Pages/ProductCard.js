@@ -26,13 +26,21 @@ const fields = [
     "Action"
 ]
 
+const fields1 = [
+    "Id",
+    "P.O code",
+    "Status",
+    "Created At",
+    "Action"
+]
+
 const orderStatus = {
     "50": "warning",
-    "1": "success",
+    "100": "success",
 }
 const orderStatusname = {
     "50": "Pending",
-    "1": "Finish",
+    "100": "Finish",
 }
 
 const rows = [
@@ -107,7 +115,6 @@ const renderOrderBody1 = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
         <td>{item.productionorderCode}</td>
-        <td>{item.orderQuantity}</td>
         <td>
             <Badge type={orderStatus[item.statusId]} content={orderStatusname[item.statusId]}/>
         </td>
@@ -357,7 +364,7 @@ const Info = () => {
                                     <TabPanel value={value} index={1}>
                                         <Table
                                             limit="5"
-                                            headData={fields}
+                                            headData={fields1}
                                             renderHead={(item, index) => renderOrderHead(item, index)}
                                             bodyData={listData2.lists}
                                             renderBody={(item, index) => renderOrderBody1(item, index)}
