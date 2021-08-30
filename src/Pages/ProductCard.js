@@ -36,11 +36,11 @@ const fields1 = [
 
 const orderStatus = {
     "50": "warning",
-    "100": "success",
+    "200": "success",
 }
 const orderStatusname = {
     "50": "Pending",
-    "100": "Finish",
+    "200": "Finish",
 }
 
 const rows = [
