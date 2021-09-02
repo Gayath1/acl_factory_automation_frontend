@@ -94,18 +94,18 @@ const token = localStorage.getItem("Token")
 const headers = {
     headers: {
 
-        "Authorization":`Bearer ${token}`
+        "Authorization": `Bearer ${token}`
     }
 };
 
 const changestatus = async (id) => {
-    try{
+    try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/updatepending",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/updatepending", body, headers);
         window.location.reload();
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
 
@@ -120,13 +120,16 @@ const renderOrderBody1 = (item, index) => (
         </td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
-            <button onClick={()=>{changestatus(item.id)}} className="usertblactivebutton" >Complete</button>
+            <button onClick={() => {
+                changestatus(item.id)
+            }} className="usertblactivebutton">Complete
+            </button>
         </td>
     </tr>
 )
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -144,6 +147,7 @@ function TabPanel(props) {
         </div>
     );
 }
+
 function a11yProps(index) {
     return {
         id: `simple-tab-${index}`,
@@ -156,56 +160,56 @@ const Info = () => {
     const {userData} = useContext(UserContext);
     const [name, setName] = useState("");
     const [productionorderCode, setproductionorderCode] = useState("");
-    const [orderQuantity,setorderQuantity] = useState("");
-    const [productId,setproductId] = useState("");
+    const [orderQuantity, setorderQuantity] = useState("");
+    const [productId, setproductId] = useState("");
     let [loading, setLoading] = useState(true);
     const [err, setErr] = useState("");
     const [value, setValue] = React.useState(0);
-    const [listData, setListData] = useState({ lists: [] });
-    const [listData1, setListData1] = useState({ lists: [] });
-    const [listData2, setListData2] = useState({ lists: [] });
+    const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
+    const [listData2, setListData2] = useState({lists: []});
     const token = localStorage.getItem("Token")
-    const [unitofMeasurement,setunitofMeasurement] = useState('kg');
+    const [unitofMeasurement, setunitofMeasurement] = useState('kg');
     const headers = {
         headers: {
 
-            "Authorization":`Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     };
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/productinfo/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/productinfo/1/getall`, headers
             );
-            setListData({lists:result.data.data.ProductDetails})
+            setListData({lists: result.data.data.ProductDetails})
             const result1 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/getall`, headers
             );
-            setListData1({lists:result1.data.data.productionOrders})
+            setListData1({lists: result1.data.data.productionOrders})
             const result2 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/getallpending`,headers
+                `https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/getallpending`, headers
             );
-            setListData2({lists:result2.data.data.productionOrders})
+            setListData2({lists: result2.data.data.productionOrders})
             setLoading(false);
         };
         fetchData();
     }, [])
 
     let options = listData.lists.map(function (city) {
-        return { value: city.id, label: city.productCode , name:city.productDescription };
+        return {value: city.id, label: city.productCode, name: city.productDescription};
     })
 
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
-        try{
+        try {
 
-            const body = {productionorderCode,orderQuantity,productId,unitofMeasurement};
-            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/create",body,headers);
+            const body = {productionorderCode, orderQuantity, productId, unitofMeasurement};
+            const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/ProductionOrderscontroller/1/create", body, headers);
             window.location.reload();
 
-        } catch(err) {
+        } catch (err) {
             err.response.data.message && setErr(err.response.data.message)
         }
 
@@ -215,10 +219,10 @@ const Info = () => {
     const handletab = (event, newValue) => {
         setValue(newValue);
     };
-    const  handleChange = (newValue: any, actionMeta: any) => {
+    const handleChange = (newValue: any, actionMeta: any) => {
         setproductId(newValue.value)
         setName(newValue.name)
-      };
+    };
 
     const SingleValue = ({
                              cx,
@@ -248,136 +252,148 @@ const Info = () => {
     };
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
     return (
         <>
-            {userData.role === 70? (
-        <>
-          <Sidebar/>
-            <div id="main" className="layout__content">
-                <TopNav/>
-                    <div className="layout__content-main">
-                        <h2 className="page-header">Production Order</h2>
-                        {/*    <div className="row">*/}
-                        {/*        <div className="col-6">*/}
-                        {/*            <div className="card full-height">*/}
-                        {/*                <div>*/}
-                        {/*                    {err ? (*/}
-                        {/*                        <Alert severity="error">*/}
-                        {/*                            <AlertTitle>Error</AlertTitle>*/}
-                        {/*                            {err}*/}
-                        {/*                        </Alert>*/}
-                        {/*                    ) : null}*/}
-                        {/*                <div className="rowuser">*/}
-                        {/*                    <label>Product Code</label>*/}
-                        {/*                    <CreatableSelect*/}
-                        {/*                        options={options}*/}
-                        {/*                        className="rowuserproductivity"*/}
-                        {/*                        components={{ SingleValue}}*/}
-                        {/*                        isValidNewOption={() => false}*/}
-                        {/*                        placeholder=""*/}
-                        {/*                        // styles={customStyles}*/}
-                        {/*                        onChange={handleChange}*/}
-                        {/*                        styles={{*/}
-                        {/*                            control: base => ({*/}
-                        {/*                                ...base,*/}
-                        {/*                                border: 0,*/}
-                        {/*                                // This line disable the blue border*/}
-                        {/*                                boxShadow: 'none'*/}
-                        {/*                            }),*/}
-                        {/*                            menu: (provided, state) => ({*/}
-                        {/*                                ...provided,*/}
-                        {/*                                width: "95%",*/}
-                        {/*                                padding: 30,*/}
-                        {/*                            }),*/}
-                        {/*                            singleValue: (provided, state) => ({*/}
-                        {/*                                ...provided,*/}
-                        {/*                                display: "flex",*/}
-                        {/*                                alignItems: "center",*/}
-                        {/*                                opacity : 0.5*/}
-                        {/*                            })*/}
-                        {/*                        }}*/}
-                        {/*                    />*/}
-                        {/*                </div>*/}
-                        {/*                <div className="rowuser">*/}
-                        {/*                    <label>Product Order no.</label>*/}
-                        {/*                    <input type="number"  placeholder="" value={productionorderCode}  onChange={(e) => setproductionorderCode(e.target.value)} />*/}
-                        {/*                </div>*/}
-                        {/*                <div className="rowuser">*/}
-                        {/*                    <label>Product</label>*/}
-                        {/*                    <input type="text"  placeholder="" value={name} disabled/>*/}
-                        {/*                </div>*/}
-                        {/*                <div className="rowuser">*/}
-                        {/*                    <label>Quantity(KG)</label>*/}
-                        {/*                    <select  value={orderQuantity} onChange={(e) => setorderQuantity(e.target.value)}>*/}
-                        {/*                        <option value=""  selected></option>*/}
-                        {/*                        <option value="1">1</option>*/}
-                        {/*                        <option value="2">2</option>*/}
-                        {/*                        <option value="3">3</option>*/}
-                        {/*                        <option value="4">4</option>*/}
-                        {/*                        <option value="5">5</option>*/}
-                        {/*                        <option value="10">10</option>*/}
-                        {/*                        <option value="12">12</option>*/}
-                        {/*                        <option value="15">15</option>*/}
-                        {/*                        <option value="20">20</option>*/}
-                        {/*                        <option value="22">22</option>*/}
-                        {/*                        <option value="25">25</option>*/}
-                        {/*                        <option value="30">30</option>*/}
-                        {/*                    </select>*/}
-                        {/*                </div>*/}
+            {userData.role === 70 ? (
+                <>
+                    <Sidebar/>
+                    <div id="main" className="layout__content">
+                        <TopNav/>
+                        <div className="layout__content-main">
+                            <h2 className="page-header">Production Order</h2>
+                            {/*    <div className="row">*/}
+                            {/*        <div className="col-6">*/}
+                            {/*            <div className="card full-height">*/}
+                            {/*                <div>*/}
+                            {/*                    {err ? (*/}
+                            {/*                        <Alert severity="error">*/}
+                            {/*                            <AlertTitle>Error</AlertTitle>*/}
+                            {/*                            {err}*/}
+                            {/*                        </Alert>*/}
+                            {/*                    ) : null}*/}
+                            {/*                <div className="rowuser">*/}
+                            {/*                    <label>Product Code</label>*/}
+                            {/*                    <CreatableSelect*/}
+                            {/*                        options={options}*/}
+                            {/*                        className="rowuserproductivity"*/}
+                            {/*                        components={{ SingleValue}}*/}
+                            {/*                        isValidNewOption={() => false}*/}
+                            {/*                        placeholder=""*/}
+                            {/*                        // styles={customStyles}*/}
+                            {/*                        onChange={handleChange}*/}
+                            {/*                        styles={{*/}
+                            {/*                            control: base => ({*/}
+                            {/*                                ...base,*/}
+                            {/*                                border: 0,*/}
+                            {/*                                // This line disable the blue border*/}
+                            {/*                                boxShadow: 'none'*/}
+                            {/*                            }),*/}
+                            {/*                            menu: (provided, state) => ({*/}
+                            {/*                                ...provided,*/}
+                            {/*                                width: "95%",*/}
+                            {/*                                padding: 30,*/}
+                            {/*                            }),*/}
+                            {/*                            singleValue: (provided, state) => ({*/}
+                            {/*                                ...provided,*/}
+                            {/*                                display: "flex",*/}
+                            {/*                                alignItems: "center",*/}
+                            {/*                                opacity : 0.5*/}
+                            {/*                            })*/}
+                            {/*                        }}*/}
+                            {/*                    />*/}
+                            {/*                </div>*/}
+                            {/*                <div className="rowuser">*/}
+                            {/*                    <label>Product Order no.</label>*/}
+                            {/*                    <input type="number"  placeholder="" value={productionorderCode}  onChange={(e) => setproductionorderCode(e.target.value)} />*/}
+                            {/*                </div>*/}
+                            {/*                <div className="rowuser">*/}
+                            {/*                    <label>Product</label>*/}
+                            {/*                    <input type="text"  placeholder="" value={name} disabled/>*/}
+                            {/*                </div>*/}
+                            {/*                <div className="rowuser">*/}
+                            {/*                    <label>Quantity(KG)</label>*/}
+                            {/*                    <select  value={orderQuantity} onChange={(e) => setorderQuantity(e.target.value)}>*/}
+                            {/*                        <option value=""  selected></option>*/}
+                            {/*                        <option value="1">1</option>*/}
+                            {/*                        <option value="2">2</option>*/}
+                            {/*                        <option value="3">3</option>*/}
+                            {/*                        <option value="4">4</option>*/}
+                            {/*                        <option value="5">5</option>*/}
+                            {/*                        <option value="10">10</option>*/}
+                            {/*                        <option value="12">12</option>*/}
+                            {/*                        <option value="15">15</option>*/}
+                            {/*                        <option value="20">20</option>*/}
+                            {/*                        <option value="22">22</option>*/}
+                            {/*                        <option value="25">25</option>*/}
+                            {/*                        <option value="30">30</option>*/}
+                            {/*                    </select>*/}
+                            {/*                </div>*/}
 
-                        {/*                <div id="button" className="rowuser">*/}
-                        {/*                    <button   onClick={submit}>submit</button>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card full-height">
-                                    <div className="card__header">
-                                        <AppBar position="static" style={{background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)` ,borderRadius:"8px"}}>
-                                            <Tabs TabIndicatorProps={{
-                                                style: {
-                                                    backgroundColor: "#ffffff"
-                                                }
-                                            }} value={value} onChange={handletab}  >
-                                                <Tab label="Production orders" {...a11yProps(0)} />
-                                                <Tab label="Pending" {...a11yProps(1)} />
-                                            </Tabs>
-                                        </AppBar>
+                            {/*                <div id="button" className="rowuser">*/}
+                            {/*                    <button   onClick={submit}>submit</button>*/}
+                            {/*                </div>*/}
+                            {/*            </div>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card full-height">
+                                        <div className="card__header">
+                                            <AppBar position="static" style={{
+                                                background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
+                                                borderRadius: "8px"
+                                            }}>
+                                                <Tabs TabIndicatorProps={{
+                                                    style: {
+                                                        backgroundColor: "#ffffff"
+                                                    }
+                                                }} value={value} onChange={handletab}>
+                                                    <Tab label="Production orders" {...a11yProps(0)} />
+                                                    <Tab label="Pending" {...a11yProps(1)} />
+                                                </Tabs>
+                                            </AppBar>
+                                        </div>
+                                        <TabPanel value={value} index={0}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData1.lists}
+                                                renderBody={(item, index) => renderOrderBody(item, index)}
+                                            />
+                                        </TabPanel>
+                                        <TabPanel value={value} index={1}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields1}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData2.lists}
+                                                renderBody={(item, index) => renderOrderBody1(item, index)}
+                                            />
+                                        </TabPanel>
                                     </div>
-                                    <TabPanel value={value} index={0}>
-                                        <Table
-                                            limit="5"
-                                            headData={fields}
-                                            renderHead={(item, index) => renderOrderHead(item, index)}
-                                            bodyData={listData1.lists}
-                                            renderBody={(item, index) => renderOrderBody(item, index)}
-                                        />
-                                    </TabPanel>
-                                    <TabPanel value={value} index={1}>
-                                        <Table
-                                            limit="5"
-                                            headData={fields1}
-                                            renderHead={(item, index) => renderOrderHead(item, index)}
-                                            bodyData={listData2.lists}
-                                            renderBody={(item, index) => renderOrderBody1(item, index)}
-                                        />
-                                    </TabPanel>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </>
-                ):null}
                 </>
+            ) : null}
+        </>
     )
 }
 

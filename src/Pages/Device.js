@@ -220,7 +220,7 @@ const Device = () => {
 
             const body = {uuid, productlineId, factoryId, deviceTypeId};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/device/1/create", body, headers);
-            window.location.reload();
+            //window.location.reload();
 
         } catch (err) {
             err.response.data.message && setErr(err.response.data.message)
