@@ -68,7 +68,7 @@ const ProductCalendar = () => {
     const events = listData.lists.map((appointment) => {
         return {
             id: appointment.id,
-            title: appointment.productInfos.productName,
+            title: appointment.productionorderCode,
             start: new Date(appointment.createdAt),
             end: new Date(appointment.updatedAt),
             allDay: true

@@ -116,63 +116,7 @@ function a11yProps(index) {
     };
 }
 
-const chartOptions = {
-    series: [{
-        name: 'PRODUCT A',
-        data: [44, 55, 41, 67, 22, 43]
-    }, {
-        name: 'PRODUCT B',
-        data: [13, 23, 20, 8, 13, 27]
-    }, {
-        name: 'PRODUCT C',
-        data: [11, 17, 15, 15, 21, 14]
-    }, {
-        name: 'PRODUCT D',
-        data: [21, 7, 25, 13, 22, 8]
-    }],
-    options: {
-        chart: {
-            type: 'bar',
-            height: 350,
-            stacked: true,
-            toolbar: {
-                show: true
-            },
-            zoom: {
-                enabled: true
-            }
-        },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                legend: {
-                    position: 'bottom',
-                    offsetX: -10,
-                    offsetY: 0
-                }
-            }
-        }],
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                borderRadius: 10
-            },
-        },
-        xaxis: {
-            type: 'datetime',
-            categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-                '01/05/2011 GMT', '01/06/2011 GMT'
-            ],
-        },
-        legend: {
-            position: 'right',
-            offsetY: 40
-        },
-        fill: {
-            opacity: 1
-        }
-    },
-}
+
 
 
 const topCustomers = {
@@ -331,11 +275,15 @@ const Dashboard = () => {
     const classes = useStyles();
     const [data, setData] = useState(rows);
     const [checked, setChecked] = useState(false);
+    const [factory, setFactory] = useState(false);
     const [value, setValue] = React.useState(0);
     const [value1, setValue1] = React.useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorEl1, setAnchorEl1] = React.useState(null);
     const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
+    const [listData2, setListData2] = useState({lists: []});
+    const [listData3, setListData3] = useState({lists: []});
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
     const history = useHistory();
@@ -353,10 +301,76 @@ const Dashboard = () => {
                 `https://acl-automation.herokuapp.com/api/v1/factories/1/getall`, headers
             );
             setListData({lists: result.data.data.FactoryDetails})
+            const result1 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserlasthours/1/getall`, headers
+            );
+            setListData1({lists: result1.data.data.organization})
+            const result2 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserbreakdown/1/getall`, headers
+            );
+            setListData2({lists: result2.data.data.organization.getdowntimes})
+            const result3 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionOrderRunDetails/1/getall`, headers
+            );
+            setListData3({lists: result3.data.data.organization.allDateProductOrderInfo})
             setLoading(false);
         };
         fetchData();
     }, [])
+
+    for (let i = 0; i < listData3.lists.length; i++) {
+
+        listData3.lists.appendSeries([{
+            name: listData3.lists[i].productionorderCode,
+            data: listData3.lists[i].totalOutput
+        }]);
+    }
+
+    const chartOptions = {
+        series: [listData3.lists],
+        options: {
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: true,
+                toolbar: {
+                    show: true
+                },
+                zoom: {
+                    enabled: true
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 10
+                },
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: [, '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
+                    '01/05/2011 GMT', '01/06/2011 GMT'
+                ],
+            },
+            legend: {
+                position: 'right',
+                offsetY: 40
+            },
+            fill: {
+                opacity: 1
+            }
+        },
+    }
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -372,35 +386,34 @@ const Dashboard = () => {
     const statusCards = [
         {
             "icon": "bx bx-error-alt",
-            "count": "1,995",
+            "count": `${listData1.lists.sumtotalSlowrunsnotResponded}`,
             "title": "Not respond",
             "color": "#ffcc00"
         },
         {
             "icon": "bx bxs-traffic-barrier",
-            "count": "2,001",
+            "count": `${listData1.lists.sumtotalDowntimes}`,
             "title": "Total Breakdown",
             "onClick": handleClick1,
             "color": "#fb0b12"
         },
         {
             "icon": "bx bx-pause",
-            "count": "$2,632",
+            "count": `${listData1.lists.sumtotalSlowRun}`,
+            "onClick": handleClick,
             "title": "Slow Speeds",
             "color": "#fca11a"
         },
         {
             "icon": "bx bx-wrench",
-            "count": "1,711",
-            "title": "Downtime",
-            "onClick": handleClick,
+            "count": `${listData1.lists.sumtotalDowntimesResponded}`,
+            "title": "Downtime Responded",
             "color": "#fca11a"
         },
         {
             "icon": "bx bxl-product-hunt",
-            "count": "1,711",
-            "title": "Planned Production",
-            "onClick": handleClick,
+            "count": `${listData1.lists.sumtotalSlowrunsResponded}`,
+            "title": "SlowRun Responded",
             "color": "#4caf50"
         },
         {
@@ -423,6 +436,7 @@ const Dashboard = () => {
 
     const handletab = (event, newValue) => {
         setValue(newValue);
+        setFactory(event)
     };
     const handletab1 = (event, newValue) => {
         setValue1(newValue);
@@ -440,12 +454,12 @@ const Dashboard = () => {
 
     const columns = [
         {
-            title: "Name",
-            field: "name",
+            title: "Order Id",
+            field: "productionOrderId",
         },
-        {title: "Color", field: "color", filtering: false},
-        {title: "Quantity", field: "quantity", filtering: false},
-        {title: "ID", field: "id", filtering: false, hidden: true}
+        {title: "Run Id", field: "productionRunId", filtering: false},
+        {title: "Start Time", field: "downtimeStartTime", filtering: false},
+        {title: "Operator Id", field: "operatorId", filtering: false, hidden: true}
     ];
 
     const open = Boolean(anchorEl);
@@ -516,7 +530,7 @@ const Dashboard = () => {
                                             <MaterialTable
                                                 title=""
                                                 columns={columns}
-                                                data={data}
+                                                data={listData2.lists}
                                                 icons={tableIcons}
                                                 // options={{
                                                 //     filtering: true
@@ -552,7 +566,7 @@ const Dashboard = () => {
                                 <div className="col-6">
                                     <div className="card full-height">
                                         {/* chart */}
-                                        <Chart options={chartOptions.options} series={chartOptions.series} type="bar"
+                                        <Chart options={chartOptions.options} series={listData3.lists} type="bar"
                                                height={350}/>
                                     </div>
 
