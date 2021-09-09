@@ -284,6 +284,7 @@ const Dashboard = () => {
     const [listData1, setListData1] = useState({lists: []});
     const [listData2, setListData2] = useState({lists: []});
     const [listData3, setListData3] = useState({lists: []});
+    const [listData4, setListData4] = useState({lists: []});
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
     const history = useHistory();
@@ -313,21 +314,45 @@ const Dashboard = () => {
                 `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionOrderRunDetails/1/getall`, headers
             );
             setListData3({lists: result3.data.data.organization.allDateProductOrderInfo})
+            const result4 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionSlowRunList/1/getall`, headers
+            );
+            setListData4({lists: result4.data.data.organization.getslowruns})
             setLoading(false);
         };
         fetchData();
     }, [])
 
-    for (let i = 0; i < listData3.lists.length; i++) {
 
-        listData3.lists.appendSeries([{
-            name: listData3.lists[i].productionorderCode,
-            data: listData3.lists[i].totalOutput
-        }]);
-    }
+    let months = listData3.lists.map((item) => item.date).filter((item, index, array) => array.indexOf(item) == index)
+
+    const productTotals = listData3.lists.reduce((obj, curr) => {
+        if(!obj[curr.productionorderCode]){
+            obj[curr.productionorderCode] = []
+        }
+
+        obj[curr.productionorderCode][months.indexOf(curr.date)] = parseInt(curr.totalOutput)
+        return obj
+    }, {})
+
+    const series = Object.entries(productTotals).map(([name, prodArr]) => {
+        return {
+            name: name,
+            data: months.map((month, monthIndex) => {
+                if(!prodArr[monthIndex]){
+                    return 0
+                } else {
+                    return prodArr[monthIndex]
+                }
+
+            })
+        }
+
+    })
+
 
     const chartOptions = {
-        series: [listData3.lists],
+        series: [...series],
         options: {
             chart: {
                 type: 'bar',
@@ -358,9 +383,7 @@ const Dashboard = () => {
             },
             xaxis: {
                 type: 'datetime',
-                categories: [, '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-                    '01/05/2011 GMT', '01/06/2011 GMT'
-                ],
+                categories: [...months],
             },
             legend: {
                 position: 'right',
@@ -554,7 +577,7 @@ const Dashboard = () => {
                                             <MaterialTable
                                                 title=""
                                                 columns={columns}
-                                                data={data}
+                                                data={listData4.lists}
                                                 icons={tableIcons}
                                                 // options={{
                                                 //     filtering: true
@@ -566,7 +589,7 @@ const Dashboard = () => {
                                 <div className="col-6">
                                     <div className="card full-height">
                                         {/* chart */}
-                                        <Chart options={chartOptions.options} series={listData3.lists} type="bar"
+                                        <Chart options={chartOptions.options} series={chartOptions.series} type="bar"
                                                height={350}/>
                                     </div>
 
