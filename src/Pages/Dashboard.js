@@ -1,4 +1,4 @@
-import React, {useEffect, useState, forwardRef} from 'react'
+import React, {useEffect, useState, forwardRef, useContext} from 'react'
 import {makeStyles} from '@material-ui/core/styles';
 import {Link, Route, useHistory} from 'react-router-dom';
 import Sidebar from "../components/sidebar/Sidebar";
@@ -32,6 +32,7 @@ import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import moment from "moment";
 import axios from "axios";
+import UserContext from "../userContext";
 
 
 const tableIcons = {
@@ -273,6 +274,7 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
 
     const classes = useStyles();
+    const {userData} = useContext(UserContext);
     const [data, setData] = useState(rows);
     const [checked, setChecked] = useState(false);
     const [factory, setFactory] = useState(false);
@@ -303,19 +305,19 @@ const Dashboard = () => {
             );
             setListData({lists: result.data.data.FactoryDetails})
             const result1 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserlasthours/1/getall`, headers
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserlasthours/1/${userData.role}/getall`, headers
             );
             setListData1({lists: result1.data.data.organization})
             const result2 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserbreakdown/1/getall`, headers
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserbreakdown/1/${userData.role}/getall`, headers
             );
             setListData2({lists: result2.data.data.organization.getdowntimes})
             const result3 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionOrderRunDetails/1/getall`, headers
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionOrderRunDetails/1/${userData.role}/getall`, headers
             );
             setListData3({lists: result3.data.data.organization.allDateProductOrderInfo})
             const result4 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionSlowRunList/1/getall`, headers
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionSlowRunList/1/${userData.role}/getall`, headers
             );
             setListData4({lists: result4.data.data.organization.getslowruns})
             setLoading(false);
