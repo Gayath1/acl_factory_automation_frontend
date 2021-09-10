@@ -1,6 +1,6 @@
-import React, {useEffect, useState, forwardRef} from 'react'
+import React, {useEffect, useState, forwardRef, useContext} from 'react'
 
-import {Link, Route} from 'react-router-dom'
+import {Link, Route, useHistory} from 'react-router-dom'
 import Sidebar from "../components/sidebar/Sidebar";
 import TopNav from "../components/topnav/TopNav";
 
@@ -22,6 +22,8 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import axios from "axios";
+import UserContext from "../userContext";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -193,7 +195,31 @@ const renderOrderBody = (item, index) => (
 const Downtimetable = () => {
 
     const [data, setData] = useState(rows);
+    const {userData} = useContext(UserContext);
     const [checked, setChecked] = useState(false);
+    const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
+    const [listData2, setListData2] = useState({lists: []});
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
+    const history = useHistory();
+
+    const headers = {
+        headers: {
+
+            "Authorization": `Bearer ${token}`
+        }
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserbreakdown/1/${userData.role}/getall`, headers
+            );
+            setListData({lists: result.data.data.organization.getdowntimes})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
 
     const filterValue = value => {
         if (value) {

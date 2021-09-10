@@ -459,6 +459,7 @@ const Dashboard = () => {
         setAnchorEl1(null);
     };
 
+
     const handletab = (event, newValue) => {
         setValue(newValue);
         setFactory(event)
@@ -502,6 +503,7 @@ const Dashboard = () => {
                         background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
                         borderRadius: "8px"
                     }}>
+
                         <Tabs TabIndicatorProps={{
                             style: {
                                 backgroundColor: "#ffffff"
@@ -516,10 +518,11 @@ const Dashboard = () => {
                                 />
                             ))}
                         </Tabs>
+
                     </AppBar>
                 </div>
                 {listData.lists.map((tabInfo, index) => (
-                    <TabPanel value={value} index={index}>
+                    <TabPanel value={value} index={index} >
                         <div>
                             <h2 className="page-header">Dashboard</h2>
                             <div className="row">

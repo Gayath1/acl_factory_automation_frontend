@@ -272,11 +272,11 @@ const Usercreate = () => {
     }, [selectedFile])
 
     function validateForm1() {
-        return epfNo.length > 0 && selectedFile.length !== null;;
+        return epfNo.length > 0 && selectedFile !== null;
     }
 
     function validateForm() {
-        return email.length > 0 && selectedFile.length !== null;;
+        return email.length > 0 && selectedFile !== null;
     }
     const handleChange = (event) => {
         setType(event.target.value);
