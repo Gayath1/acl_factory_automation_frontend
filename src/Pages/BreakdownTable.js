@@ -24,6 +24,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import axios from "axios";
 import UserContext from "../userContext";
+import {HashLoader} from "react-spinners";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -169,11 +170,26 @@ const rows = [
 
 
 const orderStatus = {
-    "shipping": "primary",
-    "pending": "warning",
-    "paid": "success",
-    "refund": "danger"
+    "100": "warning",
+    "130": "warning",
+    "171": "success",
+    "161": "success",
 }
+
+const orderStatusname = {
+    "100": "Pending",
+    "130" : "Breakdown",
+    "171": "Executive",
+    "161" : "Operator",
+}
+
+const fields = [
+    "id",
+    "Production order",
+    "Production Run Id",
+    "DownTime Start",
+    "Status"
+]
 
 const renderOrderHead = (item, index) => (
     <th key={index}>{item}</th>
@@ -182,11 +198,11 @@ const renderOrderHead = (item, index) => (
 const renderOrderBody = (item, index) => (
     <tr key={index}>
         <td>{item.id}</td>
-        <td>{item.user}</td>
-        <td>{item.price}</td>
-        <td>{item.date}</td>
+        <td>{item.productionOrderId}</td>
+        <td>{item.productionRunId}</td>
+        <td>{item.downtimeStartTime}</td>
         <td>
-            <Badge type={orderStatus[item.status]} content={item.status}/>
+            <Badge type={orderStatus[item.statusId]} content={orderStatusname[item.statusId]}/>
         </td>
     </tr>
 )
@@ -241,6 +257,13 @@ const Downtimetable = () => {
         {title: "ID", field: "id", filtering: false, hidden: true}
     ];
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -260,14 +283,11 @@ const Downtimetable = () => {
                                     <div className="card__body">
                                         <Table
                                             limit="5"
-                                            headData={latestOrders.header}
+                                            headData={fields}
                                             renderHead={(item, index) => renderOrderHead(item, index)}
-                                            bodyData={latestOrders.body}
+                                            bodyData={listData.lists}
                                             renderBody={(item, index) => renderOrderBody(item, index)}
                                         />
-                                    </div>
-                                    <div className="card__footer">
-                                        <Link to='/'>view all</Link>
                                     </div>
                                 </div>
                             </div>

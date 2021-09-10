@@ -33,6 +33,7 @@ import Button from '@material-ui/core/Button';
 import moment from "moment";
 import axios from "axios";
 import UserContext from "../userContext";
+import {HashLoader} from "react-spinners";
 
 
 const tableIcons = {
@@ -493,6 +494,13 @@ const Dashboard = () => {
     const id = open ? 'simple-popover' : undefined;
     const id1 = open1 ? 'simple-popover' : undefined;
 
+    if (loading) {
+        return (
+            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
+                <HashLoader  loading={loading}  size={150} />
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
