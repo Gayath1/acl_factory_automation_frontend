@@ -232,6 +232,14 @@ const Downtimetable = () => {
                 `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserbreakdown/1/${userData.role}/getall`, headers
             );
             setListData({lists: result.data.data.organization.getdowntimes})
+            const result1 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionSlowRunList/1/${userData.role}/getall`, headers
+            );
+            setListData1({lists: result1.data.data.organization.getslowruns})
+            const result2 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionDowntimeListnotresponded/1/${userData.role}/getall`, headers
+            );
+            setListData2({lists: result2.data.data.organization.getdowntimes})
             setLoading(false);
         };
         fetchData();
@@ -249,12 +257,12 @@ const Downtimetable = () => {
 
     const columns = [
         {
-            title: "Name",
-            field: "name",
+            title: "Id",
+            field: "id",
         },
-        {title: "Color", field: "color", filtering: false},
-        {title: "Quantity", field: "quantity", filtering: false},
-        {title: "ID", field: "id", filtering: false, hidden: true}
+        {title: "Order Id", field: "productionOrderId", filtering: false},
+        {title: "Run Id", field: "productionRunId", filtering: false},
+        {title: "Start Time", field: "downtimeStartTime", filtering: false, hidden: true}
     ];
 
     if (loading) {
@@ -302,7 +310,7 @@ const Downtimetable = () => {
                                         <MaterialTable
                                             title=""
                                             columns={columns}
-                                            data={data}
+                                            data={listData2.lists}
                                             icons={tableIcons}
                                             // options={{
                                             //     filtering: true
@@ -324,7 +332,7 @@ const Downtimetable = () => {
                                         <MaterialTable
                                             title=""
                                             columns={columns}
-                                            data={data}
+                                            data={listData.lists}
                                             icons={tableIcons}
                                             // options={{
                                             //     filtering: true
