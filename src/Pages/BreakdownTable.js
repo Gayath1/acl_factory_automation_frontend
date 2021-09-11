@@ -178,9 +178,9 @@ const orderStatus = {
 
 const orderStatusname = {
     "100": "Pending",
-    "130" : "Breakdown",
+    "130": "Breakdown",
     "171": "Executive",
-    "161" : "Operator",
+    "161": "Operator",
 }
 
 const fields = [
@@ -267,8 +267,17 @@ const Downtimetable = () => {
 
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
