@@ -119,8 +119,6 @@ function a11yProps(index) {
 }
 
 
-
-
 const topCustomers = {
     head: [
         'user',
@@ -330,7 +328,7 @@ const Dashboard = () => {
     let months = listData3.lists.map((item) => item.date).filter((item, index, array) => array.indexOf(item) == index)
 
     const productTotals = listData3.lists.reduce((obj, curr) => {
-        if(!obj[curr.productionorderCode]){
+        if (!obj[curr.productionorderCode]) {
             obj[curr.productionorderCode] = []
         }
 
@@ -342,7 +340,7 @@ const Dashboard = () => {
         return {
             name: name,
             data: months.map((month, monthIndex) => {
-                if(!prodArr[monthIndex]){
+                if (!prodArr[monthIndex]) {
                     return 0
                 } else {
                     return prodArr[monthIndex]
@@ -496,8 +494,17 @@ const Dashboard = () => {
 
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
@@ -530,7 +537,7 @@ const Dashboard = () => {
                     </AppBar>
                 </div>
                 {listData.lists.map((tabInfo, index) => (
-                    <TabPanel value={value} index={index} >
+                    <TabPanel value={value} index={index}>
                         <div>
                             <h2 className="page-header">Dashboard</h2>
                             <div className="row">
