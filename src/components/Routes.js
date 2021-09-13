@@ -41,6 +41,7 @@ import InnovigentUser from "../Pages/InnovigentUser";
 import AdvancedDashboard from "../Pages/AdvancedDashboard";
 import ProductionSpeed from "../Pages/ProductionSpeed";
 import BreakdownTable from "../Pages/BreakdownTable";
+import PreventiveMaintenance from "../Pages/PreventiveMaintenance";
 
 
 const Routes = () => {
@@ -89,6 +90,7 @@ const Routes = () => {
             <Route path="/AdvancedDashboard" component={AdvancedDashboard}/>
             <Route path="/ProductionSpeed" component={ProductionSpeed}/>
             <Route path="/BreakdownTable" component={BreakdownTable}/>
+            <Route path="/PreventiveMaintenance" component={PreventiveMaintenance}/>
 
         </Switch>
 

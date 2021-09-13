@@ -47,6 +47,11 @@ const sidebar_items1 = [
         "route": "/ProductCalendar",
         "icon": "bx bx-calendar-event"
     },
+    {
+        "display_name": "Preventive Maintenance",
+        "route": "/PreventiveMaintenance",
+        "icon": "bx bx-cog"
+    },
 ]
 
 const sidebar_items = [
