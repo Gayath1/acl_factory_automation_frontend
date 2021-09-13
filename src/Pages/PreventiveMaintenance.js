@@ -12,7 +12,9 @@ import UserContext from "../userContext";
 
 
 const fields = [
-    "Department Name",
+    "maintenance Date",
+    "Production line",
+    "Shift",
     "Created At",
     "Action"
 ]
@@ -68,7 +70,7 @@ const submitdelete = async (id) => {
     try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/department/1/delete", body, headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/PreventiveMaintenanceController/1/delete", body, headers);
         window.location.reload();
 
     } catch (err) {
@@ -82,7 +84,9 @@ const renderOrderHead = (item, index) => (
 )
 const renderOrderBody = (item, index) => (
     <tr key={index}>
-        <td>{item.departmentName}</td>
+        <td>{moment(item.maintenanceDate).format("MMM Do YY")}</td>
+        <td>{item.productionlines.productlineNo}</td>
+        <td>{item.shifts.shiftName}</td>
         <td>{moment(item.createdAt).format("MMM Do YY")}</td>
         <td>
             <button onClick={() => {
