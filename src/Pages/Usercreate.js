@@ -406,6 +406,7 @@ const Usercreate = () => {
                 <TopNav/>
                 <div className="layout__content-main">
                     <h2 className="page-header">Users</h2>
+                    <form onSubmit={submit}>
                     <div className="row">
                     <div className="col-6">
                         <div className="card full-height">
@@ -425,32 +426,32 @@ const Usercreate = () => {
                                 </div>
                                 <div className="rowuser">
                                     <label>First Name</label>
-                                    <input type="text" autoFocus placeholder="enter your firstname" value={firstName}  onChange={(e) => setfirstName(e.target.value)} />
+                                    <input type="text" autoFocus placeholder="enter your firstname" value={firstName}  onChange={(e) => setfirstName(e.target.value)}  required/>
                                 </div>
                                 <div className="rowuser">
                                     <label>Last Name</label>
-                                    <input type="text" placeholder="enter your lastname" value={lastName} onChange={(e) => setlastName(e.target.value)}/>
+                                    <input type="text" placeholder="enter your lastname" value={lastName} onChange={(e) => setlastName(e.target.value)} required/>
                                 </div>
                                 {type === 'Operator' ?
                                     null
                                     :
                                     <div className="rowuser">
                                         <label>Email</label>
-                                        <input type="email" id="email" pattern=".+@globex\.com"  placeholder="enter your email" value={email}  onChange={(e) => setEmail(e.target.value)} required/>
+                                        <input type="email" id="email"   placeholder="enter your email" value={email}  onChange={(e) => setEmail(e.target.value)} required/>
                                     </div>
                                 }
                                 <div className="rowuser">
                                     <label>Epf No</label>
-                                    <input type="number" min="0" placeholder="enter your epf no" value={epfNo} onChange={(e) => setepfNo(e.target.value)}/>
+                                    <input type="number" min="0" placeholder="enter your epf no" value={epfNo} onChange={(e) => setepfNo(e.target.value)} required/>
                                 </div>
                                 <div className="rowuser">
                                     <label>Mobile</label>
-                                    <input type="mobile" placeholder="enter your mobile no" value={mobile} onChange={(e) => setmobile(e.target.value)}/>
+                                    <input type="mobile" placeholder="enter your mobile no" value={mobile} onChange={(e) => setmobile(e.target.value)} required/>
                                 </div>
                                 {type === 'Operator' ?
                                     <div className="rowuser">
                                         <label>Shift</label>
-                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} >
+                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} required>
                                             <option value=""  selected>please select Shift</option>
                                             {listData4.lists.map((country, key) => (
                                                 <option key={key} value={country.id}>
@@ -465,7 +466,7 @@ const Usercreate = () => {
                                 {type === 'Executive' ?
                                     <div className="rowuser">
                                         <label>Shift</label>
-                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} >
+                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} required>
                                             <option value=""  selected>please select Shift</option>
                                             {listData4.lists.map((country, key) => (
                                                 <option key={key} value={country.id}>
@@ -480,7 +481,7 @@ const Usercreate = () => {
                                 {type === 'Executive' ?
                                     <div className="rowuser">
                                         <label>Department</label>
-                                        <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} >
+                                        <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} required>
                                             <option value=""  selected>please select Department</option>
                                             {listData3.lists.map((country, key) => (
                                                 <option key={key} value={country.id}>
@@ -495,7 +496,7 @@ const Usercreate = () => {
                                 {type === 'Executive' ?
                                     <div className="rowuser">
                                         <label>Permission</label>
-                                        <select id="department" name="department" value={permissionId} onChange={(e) => setpermissionId(e.target.value)} >
+                                        <select id="department" name="department" value={permissionId} onChange={(e) => setpermissionId(e.target.value)} required>
                                             <option value=""  selected>please select permission</option>
                                             <option value="70"  selected>Production Executive</option>
                                             <option value="71">Electrical Executive</option>
@@ -507,11 +508,11 @@ const Usercreate = () => {
                                 }
                                 {type === 'Operator' ?
                                     <div id="button" className="rowuser">
-                                        <button disabled={!validateForm1()} onClick={submit}>Register</button>
+                                        <button type="submit">Register</button>
                                     </div>
                                     :
                                     <div id="button" className="rowuser">
-                                        <button  disabled={!validateForm()} onClick={submit}>Register</button>
+                                        <button  type="submit">Register</button>
                                     </div>
                                 }
                             </div>
@@ -522,7 +523,7 @@ const Usercreate = () => {
                             <div>
                                 <div className="rowuser">
                                     <label>User Image</label>
-                                    <input type='file' onChange={onSelectFile} placeholder="select your Image" />
+                                    <input type='file' onChange={onSelectFile} placeholder="select your Image" required/>
                                 </div>
                                {/*<div className="rowuser">*/}
                                     <div >
@@ -533,6 +534,7 @@ const Usercreate = () => {
                         </div>
                     </div>
                     </div>
+                    </form>
                     <div className="row">
                         <div className="col-12">
                             <div className="card full-height">
