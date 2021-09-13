@@ -218,6 +218,7 @@ const Usercreate = () => {
                         <TopNav/>
                         <div className="layout__content-main">
                             <h2 className="page-header">Admin</h2>
+                            <form onSubmit={submit}>
                             <div className="row">
                                 <div className="col-6">
                                     <div className="card full-height">
@@ -232,12 +233,12 @@ const Usercreate = () => {
                                                 <label>First Name</label>
                                                 <input type="text" autoFocus placeholder="enter your firstname"
                                                        value={firstName}
-                                                       onChange={(e) => setfirstName(e.target.value)}/>
+                                                       onChange={(e) => setfirstName(e.target.value)} required/>
                                             </div>
                                             <div className="rowuser">
                                                 <label>Last Name</label>
                                                 <input type="text" placeholder="enter your lastname" value={lastName}
-                                                       onChange={(e) => setlastName(e.target.value)}/>
+                                                       onChange={(e) => setlastName(e.target.value)} required/>
                                             </div>
                                             <div className="rowuser">
                                                 <label>Email</label>
@@ -248,17 +249,17 @@ const Usercreate = () => {
                                             <div className="rowuser">
                                                 <label>Epf No</label>
                                                 <input type="number" placeholder="enter your epf no" value={epfNo}
-                                                       onChange={(e) => setEpfNo(e.target.value)}/>
+                                                       onChange={(e) => setEpfNo(e.target.value)} required/>
                                             </div>
                                             <div className="rowuser">
                                                 <label>Mobile</label>
                                                 <input type="mobile" placeholder="enter your mobile no" value={mobile}
-                                                       onChange={(e) => setMobile(e.target.value)}/>
+                                                       onChange={(e) => setMobile(e.target.value)} required/>
                                             </div>
                                             <div className="rowuser">
                                                 <label>Permission</label>
                                                 <select id="department" name="department" value={permission}
-                                                        onChange={(e) => setPermission(e.target.value)}>
+                                                        onChange={(e) => setPermission(e.target.value)} required>
                                                     <option value="" selected></option>
                                                     <option value="1">Admin</option>
                                                     <option value="50">Associate-Admin</option>
@@ -266,10 +267,11 @@ const Usercreate = () => {
                                             </div>
 
                                             <div id="button" className="rowuser">
-                                                <button disabled={!validateForm()} onClick={submit}>Register</button>
+                                                <button  type="submit">Register</button>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div className="col-6">
                                     <div className="card full-height">
@@ -277,7 +279,7 @@ const Usercreate = () => {
                                             <div className="rowuser">
                                                 <label>User Image</label>
                                                 <input type='file' onChange={onSelectFile}
-                                                       placeholder="select your Image"/>
+                                                       placeholder="select your Image" required/>
                                             </div>
                                             {/*<div className="rowuser">*/}
                                             <div>
@@ -288,6 +290,7 @@ const Usercreate = () => {
                                     </div>
                                 </div>
                             </div>
+                            </form>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="card full-height">
