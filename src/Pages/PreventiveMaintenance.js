@@ -101,8 +101,8 @@ const PreventiveMaintenance = () => {
     const classes = useStyles();
     const {userData} = useContext(UserContext);
     const [departmentName, setdepartmentName] = useState("");
-    const [productlineId ,setproductlineId] = useState('');
-    const [shiftId ,setshiftId] = useState('');
+    const [productlineId, setproductlineId] = useState('');
+    const [shiftId, setshiftId] = useState('');
     const [date, setdate] = useState('');
     const [err, setErr] = useState("");
     const [listData, setListData] = useState({lists: []});
@@ -136,7 +136,7 @@ const PreventiveMaintenance = () => {
         setErr("");
         try {
 
-            const body = {productlineId,shiftId,date};
+            const body = {productlineId, shiftId, date};
             const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/PreventiveMaintenanceController/1/create", body, headers);
             window.location.reload();
 
