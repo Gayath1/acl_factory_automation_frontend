@@ -6,7 +6,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Table from "../components/table/Table";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import axios from "axios";
 import {Alert, AlertTitle} from "@material-ui/lab";
 import {HashLoader} from "react-spinners";
@@ -77,7 +77,7 @@ const renderOrderBody = (item, index) => (
         <td>{item.email}</td>
         <td>{item.epfNo}</td>
         <td>
-            <button className="usertblbutton" >Delete</button>
+            <button className="usertblbutton">Delete</button>
         </td>
     </tr>
 )
@@ -87,33 +87,33 @@ const token = localStorage.getItem("Token")
 const headers = {
     headers: {
 
-        "Authorization":`Bearer ${token}`
+        "Authorization": `Bearer ${token}`
     }
 };
 
 const deletedata = async (id) => {
 
-    try{
+    try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/operator/1/delete",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/operator/1/delete", body, headers);
         window.location.reload();
 
-    } catch(err) {
-       console.log(err);
+    } catch (err) {
+        console.log(err);
     }
 
 };
 
 const deletedata1 = async (id) => {
 
-    try{
+    try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/1/delete",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/1/delete", body, headers);
         window.location.reload();
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
 
@@ -121,13 +121,13 @@ const deletedata1 = async (id) => {
 
 const deletedata2 = async (id) => {
 
-    try{
+    try {
 
         const body = {id};
-        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/delete",body,headers);
+        const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/delete", body, headers);
         window.location.reload();
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
 
@@ -139,7 +139,10 @@ const renderOrderBody1 = (item, index) => (
         <td>{item.lastName}</td>
         <td>{item.epfNo}</td>
         <td>
-            <button onClick={()=>{deletedata(item.id)}} className="usertblbutton" >Delete</button>
+            <button onClick={() => {
+                deletedata(item.id)
+            }} className="usertblbutton">Delete
+            </button>
         </td>
     </tr>
 )
@@ -151,7 +154,10 @@ const renderOrderBody2 = (item, index) => (
         <td>{item.email}</td>
         <td>{item.epfNo}</td>
         <td>
-            <button onClick={()=>{deletedata1(item.id)}} className="usertblbutton" >Delete</button>
+            <button onClick={() => {
+                deletedata1(item.id)
+            }} className="usertblbutton">Delete
+            </button>
         </td>
     </tr>
 )
@@ -163,13 +169,16 @@ const renderOrderBody3 = (item, index) => (
         <td>{item.email}</td>
         <td>{item.epfNo}</td>
         <td>
-            <button onClick={()=>{deletedata2(item.id)}} className="usertblbutton" >Delete</button>
+            <button onClick={() => {
+                deletedata2(item.id)
+            }} className="usertblbutton">Delete
+            </button>
         </td>
     </tr>
 )
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -187,34 +196,36 @@ function TabPanel(props) {
         </div>
     );
 }
+
 function a11yProps(index) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
+
 const Usercreate = () => {
 
     const classes = useStyles();
     const {userData} = useContext(UserContext);
-    const [firstName,setfirstName] = useState("");
-    const [lastName,setlastName] = useState("");
+    const [firstName, setfirstName] = useState("");
+    const [lastName, setlastName] = useState("");
     const [email, setEmail] = useState("");
     const [mobile, setmobile] = useState("");
-    const [epfNo,setepfNo] = useState("");
-    const [shiftId,setshiftId] = useState("");
-    const [departmentId,setdepartmentId] = useState("");
+    const [epfNo, setepfNo] = useState("");
+    const [shiftId, setshiftId] = useState("");
+    const [departmentId, setdepartmentId] = useState("");
     const [type, setType] = React.useState('Management');
-    const [permissionId,setpermissionId] = useState("");
-    const [image,setImage]= ('');
+    const [permissionId, setpermissionId] = useState("");
+    const [image, setImage] = ('');
     const [err, setErr] = useState("");
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
-    const [listData, setListData] = useState({ lists: [] });
-    const [listData1, setListData1] = useState({ lists: [] });
-    const [listData2, setListData2] = useState({ lists: [] });
-    const [listData3, setListData3] = useState({ lists: [] });
-    const [listData4, setListData4] = useState({ lists: [] });
+    const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
+    const [listData2, setListData2] = useState({lists: []});
+    const [listData3, setListData3] = useState({lists: []});
+    const [listData4, setListData4] = useState({lists: []});
     const [value, setValue] = React.useState(0);
     let [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
@@ -222,7 +233,7 @@ const Usercreate = () => {
     const headers = {
         headers: {
 
-            "Authorization":`Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     };
 
@@ -232,25 +243,25 @@ const Usercreate = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/Management/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/Management/1/getall`, headers
             );
-            setListData({lists:result.data.data.management})
+            setListData({lists: result.data.data.management})
             const result1 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/Executives/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/Executives/1/getall`, headers
             );
-            setListData1({lists:result1.data.data.executives})
+            setListData1({lists: result1.data.data.executives})
             const result2 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/operator/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/operator/1/getall`, headers
             );
-            setListData2({lists:result2.data.data.OperatorsDetails})
+            setListData2({lists: result2.data.data.OperatorsDetails})
             const result3 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/department/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/department/1/getall`, headers
             );
-            setListData3({lists:result3.data.data.DepartmentDetails})
+            setListData3({lists: result3.data.data.DepartmentDetails})
             const result4 = await axios(
-                `https://acl-automation.herokuapp.com/api/v1/shiftcontrollers/1/getall`,headers
+                `https://acl-automation.herokuapp.com/api/v1/shiftcontrollers/1/getall`, headers
             );
-            setListData4({lists:result4.data.data.ShiftDetails})
+            setListData4({lists: result4.data.data.ShiftDetails})
             setLoading(false);
         };
 
@@ -278,6 +289,7 @@ const Usercreate = () => {
     function validateForm() {
         return email.length > 0 && selectedFile !== null;
     }
+
     const handleChange = (event) => {
         setType(event.target.value);
     };
@@ -296,11 +308,11 @@ const Usercreate = () => {
     const submit = async (e) => {
         e.preventDefault();
         setErr("");
-        if(type === 'Operator'){
-            try{
-                const  formData = new FormData()
+        if (type === 'Operator') {
+            try {
+                const formData = new FormData()
 
-                formData.append('image',selectedFile)
+                formData.append('image', selectedFile)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -310,26 +322,26 @@ const Usercreate = () => {
                 formData.append("departmentId", departmentId);
                 // const body = {email, firstName,lastName,mobile,epfNo,permission};
 
-                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/operator/1/create",formData
-                    ,{
+                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/operator/1/create", formData
+                    , {
                         //body: formData,
-                        headers:{
+                        headers: {
                             'Accept': 'multipart/form-data',
-                            "Authorization":`Bearer ${token}`
+                            "Authorization": `Bearer ${token}`
                         },
                         //credentials: 'include',
                     });
 
                 window.location.reload();
 
-            } catch(err) {
+            } catch (err) {
                 err.response.data.message && setErr(err.response.data.message)
             }
-        }else if(type === 'Executive'){
-            try{
-                const  formData = new FormData()
+        } else if (type === 'Executive') {
+            try {
+                const formData = new FormData()
 
-                formData.append('image',selectedFile)
+                formData.append('image', selectedFile)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -340,26 +352,26 @@ const Usercreate = () => {
                 formData.append("permissionId", permissionId);
                 // const body = {email, firstName,lastName,mobile,epfNo,permission};
 
-                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/create",formData
-                    ,{
+                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Executives/1/create", formData
+                    , {
                         //body: formData,
-                        headers:{
+                        headers: {
                             'Accept': 'multipart/form-data',
-                            "Authorization":`Bearer ${token}`
+                            "Authorization": `Bearer ${token}`
                         },
                         //credentials: 'include',
                     });
 
                 window.location.reload();
 
-            } catch(err) {
+            } catch (err) {
                 err.response.data.message && setErr(err.response.data.message)
             }
-        }else if(type === 'Management'){
-            try{
-                const  formData = new FormData()
+        } else if (type === 'Management') {
+            try {
+                const formData = new FormData()
 
-                formData.append('image',selectedFile)
+                formData.append('image', selectedFile)
                 formData.append("email", email);
                 formData.append("firstName", firstName);
                 formData.append("lastName", lastName);
@@ -369,223 +381,257 @@ const Usercreate = () => {
                 formData.append("departmentId", departmentId);
                 // const body = {email, firstName,lastName,mobile,epfNo,permission};
 
-                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/1/create",formData
-                    ,{
+                const loginResponse = await axios.post("https://acl-automation.herokuapp.com/api/v1/Management/1/create", formData
+                    , {
                         //body: formData,
-                        headers:{
+                        headers: {
                             'Accept': 'multipart/form-data',
-                            "Authorization":`Bearer ${token}`
+                            "Authorization": `Bearer ${token}`
                         },
                         //credentials: 'include',
                     });
 
                 window.location.reload();
 
-            } catch(err) {
+            } catch (err) {
                 err.response.data.message && setErr(err.response.data.message)
             }
         }
     };
 
 
-
-
     if (loading) {
         return (
-            <div style={{ padding: "10px 20px", textAlign: "center", justifyContent:"center", display:"flex", alignItems:"center", width:"100%", height:"100vh", backgroundColor:"#FFFFFF"}}>
-                <HashLoader  loading={loading}  size={150} />
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
             </div>
         )
     }
     return (
         <>
-            {userData.role === 1 || userData.role === 50? (
-        <>
-            <Sidebar/>
-            <div id="main" className="layout__content">
-                <TopNav/>
-                <div className="layout__content-main">
-                    <h2 className="page-header">Users</h2>
-                    <form onSubmit={submit}>
-                    <div className="row">
-                    <div className="col-6">
-                        <div className="card full-height">
-                            <div>
-                                {err ? (
-                                    <Alert severity="error">
-                                        <AlertTitle>Error</AlertTitle>
-                                        {err}
-                                    </Alert>
-                                ) : null}
-                                <div className="rowuserradio">
-                                <RadioGroup  aria-label="type" name="type" value={type} onChange={handleChange} row>
-                                    <FormControlLabel value="Management" control={<Radio color="primary" />} label="Management" />
-                                    <FormControlLabel value="Executive" control={<Radio color="primary" />} label="Executive" />
-                                    <FormControlLabel value="Operator" control={<Radio color="primary" />} label="Operator" />
-                                </RadioGroup>
+            {userData.role === 1 || userData.role === 50 ? (
+                <>
+                    <Sidebar/>
+                    <div id="main" className="layout__content">
+                        <TopNav/>
+                        <div className="layout__content-main">
+                            <h2 className="page-header">Users</h2>
+                            <form onSubmit={submit}>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <div className="card full-height">
+                                            <div>
+                                                {err ? (
+                                                    <Alert severity="error">
+                                                        <AlertTitle>Error</AlertTitle>
+                                                        {err}
+                                                    </Alert>
+                                                ) : null}
+                                                <div className="rowuserradio">
+                                                    <RadioGroup aria-label="type" name="type" value={type}
+                                                                onChange={handleChange} row>
+                                                        <FormControlLabel value="Management"
+                                                                          control={<Radio color="primary"/>}
+                                                                          label="Management"/>
+                                                        <FormControlLabel value="Executive"
+                                                                          control={<Radio color="primary"/>}
+                                                                          label="Executive"/>
+                                                        <FormControlLabel value="Operator"
+                                                                          control={<Radio color="primary"/>}
+                                                                          label="Operator"/>
+                                                    </RadioGroup>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>First Name</label>
+                                                    <input type="text" autoFocus placeholder="enter your firstname"
+                                                           value={firstName}
+                                                           onChange={(e) => setfirstName(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Last Name</label>
+                                                    <input type="text" placeholder="enter your lastname"
+                                                           value={lastName}
+                                                           onChange={(e) => setlastName(e.target.value)} required/>
+                                                </div>
+                                                {type === 'Operator' ?
+                                                    null
+                                                    :
+                                                    <div className="rowuser">
+                                                        <label>Email</label>
+                                                        <input type="email" id="email" placeholder="enter your email"
+                                                               value={email} onChange={(e) => setEmail(e.target.value)}
+                                                               required/>
+                                                    </div>
+                                                }
+                                                <div className="rowuser">
+                                                    <label>Epf No</label>
+                                                    <input type="number" min="0" placeholder="enter your epf no"
+                                                           value={epfNo} onChange={(e) => setepfNo(e.target.value)}
+                                                           required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Mobile</label>
+                                                    <input type="mobile" placeholder="enter your mobile no"
+                                                           value={mobile} onChange={(e) => setmobile(e.target.value)}
+                                                           required/>
+                                                </div>
+                                                {type === 'Operator' ?
+                                                    <div className="rowuser">
+                                                        <label>Shift</label>
+                                                        <select id="department" name="department" value={shiftId}
+                                                                onChange={(e) => setshiftId(e.target.value)} required>
+                                                            <option value="" selected>please select Shift</option>
+                                                            {listData4.lists.map((country, key) => (
+                                                                <option key={key} value={country.id}>
+                                                                    {country.shiftName}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                                {type === 'Executive' ?
+                                                    <div className="rowuser">
+                                                        <label>Shift</label>
+                                                        <select id="department" name="department" value={shiftId}
+                                                                onChange={(e) => setshiftId(e.target.value)} required>
+                                                            <option value="" selected>please select Shift</option>
+                                                            {listData4.lists.map((country, key) => (
+                                                                <option key={key} value={country.id}>
+                                                                    {country.shiftName}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                                {type === 'Executive' ?
+                                                    <div className="rowuser">
+                                                        <label>Department</label>
+                                                        <select id="department" name="department" value={departmentId}
+                                                                onChange={(e) => setdepartmentId(e.target.value)}
+                                                                required>
+                                                            <option value="" selected>please select Department</option>
+                                                            {listData3.lists.map((country, key) => (
+                                                                <option key={key} value={country.id}>
+                                                                    {country.departmentName}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                                {type === 'Executive' ?
+                                                    <div className="rowuser">
+                                                        <label>Permission</label>
+                                                        <select id="department" name="department" value={permissionId}
+                                                                onChange={(e) => setpermissionId(e.target.value)}
+                                                                required>
+                                                            <option value="" selected>please select permission</option>
+                                                            <option value="70" selected>Production Executive</option>
+                                                            <option value="71">Electrical Executive</option>
+                                                            <option value="72">Mechanical-Executive</option>
+                                                        </select>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                                {type === 'Operator' ?
+                                                    <div id="button" className="rowuser">
+                                                        <button type="submit">Register</button>
+                                                    </div>
+                                                    :
+                                                    <div id="button" className="rowuser">
+                                                        <button type="submit">Register</button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-6">
+                                        <div className="card full-height">
+                                            <div>
+                                                <div className="rowuser">
+                                                    <label>User Image</label>
+                                                    <input type='file' onChange={onSelectFile}
+                                                           placeholder="select your Image" required/>
+                                                </div>
+                                                {/*<div className="rowuser">*/}
+                                                <div>
+                                                    {selectedFile && <img className="form-imguser" src={preview}/>}
+                                                </div>
+                                                {/*</div>*/}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="rowuser">
-                                    <label>First Name</label>
-                                    <input type="text" autoFocus placeholder="enter your firstname" value={firstName}  onChange={(e) => setfirstName(e.target.value)}  required/>
+                            </form>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card full-height">
+                                        <div className="card__header">
+                                            <AppBar position="static" style={{
+                                                background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)`,
+                                                borderRadius: "8px"
+                                            }}>
+                                                <Tabs TabIndicatorProps={{
+                                                    style: {
+                                                        backgroundColor: "#ffffff"
+                                                    }
+                                                }} value={value} onChange={handletab}>
+                                                    <Tab label="Managers" {...a11yProps(0)} />
+                                                    <Tab label="Executives" {...a11yProps(1)} />
+                                                    <Tab label="Operators" {...a11yProps(2)} />
+                                                </Tabs>
+                                            </AppBar>
+                                        </div>
+                                        <TabPanel value={value} index={0}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData.lists}
+                                                renderBody={(item, index) => renderOrderBody2(item, index)}
+                                            />
+                                        </TabPanel>
+                                        <TabPanel value={value} index={1}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData1.lists}
+                                                renderBody={(item, index) => renderOrderBody3(item, index)}
+                                            />
+                                        </TabPanel>
+                                        <TabPanel value={value} index={2}>
+                                            <Table
+                                                limit="5"
+                                                headData={fields1}
+                                                renderHead={(item, index) => renderOrderHead(item, index)}
+                                                bodyData={listData2.lists}
+                                                renderBody={(item, index) => renderOrderBody1(item, index)}
+                                            />
+                                        </TabPanel>
+                                    </div>
                                 </div>
-                                <div className="rowuser">
-                                    <label>Last Name</label>
-                                    <input type="text" placeholder="enter your lastname" value={lastName} onChange={(e) => setlastName(e.target.value)} required/>
-                                </div>
-                                {type === 'Operator' ?
-                                    null
-                                    :
-                                    <div className="rowuser">
-                                        <label>Email</label>
-                                        <input type="email" id="email"   placeholder="enter your email" value={email}  onChange={(e) => setEmail(e.target.value)} required/>
-                                    </div>
-                                }
-                                <div className="rowuser">
-                                    <label>Epf No</label>
-                                    <input type="number" min="0" placeholder="enter your epf no" value={epfNo} onChange={(e) => setepfNo(e.target.value)} required/>
-                                </div>
-                                <div className="rowuser">
-                                    <label>Mobile</label>
-                                    <input type="mobile" placeholder="enter your mobile no" value={mobile} onChange={(e) => setmobile(e.target.value)} required/>
-                                </div>
-                                {type === 'Operator' ?
-                                    <div className="rowuser">
-                                        <label>Shift</label>
-                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} required>
-                                            <option value=""  selected>please select Shift</option>
-                                            {listData4.lists.map((country, key) => (
-                                                <option key={key} value={country.id}>
-                                                    {country.shiftName}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {type === 'Executive' ?
-                                    <div className="rowuser">
-                                        <label>Shift</label>
-                                        <select id="department" name="department" value={shiftId} onChange={(e) => setshiftId(e.target.value)} required>
-                                            <option value=""  selected>please select Shift</option>
-                                            {listData4.lists.map((country, key) => (
-                                                <option key={key} value={country.id}>
-                                                    {country.shiftName}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {type === 'Executive' ?
-                                    <div className="rowuser">
-                                        <label>Department</label>
-                                        <select id="department" name="department" value={departmentId} onChange={(e) => setdepartmentId(e.target.value)} required>
-                                            <option value=""  selected>please select Department</option>
-                                            {listData3.lists.map((country, key) => (
-                                                <option key={key} value={country.id}>
-                                                    {country.departmentName}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {type === 'Executive' ?
-                                    <div className="rowuser">
-                                        <label>Permission</label>
-                                        <select id="department" name="department" value={permissionId} onChange={(e) => setpermissionId(e.target.value)} required>
-                                            <option value=""  selected>please select permission</option>
-                                            <option value="70"  selected>Production Executive</option>
-                                            <option value="71">Electrical Executive</option>
-                                            <option value="72">Mechanical-Executive</option>
-                                        </select>
-                                    </div>
-                                    :
-                                    null
-                                }
-                                {type === 'Operator' ?
-                                    <div id="button" className="rowuser">
-                                        <button type="submit">Register</button>
-                                    </div>
-                                    :
-                                    <div id="button" className="rowuser">
-                                        <button  type="submit">Register</button>
-                                    </div>
-                                }
                             </div>
                         </div>
                     </div>
-                    <div className="col-6">
-                        <div className="card full-height">
-                            <div>
-                                <div className="rowuser">
-                                    <label>User Image</label>
-                                    <input type='file' onChange={onSelectFile} placeholder="select your Image" required/>
-                                </div>
-                               {/*<div className="rowuser">*/}
-                                    <div >
-                                        {selectedFile &&  <img className="form-imguser"  src={preview} /> }
-                                    </div>
-                                {/*</div>*/}
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    </form>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card full-height">
-                                <div className="card__header">
-                                    <AppBar position="static" style={{background: `linear-gradient(90deg, #06518C 0%, #62B4FF 97.85%)` ,borderRadius:"8px"}}>
-                                        <Tabs TabIndicatorProps={{
-                                            style: {
-                                                backgroundColor: "#ffffff"
-                                            }
-                                        }} value={value} onChange={handletab}  >
-                                            <Tab label="Managers" {...a11yProps(0)} />
-                                            <Tab label="Executives" {...a11yProps(1)} />
-                                            <Tab label="Operators" {...a11yProps(2)} />
-                                        </Tabs>
-                                    </AppBar>
-                                </div>
-                                <TabPanel value={value} index={0}>
-                                    <Table
-                                        limit="5"
-                                        headData={fields}
-                                        renderHead={(item, index) => renderOrderHead(item, index)}
-                                        bodyData={listData.lists}
-                                        renderBody={(item, index) => renderOrderBody2(item, index)}
-                                    />
-                                </TabPanel>
-                                <TabPanel value={value} index={1}>
-                                    <Table
-                                        limit="5"
-                                        headData={fields}
-                                        renderHead={(item, index) => renderOrderHead(item, index)}
-                                        bodyData={listData1.lists}
-                                        renderBody={(item, index) => renderOrderBody3(item, index)}
-                                    />
-                                </TabPanel>
-                                <TabPanel value={value} index={2}>
-                                    <Table
-                                        limit="5"
-                                        headData={fields1}
-                                        renderHead={(item, index) => renderOrderHead(item, index)}
-                                        bodyData={listData2.lists}
-                                        renderBody={(item, index) => renderOrderBody1(item, index)}
-                                    />
-                                </TabPanel>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </>
+            ) : null}
         </>
-            ):null}
-            </>
     )
 }
 
