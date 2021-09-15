@@ -219,77 +219,79 @@ const Usercreate = () => {
                         <div className="layout__content-main">
                             <h2 className="page-header">Admin</h2>
                             <form onSubmit={submit}>
-                            <div className="row">
-                                <div className="col-6">
-                                    <div className="card full-height">
-                                        <div>
-                                            {err ? (
-                                                <Alert severity="error">
-                                                    <AlertTitle>Error</AlertTitle>
-                                                    {err}
-                                                </Alert>
-                                            ) : null}
-                                            <div className="rowuser">
-                                                <label>First Name</label>
-                                                <input type="text" autoFocus placeholder="enter your firstname"
-                                                       value={firstName}
-                                                       onChange={(e) => setfirstName(e.target.value)} required/>
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>Last Name</label>
-                                                <input type="text" placeholder="enter your lastname" value={lastName}
-                                                       onChange={(e) => setlastName(e.target.value)} required/>
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>Email</label>
-                                                <input type="email" id="email" pattern=".+@globex\.com"
-                                                       placeholder="enter your email" value={email}
-                                                       onChange={(e) => setEmail(e.target.value)} required/>
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>Epf No</label>
-                                                <input type="number" placeholder="enter your epf no" value={epfNo}
-                                                       onChange={(e) => setEpfNo(e.target.value)} required/>
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>Mobile</label>
-                                                <input type="mobile" placeholder="enter your mobile no" value={mobile}
-                                                       onChange={(e) => setMobile(e.target.value)} required/>
-                                            </div>
-                                            <div className="rowuser">
-                                                <label>Permission</label>
-                                                <select id="department" name="department" value={permission}
-                                                        onChange={(e) => setPermission(e.target.value)} required>
-                                                    <option value="" selected></option>
-                                                    <option value="1">Admin</option>
-                                                    <option value="50">Associate-Admin</option>
-                                                </select>
-                                            </div>
-
-                                            <div id="button" className="rowuser">
-                                                <button  type="submit">Register</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div className="col-6">
-                                    <div className="card full-height">
-                                        <div>
-                                            <div className="rowuser">
-                                                <label>User Image</label>
-                                                <input type='file' onChange={onSelectFile}
-                                                       placeholder="select your Image" required/>
-                                            </div>
-                                            {/*<div className="rowuser">*/}
+                                <div className="row">
+                                    <div className="col-6">
+                                        <div className="card full-height">
                                             <div>
-                                                {selectedFile && <img className="form-imguser" src={preview}/>}
+                                                {err ? (
+                                                    <Alert severity="error">
+                                                        <AlertTitle>Error</AlertTitle>
+                                                        {err}
+                                                    </Alert>
+                                                ) : null}
+                                                <div className="rowuser">
+                                                    <label>First Name</label>
+                                                    <input type="text" autoFocus placeholder="enter your firstname"
+                                                           value={firstName}
+                                                           onChange={(e) => setfirstName(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Last Name</label>
+                                                    <input type="text" placeholder="enter your lastname"
+                                                           value={lastName}
+                                                           onChange={(e) => setlastName(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Email</label>
+                                                    <input type="email" id="email" pattern=".+@globex\.com"
+                                                           placeholder="enter your email" value={email}
+                                                           onChange={(e) => setEmail(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Epf No</label>
+                                                    <input type="number" placeholder="enter your epf no" value={epfNo}
+                                                           onChange={(e) => setEpfNo(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Mobile</label>
+                                                    <input type="mobile" placeholder="enter your mobile no"
+                                                           value={mobile}
+                                                           onChange={(e) => setMobile(e.target.value)} required/>
+                                                </div>
+                                                <div className="rowuser">
+                                                    <label>Permission</label>
+                                                    <select id="department" name="department" value={permission}
+                                                            onChange={(e) => setPermission(e.target.value)} required>
+                                                        <option value="" selected></option>
+                                                        <option value="1">Admin</option>
+                                                        <option value="50">Associate-Admin</option>
+                                                    </select>
+                                                </div>
+
+                                                <div id="button" className="rowuser">
+                                                    <button type="submit">Register</button>
+                                                </div>
                                             </div>
-                                            {/*</div>*/}
+                                        </div>
+
+                                    </div>
+                                    <div className="col-6">
+                                        <div className="card full-height">
+                                            <div>
+                                                <div className="rowuser">
+                                                    <label>User Image</label>
+                                                    <input type='file' onChange={onSelectFile}
+                                                           placeholder="select your Image" required/>
+                                                </div>
+                                                {/*<div className="rowuser">*/}
+                                                <div>
+                                                    {selectedFile && <img className="form-imguser" src={preview}/>}
+                                                </div>
+                                                {/*</div>*/}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </form>
                             <div className="row">
                                 <div className="col-12">
