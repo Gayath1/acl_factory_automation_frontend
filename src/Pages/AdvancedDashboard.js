@@ -299,7 +299,7 @@ const AdvancedDashboard = () => {
 
     const chartOptions = {
 
-        series: [...series,...series1],
+        series: [...series, ...series1],
         options: {
             chart: {
                 type: 'bar',
