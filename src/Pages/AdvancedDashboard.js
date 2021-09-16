@@ -9,6 +9,8 @@ import Table from '../components/table/Table';
 import Badge from '../components/badge/Badge';
 import GaugeChart from 'react-gauge-chart'
 import Select from 'react-select'
+import axios from "axios";
+import {HashLoader} from "react-spinners";
 
 const chartOptions = {
 
@@ -214,7 +216,9 @@ const line = [
 const AdvancedDashboard = () => {
 
     const [meter, setmeter] = useState('OEE');
-
+    const [listData, setListData] = useState({lists: []});
+    const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("Token")
     const handleClick = (event) => {
         setmeter('OEE');
     };
@@ -224,6 +228,128 @@ const AdvancedDashboard = () => {
     const handleClick2 = (event) => {
         setmeter('OOE');
     };
+
+    const headers = {
+        headers: {
+
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/MachineCalculationController/1/getall`, headers
+            );
+            setListData({lists: result.data.data.id})
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
+
+
+    let months = listData.lists.map((item) => item.createdAt).filter((item, index, array) => array.indexOf(item) == index)
+
+    const productTotals = listData.lists.reduce((obj, curr) => {
+        if (!obj[curr.id]) {
+            obj[curr.id] = []
+        }
+
+        obj[curr.id][months.indexOf(curr.createdAt)] = parseInt(curr.goodOutput)
+        return obj
+    }, {})
+
+    const productTotals1 = listData.lists.reduce((obj, curr) => {
+        if (!obj[curr.id]) {
+            obj[curr.id] = []
+        }
+
+        obj[curr.id][months.indexOf(curr.createdAt)] = parseInt(curr.totalOutput)
+        return obj
+    }, {})
+
+    const series = Object.entries(productTotals).map(([name, prodArr]) => {
+        return {
+            name: 'Good',
+            data: months.map((month, monthIndex) => {
+                if (!prodArr[monthIndex]) {
+                    return 0
+                } else {
+                    return prodArr[monthIndex]
+                }
+
+            })
+        }
+
+    })
+    const series1 = Object.entries(productTotals1).map(([name, prodArr]) => {
+        return {
+            name: 'Total',
+            data: months.map((month, monthIndex) => {
+                if (!prodArr[monthIndex]) {
+                    return 0
+                } else {
+                    return prodArr[monthIndex]
+                }
+
+            })
+        }
+
+    })
+
+    const chartOptions = {
+
+        series: [...series,...series1],
+        options: {
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: true,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                },
+            },
+            stroke: {
+                width: 1,
+                colors: ['#fff']
+            },
+            title: {
+                text: ''
+            },
+            xaxis: {
+                categories: [...months],
+                labels: {
+                    formatter: function (val) {
+                        return val + "%"
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: undefined
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + "%"
+                    }
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                offsetX: 40
+            }
+        },
+
+
+    }
 
     const statusCards = [
         {
@@ -240,13 +366,29 @@ const AdvancedDashboard = () => {
         },
         {
             "icon": "bx bx-chip",
-            "count": "20.01%",
+            "count": `${listData.lists[0].oee}`,
             "title": "OEE",
             "onClick": handleClick
         },
 
     ]
 
+    if (loading) {
+        return (
+            <div style={{
+                padding: "10px 20px",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "100vh",
+                backgroundColor: "#FFFFFF"
+            }}>
+                <HashLoader loading={loading} size={150}/>
+            </div>
+        )
+    }
     return (
         <>
             <Sidebar/>
@@ -293,6 +435,7 @@ const AdvancedDashboard = () => {
                                                         textColor="#000000"
                                                         needleColor="#06518c"
                                                         needleBaseColor="#06518c"
+                                                        percent={listData.lists[0].oee}
                                             />
                                             <div className="card__footer">
                                                 <Link to='/'>OEE</Link>
@@ -340,6 +483,7 @@ const AdvancedDashboard = () => {
                                                 textColor="#000000"
                                                 needleColor="#06518c"
                                                 needleBaseColor="#06518c"
+                                                percent={listData.lists[0].oeeAvailability}
                                     />
 
                                     <div className="card__footer">
@@ -354,6 +498,7 @@ const AdvancedDashboard = () => {
                                                 textColor="#000000"
                                                 needleColor="#06518c"
                                                 needleBaseColor="#06518c"
+                                                percent={listData.lists[0].productivity}
 
                                     />
                                     <div className="card__footer">
@@ -367,6 +512,7 @@ const AdvancedDashboard = () => {
                                                 textColor="#000000"
                                                 needleColor="#06518c"
                                                 needleBaseColor="#06518c"
+                                                percent={listData.lists[0].quality}
 
                                     />
                                     <div className="card__footer">
