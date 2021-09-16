@@ -286,6 +286,7 @@ const Dashboard = () => {
     const [listData2, setListData2] = useState({lists: []});
     const [listData3, setListData3] = useState({lists: []});
     const [listData4, setListData4] = useState({lists: []});
+    const [listData5, setListData5] = useState({lists: []});
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
     const history = useHistory();
@@ -319,6 +320,10 @@ const Dashboard = () => {
                 `https://acl-automation.herokuapp.com/api/v1/summaryDashboardUserProductionSlowRunList/1/${userData.role}/getall`, headers
             );
             setListData4({lists: result4.data.data.organization.getslowruns})
+            const result5 = await axios(
+                `https://acl-automation.herokuapp.com/api/v1/MachineCalculationController/1/getall`, headers
+            );
+            setListData5({lists: result5.data.data.id})
             setLoading(false);
         };
         fetchData();
