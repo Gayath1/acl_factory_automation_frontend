@@ -350,13 +350,34 @@ const Dashboard = () => {
                 } else {
                     return prodArr[monthIndex]
                 }
-
             })
         }
-
     })
 
+    let months1 = listData5.lists.map((item) => item.createdAt).filter((item, index, array) => array.indexOf(item) == index)
 
+    const productTotals1 = listData5.lists.reduce((obj, curr) => {
+        if (!obj[curr.id]) {
+            obj[curr.id] = []
+        }
+
+        obj[curr.id][months.indexOf(curr.createdAt)] = parseInt(curr.oee)
+        return obj
+    }, {})
+
+    const series1 = Object.entries(productTotals1).map(([name, prodArr]) => {
+        return {
+            name: name,
+            data: months.map((month, monthIndex) => {
+                if (!prodArr[monthIndex]) {
+                    return 0
+                } else {
+                    return prodArr[monthIndex]
+                }
+            })
+        }
+    })
+    console.log(series1)
     const chartOptions = {
         series: [...series],
         options: {
@@ -390,6 +411,50 @@ const Dashboard = () => {
             xaxis: {
                 type: 'datetime',
                 categories: [...months],
+            },
+            legend: {
+                position: 'right',
+                offsetY: 40
+            },
+            fill: {
+                opacity: 1
+            }
+        },
+    }
+
+    const chartOptions1 = {
+        series: [...series1],
+        options: {
+            chart: {
+                type: 'line',
+                height: 350,
+                stacked: true,
+                toolbar: {
+                    show: true
+                },
+                zoom: {
+                    enabled: true
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 10
+                },
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: [...months1],
             },
             legend: {
                 position: 'right',
@@ -626,7 +691,7 @@ const Dashboard = () => {
                                         <h3>OEE</h3>
                                     </div>
                                     <div className="card__body">
-                                        <Chart options={chartOptions.options} series={chartOptions.series} type="line"
+                                        <Chart options={chartOptions1.options} series={chartOptions1.series} type="line"
                                                height={350}/>
                                     </div>
                                     <div className="card__footer">

@@ -11,6 +11,7 @@ import GaugeChart from 'react-gauge-chart'
 import Select from 'react-select'
 import axios from "axios";
 import {HashLoader} from "react-spinners";
+import moment from "moment";
 
 const chartOptions = {
 
@@ -249,7 +250,6 @@ const AdvancedDashboard = () => {
 
 
     let months = listData.lists.map((item) => item.createdAt).filter((item, index, array) => array.indexOf(item) == index)
-
     const productTotals = listData.lists.reduce((obj, curr) => {
         if (!obj[curr.id]) {
             obj[curr.id] = []
@@ -321,6 +321,7 @@ const AdvancedDashboard = () => {
             xaxis: {
                 categories: [...months],
                 labels: {
+                    format: 'dd/MM',
                     formatter: function (val) {
                         return val + "%"
                     }
@@ -352,18 +353,18 @@ const AdvancedDashboard = () => {
     }
 
     const statusCards = [
-        {
-            "icon": "bx bx-chip",
-            "count": "19.95%",
-            "title": "TEEP",
-            "onClick": handleClick1
-        },
-        {
-            "icon": "bx bx-chip",
-            "count": "2.12%",
-            "title": "OOE",
-            "onClick": handleClick2
-        },
+        // {
+        //     "icon": "bx bx-chip",
+        //     "count": "19.95%",
+        //     "title": "TEEP",
+        //     "onClick": handleClick1
+        // },
+        // {
+        //     "icon": "bx bx-chip",
+        //     "count": "2.12%",
+        //     "title": "OOE",
+        //     "onClick": handleClick2
+        // },
         {
             "icon": "bx bx-chip",
             "count": `${listData.lists[0].oee}`,
@@ -444,34 +445,34 @@ const AdvancedDashboard = () => {
                                         :
                                         null
                                     }
-                                    {meter === 'OOE' ?
-                                        <>
-                                            <GaugeChart id="gauge-chart1"
-                                                        textColor="#000000"
-                                                        needleColor="#06518c"
-                                                        needleBaseColor="#06518c"
-                                            />
-                                            <div className="card__footer">
-                                                <Link to='/'>OOE</Link>
-                                            </div>
-                                        </>
-                                        :
-                                        null
-                                    }
-                                    {meter === 'TEEP' ?
-                                        <>
-                                            <GaugeChart id="gauge-chart1"
-                                                        textColor="#000000"
-                                                        needleColor="#06518c"
-                                                        needleBaseColor="#06518c"
-                                            />
-                                            <div className="card__footer">
-                                                <Link to='/'>TEEP</Link>
-                                            </div>
-                                        </>
-                                        :
-                                        null
-                                    }
+                                    {/*{meter === 'OOE' ?*/}
+                                    {/*    <>*/}
+                                    {/*        <GaugeChart id="gauge-chart1"*/}
+                                    {/*                    textColor="#000000"*/}
+                                    {/*                    needleColor="#06518c"*/}
+                                    {/*                    needleBaseColor="#06518c"*/}
+                                    {/*        />*/}
+                                    {/*        <div className="card__footer">*/}
+                                    {/*            <Link to='/'>OOE</Link>*/}
+                                    {/*        </div>*/}
+                                    {/*    </>*/}
+                                    {/*    :*/}
+                                    {/*    null*/}
+                                    {/*}*/}
+                                    {/*{meter === 'TEEP' ?*/}
+                                    {/*    <>*/}
+                                    {/*        <GaugeChart id="gauge-chart1"*/}
+                                    {/*                    textColor="#000000"*/}
+                                    {/*                    needleColor="#06518c"*/}
+                                    {/*                    needleBaseColor="#06518c"*/}
+                                    {/*        />*/}
+                                    {/*        <div className="card__footer">*/}
+                                    {/*            <Link to='/'>TEEP</Link>*/}
+                                    {/*        </div>*/}
+                                    {/*    </>*/}
+                                    {/*    :*/}
+                                    {/*    null*/}
+                                    {/*}*/}
 
 
                                 </div>
@@ -542,7 +543,7 @@ const AdvancedDashboard = () => {
                             <div className="col-8">
                                 <div className="card">
                                     <div className="card__header">
-                                        <h3>Good output vs Bad output</h3>
+                                        <h3>Good output vs Total output</h3>
                                     </div>
                                     <div className="card__body">
                                         <Chart options={chartOptions.options} series={chartOptions.series} type="bar"
