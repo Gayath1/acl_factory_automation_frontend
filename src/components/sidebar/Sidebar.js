@@ -100,11 +100,11 @@ const sidebar_items = [
         "route": "/ProductLine",
         "icon": "bx bx-barcode"
     },
-    {
-        "display_name": "Product Info",
-        "route": "/ProductInfo",
-        "icon": "bx bx-info-square"
-    },
+    // {
+    //     "display_name": "Product Info",
+    //     "route": "/ProductInfo",
+    //     "icon": "bx bx-info-square"
+    // },
     {
         "display_name": "Product Speed",
         "route": "/ProductionSpeed",

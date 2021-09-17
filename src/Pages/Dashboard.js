@@ -681,6 +681,9 @@ const Dashboard = () => {
                                 </div>
                                 <div className="col-6">
                                     <div className="card full-height">
+                                        <div className="card__header">
+                                            <h3>Productions</h3>
+                                        </div>
                                         {/* chart */}
                                         <Chart options={chartOptions.options} series={chartOptions.series} type="bar"
                                                height={350}/>
