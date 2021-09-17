@@ -356,28 +356,31 @@ const Dashboard = () => {
 
     let months1 = listData5.lists.map((item) => item.createdAt).filter((item, index, array) => array.indexOf(item) == index)
 
+
     const productTotals1 = listData5.lists.reduce((obj, curr) => {
         if (!obj[curr.id]) {
             obj[curr.id] = []
         }
 
-        obj[curr.id][months.indexOf(curr.createdAt)] = parseInt(curr.oee)
+        obj[curr.id][months1.indexOf(curr.createdAt)] = parseInt(curr.oee)
         return obj
     }, {})
 
     const series1 = Object.entries(productTotals1).map(([name, prodArr]) => {
         return {
             name: name,
-            data: months.map((month, monthIndex) => {
+            data: months1.map((month, monthIndex) => {
                 if (!prodArr[monthIndex]) {
                     return 0
                 } else {
                     return prodArr[monthIndex]
                 }
+
             })
         }
+
     })
-    console.log(series1)
+
     const chartOptions = {
         series: [...series],
         options: {
@@ -453,7 +456,7 @@ const Dashboard = () => {
                 },
             },
             xaxis: {
-                type: 'datetime',
+
                 categories: [...months1],
             },
             legend: {
