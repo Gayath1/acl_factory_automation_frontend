@@ -299,6 +299,50 @@ const AdvancedDashboard = () => {
 
     })
 
+    const chartOptions1 = {
+        series: [...series],
+        options: {
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: true,
+                toolbar: {
+                    show: true
+                },
+                zoom: {
+                    enabled: true
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 10
+                },
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: [...months],
+            },
+            legend: {
+                position: 'right',
+                offsetY: 40
+            },
+            fill: {
+                opacity: 1
+            }
+        },
+    }
+
     const chartOptions = {
 
         series: [...series, ...series1],
@@ -399,33 +443,33 @@ const AdvancedDashboard = () => {
                 <TopNav/>
                 <div className="layout__content-main">
                     <div>
-                        <h2 className="page-header">Factory:</h2>
-                        <div className="row">
-                            <div className="col-4">
-                                <Select options={productorder}/>
-                            </div>
-                            <div className="col-4">
-                                <Select options={shift}/>
-                            </div>
-                            <div className="col-4">
-                                <Select options={line}/>
-                                <br/>
-                                <button style={{
-                                    backgroundColor: '#4CAF50',
-                                    border: '8px',
-                                    color: "white",
-                                    padding: "15px 32px",
-                                    textAlign: "center",
-                                    textDecoration: "none",
-                                    display: "inline-block",
-                                    fontSize: "16px",
-                                    margin: "4px 2px",
-                                    cursor: "pointer",
-                                    borderRadius: "10px"
-                                }}>Explore
-                                </button>
-                            </div>
-                        </div>
+                        <h2 className="page-header"></h2>
+                        {/*<div className="row">*/}
+                        {/*    <div className="col-4">*/}
+                        {/*        <Select options={productorder}/>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-4">*/}
+                        {/*        <Select options={shift}/>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="col-4">*/}
+                        {/*        <Select options={line}/>*/}
+                        {/*        <br/>*/}
+                        {/*        <button style={{*/}
+                        {/*            backgroundColor: '#4CAF50',*/}
+                        {/*            border: '8px',*/}
+                        {/*            color: "white",*/}
+                        {/*            padding: "15px 32px",*/}
+                        {/*            textAlign: "center",*/}
+                        {/*            textDecoration: "none",*/}
+                        {/*            display: "inline-block",*/}
+                        {/*            fontSize: "16px",*/}
+                        {/*            margin: "4px 2px",*/}
+                        {/*            cursor: "pointer",*/}
+                        {/*            borderRadius: "10px"*/}
+                        {/*        }}>Explore*/}
+                        {/*        </button>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <br/>
                         <br/>
                         <div className="row">
@@ -526,20 +570,10 @@ const AdvancedDashboard = () => {
                         </div>
                         <div className="row">
                             <div className="col-4">
-                                <div className="col-12">
-                                    {
-                                        statusCards.map((item, index) => (
-                                            <div className="raw" key={index}>
-                                                <StatusCard
-                                                    icon={item.icon}
-                                                    count={item.count}
-                                                    title={item.title}
-                                                    onClick={item.onClick}
-                                                />
-                                            </div>
-
-                                        ))
-                                    }
+                                <div className="card full-height">
+                                    {/* chart */}
+                                    <Chart options={chartOptions1.options} series={chartOptions1.series} type="bar"
+                                           height={350}/>
                                 </div>
                             </div>
                             <div className="col-8">
