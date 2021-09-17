@@ -218,6 +218,7 @@ const AdvancedDashboard = () => {
 
     const [meter, setmeter] = useState('OEE');
     const [listData, setListData] = useState({lists: []});
+    const [listData1, setListData1] = useState({lists: []});
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("Token")
     const handleClick = (event) => {
@@ -243,6 +244,7 @@ const AdvancedDashboard = () => {
                 `https://acl-automation.herokuapp.com/api/v1/MachineCalculationController/1/getall`, headers
             );
             setListData({lists: result.data.data.id})
+            setListData1({lists: result.data.data.id[0]})
             setLoading(false);
         };
         fetchData();
@@ -365,12 +367,12 @@ const AdvancedDashboard = () => {
         //     "title": "OOE",
         //     "onClick": handleClick2
         // },
-        {
-            "icon": "bx bx-chip",
-            "count": `${listData.lists[0].oee}`,
-            "title": "OEE",
-            "onClick": handleClick
-        },
+        // {
+        //     "icon": "bx bx-chip",
+        //     "count": `${listData1.lists.oee}`,
+        //     "title": "OEE",
+        //     "onClick": handleClick
+        // },
 
     ]
 
@@ -436,7 +438,7 @@ const AdvancedDashboard = () => {
                                                         textColor="#000000"
                                                         needleColor="#06518c"
                                                         needleBaseColor="#06518c"
-                                                        percent={listData.lists[0].oee}
+                                                        percent={listData1.lists.oee}
                                             />
                                             <div className="card__footer">
                                                 <Link to='/'>OEE</Link>
@@ -484,7 +486,7 @@ const AdvancedDashboard = () => {
                                                 textColor="#000000"
                                                 needleColor="#06518c"
                                                 needleBaseColor="#06518c"
-                                                percent={listData.lists[0].oeeAvailability}
+                                                percent={listData1.lists.oeeAvailability}
                                     />
 
                                     <div className="card__footer">
@@ -499,7 +501,7 @@ const AdvancedDashboard = () => {
                                                 textColor="#000000"
                                                 needleColor="#06518c"
                                                 needleBaseColor="#06518c"
-                                                percent={listData.lists[0].productivity}
+                                                percent={listData1.lists.productivity}
 
                                     />
                                     <div className="card__footer">
@@ -513,7 +515,7 @@ const AdvancedDashboard = () => {
                                                 textColor="#000000"
                                                 needleColor="#06518c"
                                                 needleBaseColor="#06518c"
-                                                percent={listData.lists[0].quality}
+                                                percent={listData1.lists.quality}
 
                                     />
                                     <div className="card__footer">

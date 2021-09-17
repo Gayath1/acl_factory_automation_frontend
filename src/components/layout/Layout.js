@@ -32,7 +32,7 @@ const Layout = () => {
                 setLoading(false)
             } catch(err) {
                 setLoading(false)
-                err.response.message && setErr(err.response.message)
+                console.log(err)
             }
 
         }
